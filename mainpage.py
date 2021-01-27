@@ -9,3 +9,7 @@ class RexableApp(App):
         butn = Button(text='Test')
         layout.add_widget(butn)
         return layout
+
+if __name__ == '__main__':
+
+    RexableApp().run()
