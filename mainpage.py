@@ -4,6 +4,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button 
 from kivy.lang import Builder
 from kivy.uix.dropdown import DropDown
+from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.textinput import TextInput
@@ -91,20 +92,25 @@ Builder.load_string("""
             
 <MainScreen>:
     name: 'main_screen'
-    AnchorLayout:
-        anchor_x: 'right'
-        anchor_y: 'top'
-        Button:
-            text: 'Login'
-            size_hint: (.5, .5)
-            on_release: root.manager.current = 'login_screen'
-    AnchorLayout:
-        anchor_x: 'left'
-        anchor_y: 'top'
-        Button:
-            text: 'Quit'
-            size_hint: (.5, .5)
-            on_press: app.stop()
+    BoxLayout:
+        orientation: 'vertical'
+        <RecipeSearchBar>:
+            text: 'Search Recipes Here'
+            size_hint: (None, .5)
+            height: 40
+        <RecommendationLayout>:
+            size_hint: (0.3, 0.3)
+            height: 100
+        BoxLayout:
+            orientation: 'horizontal'
+            Button:
+                text: 'Login'
+                size_hint: (.5, .5)
+                on_release: root.manager.current = 'login_screen'
+            Button:
+                text: 'Quit'
+                size_hint: (.5, .5)
+                on_press: app.stop()
         
 
 """)
@@ -119,7 +125,13 @@ class DietDropDown(Button):
         #main_button = Button(text='Diet', size_hint=(None, None), height=40)
         #main_button.bind(on_release=drop_down.open)
         self.bind(on_release=drop_down.open)
-        drop_down.bind(on_select=lambda instance, x: setattr(main_button, 'text', x))
+        drop_down.bind(on_select=lambda instance, x: setattr(self, 'text', x))
+
+class RecommendationLayout(GridLayout):
+    pass
+
+class RecipeSearchBar(TextInput):
+    pass
 
 class LoginScreen(Screen):
     pass
@@ -139,5 +151,4 @@ class RexableApp(App):
         return sm
 
 if __name__ == '__main__':
-
     RexableApp().run()
