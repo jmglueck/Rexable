@@ -8,6 +8,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.textinput import TextInput
+from kivy.core.window import Window
 
 Builder.load_string("""
 <LoginScreen>:
@@ -57,6 +58,7 @@ Builder.load_string("""
 <SignUpScreen>:
     name: 'signup_screen'
     BoxLayout:
+        orientation: 'vertical'
         Label:
             text: 'Username'
         TextInput:
@@ -73,8 +75,7 @@ Builder.load_string("""
             size_hint: (.2, None)
         Label:
             text: 'Choose your diet'
-        <DietDropDown>:
-            text: 'Diet'
+        DietDropDown:
         Label: 
             text: 'List any allergies (separated by comma, such as "Peanuts,Shellfish")'
         TextInput:
@@ -89,18 +90,17 @@ Builder.load_string("""
             font_size: '12sp'
             height: 30
             size_hint: (.2, None)
+        Button:
+            text: '=>'
+<DietDropDown>:
+    text: 'Diet'
             
 <MainScreen>:
     name: 'main_screen'
     BoxLayout:
         orientation: 'vertical'
-        <RecipeSearchBar>:
-            text: 'Search Recipes Here'
-            size_hint: (None, .5)
-            height: 40
-        <RecommendationLayout>:
-            size_hint: (0.3, 0.3)
-            height: 100
+        RecipeSearchBar:
+        RecommendationLayout:
         BoxLayout:
             orientation: 'horizontal'
             Button:
@@ -111,7 +111,13 @@ Builder.load_string("""
                 text: 'Quit'
                 size_hint: (.5, .5)
                 on_press: app.stop()
-        
+<RecipeSearchBar>:
+    hint_text: 'Search Recipes Here'
+    size_hint: (1, 0.1)
+<RecommendationLayout>:
+    size_hint: (0.5, 0.5)
+    height: 100 
+    width: 100
 
 """)
 
