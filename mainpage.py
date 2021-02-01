@@ -5,6 +5,7 @@ from kivy.uix.button import Button
 from kivy.lang import Builder
 from kivy.uix.dropdown import DropDown
 from kivy.uix.gridlayout import GridLayout
+from kivy.storage.jsonstore import JsonStore
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.textinput import TextInput
@@ -149,11 +150,49 @@ class MainScreen(Screen):
     pass
 
 class RexableApp(App):
+    def __init__(self):
+        self.logged_in = False
+        data_dir = getattr(self, 'user_data_dir')
+        store = JsonStore(data_dir.join('app_storage.json'))
+        user_login = ["", ""]
+
+
+    def login(self):
+        #this is just a preliminary password/username system; will add hashing and encryption later
+        username = self.username_login.text
+        password = self.username_password.text
+        RexableApp.store.put('credentials', username = username, password = password)
+
     def build(self):
+        username = ''
+        password = ''
         sm = ScreenManager()
         sm.add_widget(MainScreen(name='main_screen'))
         sm.add_widget(LoginScreen(name='login_screen'))
         sm.add_widget(SignUpScreen(name='signup_screen'))
+
+        try:
+            RexableApp.store.get('credentials')['username']
+        except KeyError:
+            username = ""
+        else:
+            username = RexableApp.store.get('credentials')['username']
+        
+        try:
+            RexableApp.store.get('credentials')['password']
+        except KeyError:
+            password = ""
+        else:
+            password = RexableApp.store.get('credentials')['password']
+
+        self.user_login = [username, password]
+
+        #again, just a preliminary login system, we check if password is "111" and username is "000", if it is we're logged in, if not we are back to log in page
+        if self.user_login[0] == "000" and self.user_login[1] == "111":
+            sm.manager.current = 'main_screen'
+        else:
+            sm.manager.current = 'login_screen'
+
         return sm
 
 if __name__ == '__main__':
