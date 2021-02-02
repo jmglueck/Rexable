@@ -1,7 +1,7 @@
-from kivy.app import App 
+from kivy.app import App
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button 
+from kivy.uix.button import Button
 from kivy.lang import Builder
 from kivy.uix.dropdown import DropDown
 from kivy.uix.gridlayout import GridLayout
@@ -95,7 +95,94 @@ Builder.load_string("""
             text: '=>'
 <DietDropDown>:
     text: 'Diet'
+
+<SettingScreen>:
+    name: 'setting_screen'
+    BoxLayout:
+        orientation: 'vertical'
+        Button:
+            text: 'Profile'
+            size_hint: (.5, .5)
+            on_release: root.manager.current = 'profile_screen'
+        Button:
+            text: 'Recommendation Preference'
+            size_hint: (.5, .5)
+            on_release: root.manager.current = 'recommendation_preference_screen'
+        Button:
+            text: 'About'
+            size_hint: (.5, .5)
+            on_release: root.manager.current = 'about_screen'
+        Button:
+            text: 'Back'
+            size_hint: (.5, .5)
+            on_release: root.manager.current = 'main_screen'
             
+<ProfileScreen>:
+    name: 'profile_screen'
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: 'You can reset your username and password'
+        Label:
+            text: 'Username'
+        TextInput:
+            multiline: False
+            font_size: '12sp'
+            height: 30
+            size_hint: (.2, None)
+        Label:
+            text: 'Password'
+        TextInput:
+            multiline: False
+            font_size: '12sp'
+            height: 30
+            size_hint: (.2, None)     
+        Button:
+            text: 'Back'
+            size_hint: (.5, .5)
+            on_release: root.manager.current = 'setting_screen'
+    
+<RecommendationPreferenceScreen>:
+    name: 'recommendation_preference_screen'
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: 'Choose your diet'
+        DietDropDown:
+        Label: 
+            text: 'List any allergies (separated by comma, such as "Peanuts,Shellfish")'
+        TextInput:
+            multiline: False
+            font_size: '12sp'
+            height: 30
+            size_hint: (.2, None)
+        Label: 
+            text: 'How many hours in a day do you have to cook?'
+        TextInput:
+            multiline: False
+            font_size: '12sp'
+            height: 30
+            size_hint: (.2, None)
+        Button:
+            text: 'Back'
+            size_hint: (.5, .5)
+            on_release: root.manager.current = 'setting_screen'
+    
+<AboutScreen>:
+    name: 'about_screen'
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: 'Rexable'
+        Label: 
+            text: 'Develop by UCI CS 125 Group 4'
+        Label:
+            text: 'Winter Quarter 2021'
+        Button:
+            text: 'Back'
+            size_hint: (.5, .5)
+            on_release: root.manager.current = 'setting_screen'
+                                  
 <MainScreen>:
     name: 'main_screen'
     BoxLayout:
@@ -109,6 +196,10 @@ Builder.load_string("""
                 size_hint: (.5, .5)
                 on_release: root.manager.current = 'login_screen'
             Button:
+                text: 'Setting'
+                size_hint: (.5, .5)
+                on_release: root.manager.current = 'setting_screen'
+            Button:
                 text: 'Quit'
                 size_hint: (.5, .5)
                 on_press: app.stop()
@@ -121,6 +212,7 @@ Builder.load_string("""
     width: 100
 
 """)
+
 
 class DietDropDown(Button):
     def diet_dropdown(self):
@@ -146,8 +238,21 @@ class LoginScreen(Screen):
 class SignUpScreen(Screen):
     pass
 
+class SettingScreen(Screen):
+    pass
+
+class ProfileScreen(Screen):
+    pass
+
+class RecommendationPreferenceScreen(Screen):
+    pass
+
+class AboutScreen(Screen):
+    pass
+
 class MainScreen(Screen):
     pass
+
 
 class RexableApp(App):
     def __init__(self):
@@ -155,7 +260,6 @@ class RexableApp(App):
         data_dir = getattr(self, 'user_data_dir')
         store = JsonStore(data_dir.join('app_storage.json'))
         user_login = ["", ""]
-
 
     def login(self):
         #this is just a preliminary password/username system; will add hashing and encryption later
@@ -177,7 +281,7 @@ class RexableApp(App):
             username = ""
         else:
             username = RexableApp.store.get('credentials')['username']
-        
+
         try:
             RexableApp.store.get('credentials')['password']
         except KeyError:
@@ -194,6 +298,7 @@ class RexableApp(App):
             sm.manager.current = 'login_screen'
 
         return sm
+
 
 if __name__ == '__main__':
     RexableApp().run()
