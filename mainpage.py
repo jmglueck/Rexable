@@ -31,6 +31,7 @@ Builder.load_string("""
                 font_size: '12sp'
                 height: 30
                 size_hint: (.2, None)
+                on_text: root.get_username(self.text)
             Label:
                 text: 'Password'
                 halign: 'center'
@@ -43,6 +44,7 @@ Builder.load_string("""
                 height: 30
                 size_hint: (.2, None)
                 password_mask: 'True'
+                on_text: root.get_password(self.text)
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'center'
@@ -52,6 +54,7 @@ Builder.load_string("""
             orientation: 'horizontal'
             Button:
                 text: 'Login'
+                on_release: root.login()
             Button:
                 text: 'Sign Up'
                 on_release: root.manager.current = 'signup_screen'
@@ -232,9 +235,6 @@ class RecommendationLayout(GridLayout):
 class RecipeSearchBar(TextInput):
     pass
 
-class LoginScreen(Screen):
-    pass
-
 class SignUpScreen(Screen):
     pass
 
@@ -256,24 +256,48 @@ class MainScreen(Screen):
 
 class RexableApp(App):
     def __init__(self):
+        App.__init__(self)
         self.logged_in = False
+        self._app_name = 'rexable_app'
         data_dir = getattr(self, 'user_data_dir')
-        store = JsonStore(data_dir.join('app_storage.json'))
+        #store = JsonStore(data_dir.join('app_storage.json'))
+        RexableApp.store = JsonStore('app_storage.json')
         user_login = ["", ""]
+        self.sm = ScreenManager()
 
     def login(self):
         #this is just a preliminary password/username system; will add hashing and encryption later
         username = self.username_login.text
         password = self.username_password.text
         RexableApp.store.put('credentials', username = username, password = password)
+        try:
+            RexableApp.store.get('credentials')['username']
+        except KeyError:
+            username = ""
+        else:
+            username = RexableApp.store.get('credentials')['username']
+
+        try:
+            RexableApp.store.get('credentials')['password']
+        except KeyError:
+            password = ""
+        else:
+            password = RexableApp.store.get('credentials')['password']
+
+        self.user_login = [username, password]
+
+        #again, just a preliminary login system, we check if password is "111" and username is "000", if it is we're logged in, if not we are back to log in page
+        if self.user_login[0] == "000" and self.user_login[1] == "111":
+            self.sm.current = 'main_screen'
+        else:
+            self.sm.current = 'login_screen'
 
     def build(self):
         username = ''
         password = ''
-        sm = ScreenManager()
-        sm.add_widget(MainScreen(name='main_screen'))
-        sm.add_widget(LoginScreen(name='login_screen'))
-        sm.add_widget(SignUpScreen(name='signup_screen'))
+        self.sm.add_widget(MainScreen(name='main_screen'))
+        self.sm.add_widget(LoginScreen(name='login_screen'))
+        self.sm.add_widget(SignUpScreen(name='signup_screen'))
 
         try:
             RexableApp.store.get('credentials')['username']
@@ -293,12 +317,27 @@ class RexableApp(App):
 
         #again, just a preliminary login system, we check if password is "111" and username is "000", if it is we're logged in, if not we are back to log in page
         if self.user_login[0] == "000" and self.user_login[1] == "111":
-            sm.manager.current = 'main_screen'
+            self.sm.current = 'main_screen'
         else:
-            sm.manager.current = 'login_screen'
+            self.sm.current = 'login_screen'
 
-        return sm
+        return self.sm
 
+class LoginScreen(Screen):
+    def get_username(self, username):
+        self.username = username
+    def get_password(self, password):
+        self.password = password
+
+    def login(self):
+        #this is just a preliminary password/username system; will add hashing and encryption later
+        RexableApp.store.put('credentials', username = self.username, password = self.password)
+
+        #again, just a preliminary login system, we check if password is "111" and username is "000", if it is we're logged in, if not we are back to log in page
+        if self.username == "000" and self.password == "111":
+            self.parent.current = 'main_screen'
+        else:
+            self.parent.current = 'login_screen'
 
 if __name__ == '__main__':
     RexableApp().run()
