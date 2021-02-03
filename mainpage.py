@@ -298,6 +298,10 @@ class RexableApp(App):
         self.sm.add_widget(MainScreen(name='main_screen'))
         self.sm.add_widget(LoginScreen(name='login_screen'))
         self.sm.add_widget(SignUpScreen(name='signup_screen'))
+        self.sm.add_widget(SettingScreen(name='setting_screen'))
+        self.sm.add_widget(ProfileScreen(name='profile_screen'))
+        self.sm.add_widget(RecommendationPreferenceScreen(name='recommendation_preference_screen'))
+        self.sm.add_widget(AboutScreen(name='about_screen'))
 
         try:
             RexableApp.store.get('credentials')['username']
