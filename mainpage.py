@@ -80,6 +80,7 @@ Builder.load_string("""
         Label:
             text: 'Choose your diet'
         DietDropDown:
+            on_release: self.diet_dropdown()
         Label: 
             text: 'List any allergies (separated by comma, such as "Peanuts,Shellfish")'
         TextInput:
@@ -206,6 +207,10 @@ Builder.load_string("""
                 text: 'Quit'
                 size_hint: (.5, .5)
                 on_press: app.stop()
+            Button:
+                text: 'Logout'
+                size_hint: (.5, .5)
+                on_press: root.logout()
 <RecipeSearchBar>:
     hint_text: 'Search Recipes Here'
     size_hint: (1, 0.1)
@@ -219,7 +224,7 @@ Builder.load_string("""
 
 class DietDropDown(Button):
     def diet_dropdown(self):
-        drop_down = DropDown()
+        drop_down = DropDown(size_hint_y=0.5, height=100)
         for i in ['kosher', 'halal', 'keto', 'vegetarian', 'vegan', 'low-carb', 'low-fat', 'none']:
             diet_button = Button(text=i, size_hint_y=None, height =35)
             diet_button.bind(on_release=lambda diet_button: drop_down.select(diet_button.text))
@@ -248,9 +253,6 @@ class RecommendationPreferenceScreen(Screen):
     pass
 
 class AboutScreen(Screen):
-    pass
-
-class MainScreen(Screen):
     pass
 
 
@@ -342,6 +344,11 @@ class LoginScreen(Screen):
             self.parent.current = 'main_screen'
         else:
             self.parent.current = 'login_screen'
+
+class MainScreen(Screen):
+    def logout(self):
+        RexableApp.store.put('credentials', username = "", password = "")
+        RexableApp.stop()
 
 if __name__ == '__main__':
     RexableApp().run()
