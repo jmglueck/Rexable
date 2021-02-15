@@ -10,6 +10,30 @@ from kivy.uix.label import Label
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
+from pymongo import MongoClient, errors
+
+try:
+    # try to instantiate a client instance
+    client = MongoClient(
+        host = [ "localhost:" + "27017" ],
+        serverSelectionTimeoutMS = 3000 # 3 second timeout
+    )
+    db = client["rexableDatabase"]
+    userCollect = db["users"]
+    recipeCollect = db["recipes"]
+
+    # print the version of MongoDB server if connection successful
+    print ("server version:", client.server_info()["version"])
+
+except errors.ServerSelectionTimeoutError as err:
+    # set the client and db names to 'None' and [] if exception
+    client = None
+    db = None
+    userCollect = None
+    recipeCollect = None
+    
+    # catch pymongo.errors.ServerSelectionTimeoutError
+    print ("pymongo ERROR:", err)
 
 Builder.load_string("""
 <LoginScreen>:
@@ -70,6 +94,7 @@ Builder.load_string("""
             font_size: '12sp'
             height: 30
             size_hint: (.2, None)
+            on_text: root.get_username(self.text)
         Label:
             text: 'Password'
         TextInput:
@@ -77,6 +102,7 @@ Builder.load_string("""
             font_size: '12sp'
             height: 30
             size_hint: (.2, None)
+            on_text: root.get_password(self.text)
         Label:
             text: 'Choose your diet'
         DietDropDown:
@@ -88,6 +114,7 @@ Builder.load_string("""
             font_size: '12sp'
             height: 30
             size_hint: (.2, None)
+            on_text: root.get_allergies(self.text)
         Label: 
             text: 'How many hours in a day do you have to cook?'
         TextInput:
@@ -95,8 +122,10 @@ Builder.load_string("""
             font_size: '12sp'
             height: 30
             size_hint: (.2, None)
+            on_text: root.get_cookingtime(self.text)
         Button:
             text: '=>'
+            on_release: root.enter_info()
 <DietDropDown>:
     text: 'Diet'
 
@@ -241,7 +270,33 @@ class RecipeSearchBar(TextInput):
     pass
 
 class SignUpScreen(Screen):
-    pass
+    def __init__(self):
+        Screen.__init__(self)
+        self.name='signup_screen'
+        self.allergies = []
+    def get_username(self, the_text):
+        self.username = the_text
+    def get_password(self, the_text):
+        #later add message if it's not at least 8 characters and/or doesn't contain a lowercase letter, uppercase letter, and number
+        self.password = the_text
+    def get_allergies(self, the_text):
+        temp_list = the_text.split()
+        #now removing whitespace
+        for i in temp_list:
+            self.allergies.append(i.replace(" ", ""))
+    def get_cookingtime(self, the_text):
+        #later add exception handling
+        self.cooking_time = int(the_text)
+    def enter_info(self):
+        #later add function where we can use a hashing function to store a hashed password instead the literal password
+        #if collection in database exists, create user's document
+        if userCollect != None:
+           the_dict = {"username": self.username, "password": self.password, "allergies": self.allergies, 
+           "cookingTime": self.cooking_time, "viewedRecipes": dict()} 
+           userCollect.insert_one(the_dict)
+        self.parent.current = "main_screen"
+        
+
 
 class SettingScreen(Screen):
     pass
@@ -299,7 +354,7 @@ class RexableApp(App):
         password = ''
         self.sm.add_widget(MainScreen(name='main_screen'))
         self.sm.add_widget(LoginScreen(name='login_screen'))
-        self.sm.add_widget(SignUpScreen(name='signup_screen'))
+        self.sm.add_widget(SignUpScreen())
         self.sm.add_widget(SettingScreen(name='setting_screen'))
         self.sm.add_widget(ProfileScreen(name='profile_screen'))
         self.sm.add_widget(RecommendationPreferenceScreen(name='recommendation_preference_screen'))
