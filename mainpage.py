@@ -294,6 +294,7 @@ class SignUpScreen(Screen):
            the_dict = {"username": self.username, "password": self.password, "allergies": self.allergies, 
            "cookingTime": self.cooking_time, "viewedRecipes": dict()} 
            userCollect.insert_one(the_dict)
+        RexableApp.store.put('credentials', username = self.username, password = self.password)
         self.parent.current = "main_screen"
         
 
@@ -343,8 +344,8 @@ class RexableApp(App):
 
         self.user_login = [username, password]
 
-        #again, just a preliminary login system, we check if password is "111" and username is "000", if it is we're logged in, if not we are back to log in page
-        if self.user_login[0] == "000" and self.user_login[1] == "111":
+
+        if self.user_login[0] != "" and self.user_login[1] != "":
             self.sm.current = 'main_screen'
         else:
             self.sm.current = 'login_screen'
@@ -376,8 +377,7 @@ class RexableApp(App):
 
         self.user_login = [username, password]
 
-        #again, just a preliminary login system, we check if password is "111" and username is "000", if it is we're logged in, if not we are back to log in page
-        if self.user_login[0] == "000" and self.user_login[1] == "111":
+        if self.user_login[0] != "" and self.user_login[1] != "":
             self.sm.current = 'main_screen'
         else:
             self.sm.current = 'login_screen'
@@ -391,19 +391,23 @@ class LoginScreen(Screen):
         self.password = password
 
     def login(self):
-        #this is just a preliminary password/username system; will add hashing and encryption later
-        RexableApp.store.put('credentials', username = self.username, password = self.password)
-
-        #again, just a preliminary login system, we check if password is "111" and username is "000", if it is we're logged in, if not we are back to log in page
-        if self.username == "000" and self.password == "111":
-            self.parent.current = 'main_screen'
-        else:
+        try:
+            results = userCollect.find_one({"username": self.username})
+            #if results == None:
+            #    self.parent.current = 'login_screen'
+            if results["password"] == self.password:
+                #this is just a preliminary password/username system; will add hashing and encryption later
+                RexableApp.store.put('credentials', username = self.username, password = self.password)
+                self.parent.current = 'main_screen'
+            else:
+                self.parent.current = 'login_screen'
+        except errors.CollectionInvalid:
             self.parent.current = 'login_screen'
 
 class MainScreen(Screen):
     def logout(self):
         RexableApp.store.put('credentials', username = "", password = "")
-        RexableApp.stop()
+        RexableApp().stop()
 
 if __name__ == '__main__':
     RexableApp().run()
