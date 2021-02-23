@@ -11,6 +11,12 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
 from pymongo import MongoClient, errors
+from kivy.uix.recycleview import RecycleView
+from kivy.uix.recycleview.views import RecycleDataViewBehavior
+from kivy.uix.behaviors import FocusBehavior
+from kivy.uix.recycleview.layout import LayoutSelectionBehavior
+from kivy.uix.recycleboxlayout import RecycleBoxLayout
+from search import search
 
 try:
     # try to instantiate a client instance
@@ -218,10 +224,21 @@ Builder.load_string("""
                                   
 <MainScreen>:
     name: 'main_screen'
+    search_list_prop: search_list
     BoxLayout:
         orientation: 'vertical'
-        RecipeSearchBar:
-        RecommendationLayout:
+        TextInput:
+            multiline: False
+            font_size: '12sp'
+            height: 30
+            size_hint: 1,.5
+            on_text: root.get_searchtext(self.text)
+        Button:
+            size_hint: 1, 0.2
+            text: 'search'
+            on_release: root.search()
+        SearchList:
+            id: search_list
         BoxLayout:
             orientation: 'horizontal'
             Button:
@@ -240,14 +257,21 @@ Builder.load_string("""
                 text: 'Logout'
                 size_hint: (.5, .5)
                 on_press: root.logout()
-<RecipeSearchBar>:
-    hint_text: 'Search Recipes Here'
-    size_hint: (1, 0.1)
+
 <RecommendationLayout>:
     size_hint: (0.5, 0.5)
     height: 100 
     width: 100
 
+<SelectableButton>:
+
+<SearchList>:
+    viewclass: 'SelectableButton'
+    SelectableRecycleBoxLayout:
+        orientation: 'vertical'   
+        default_size_hint: 1, None
+        size_hint_y: None
+        height: self.minimum_height
 """)
 
 
@@ -310,6 +334,24 @@ class RecommendationPreferenceScreen(Screen):
 
 class AboutScreen(Screen):
     pass
+
+class SelectableButton(RecycleDataViewBehavior, Button):
+    index = None
+
+    def refresh_view_attrs(self, rv, index, data):
+        self.index = index
+        return super(SelectableButton, self).refresh_view_attrs(rv, index, data)
+
+    def on_press(self):
+        pass
+class SelectableRecycleBoxLayout(FocusBehavior, LayoutSelectionBehavior, RecycleBoxLayout):
+    pass
+
+class SearchList(RecycleView):
+    def __init__(self, **kwargs):
+        super(SearchList, self).__init__(**kwargs)
+        self.data = []
+
 
 
 class RexableApp(App):
@@ -405,9 +447,16 @@ class LoginScreen(Screen):
             self.parent.current = 'login_screen'
 
 class MainScreen(Screen):
+    searchtext = ''
     def logout(self):
         RexableApp.store.put('credentials', username = "", password = "")
         RexableApp().stop()
-
+    def get_searchtext(self,searchtext):
+        self.searchtext = searchtext
+    def search(self):
+        self.search_list_prop.data = []
+        result = search(self.searchtext)
+        for i in result:
+            self.search_list_prop.data.append({'text': i})
 if __name__ == '__main__':
     RexableApp().run()
