@@ -11,6 +11,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
 from pymongo import MongoClient, errors
+from search_basic import search 
 
 try:
     # try to instantiate a client instance
@@ -217,24 +218,26 @@ Builder.load_string("""
             on_release: root.manager.current = 'setting_screen'
 
 
+
 <RecipeSearchBar>:
-
-
     name: 'recipe_search_bar'
     BoxLayout:
         orientation: 'horizontal'
+            
+        TextInput:
+            text: 'Search for Recipe: '
+            multiline: False
+            font_size: '18sp'
+            height: 40
+            width: 80
+            size_hint: (5, None)
+            on_text: root.get_query(self.text)
         Button:
             text: 'Search'
-            size_hint: (.5, .5)
-            on_release: root.manager.current = 'test'
+            size_hint: (0.6,0.18)
+            on_release: root.start_search()
 
-        TextInput:
-            multiline: False
-            halign: 'center'
-            font_size: '12sp'
-            height: 30
-            size_hint: (.2, None)
-            on_text: root.get_query(self.text)
+            
                                   
 <MainScreen>:
     name: 'main_screen'
@@ -252,11 +255,6 @@ Builder.load_string("""
                 text: 'Setting'
                 size_hint: (.5, .5)
                 on_release: root.manager.current = 'setting_screen'
-
-            Button:
-                text: 'Search'
-                size_hint: (.5, .5)
-                on_release: root.manager.current = 'recipe_search_bar'
 
                 
             Button:
@@ -295,18 +293,24 @@ class DietDropDown(Button):
 class RecommendationLayout(GridLayout):
     pass
 
-class RecipeSearchBar(TextInput):
+class RecipeSearchBar(Screen):
 
-##    def __init__(self):
-##        self.name = 'recipe_search_bar'
 
     def get_query(self,query):
 
         self.query = query
-
+##        print(query)
         
-    def test(self):
-        print('Test')
+    def start_search(self):
+##        print(self.query)
+        result = search(self.query)
+        self.result = result
+
+        if recipeCollect != None:
+
+            recipeCollect.insert_one(result)
+
+
 
 class SignUpScreen(Screen):
     def __init__(self):
@@ -401,7 +405,7 @@ class RexableApp(App):
         self.sm.add_widget(ProfileScreen(name='profile_screen'))
         self.sm.add_widget(RecommendationPreferenceScreen(name='recommendation_preference_screen'))
         self.sm.add_widget(AboutScreen(name='about_screen'))
-##        self.sm.add_widget(RecipeSearchBar(name='recipe_search_bar'))
+        self.sm.add_widget(RecipeSearchBar(name='recipe_search_bar'))
 
         try:
             RexableApp.store.get('credentials')['username']
