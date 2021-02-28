@@ -215,6 +215,26 @@ Builder.load_string("""
             text: 'Back'
             size_hint: (.5, .5)
             on_release: root.manager.current = 'setting_screen'
+
+
+<RecipeSearchBar>:
+
+
+    name: 'recipe_search_bar'
+    BoxLayout:
+        orientation: 'horizontal'
+        Button:
+            text: 'Search'
+            size_hint: (.5, .5)
+            on_release: root.manager.current = 'test'
+
+        TextInput:
+            multiline: False
+            halign: 'center'
+            font_size: '12sp'
+            height: 30
+            size_hint: (.2, None)
+            on_text: root.get_query(self.text)
                                   
 <MainScreen>:
     name: 'main_screen'
@@ -232,6 +252,13 @@ Builder.load_string("""
                 text: 'Setting'
                 size_hint: (.5, .5)
                 on_release: root.manager.current = 'setting_screen'
+
+            Button:
+                text: 'Search'
+                size_hint: (.5, .5)
+                on_release: root.manager.current = 'recipe_search_bar'
+
+                
             Button:
                 text: 'Quit'
                 size_hint: (.5, .5)
@@ -240,9 +267,11 @@ Builder.load_string("""
                 text: 'Logout'
                 size_hint: (.5, .5)
                 on_press: root.logout()
-<RecipeSearchBar>:
-    hint_text: 'Search Recipes Here'
-    size_hint: (1, 0.1)
+
+
+
+
+    
 <RecommendationLayout>:
     size_hint: (0.5, 0.5)
     height: 100 
@@ -267,7 +296,17 @@ class RecommendationLayout(GridLayout):
     pass
 
 class RecipeSearchBar(TextInput):
-    pass
+
+##    def __init__(self):
+##        self.name = 'recipe_search_bar'
+
+    def get_query(self,query):
+
+        self.query = query
+
+        
+    def test(self):
+        print('Test')
 
 class SignUpScreen(Screen):
     def __init__(self):
@@ -323,6 +362,8 @@ class RexableApp(App):
         user_login = ["", ""]
         self.sm = ScreenManager()
 
+
+
     def login(self):
         #this is just a preliminary password/username system; will add hashing and encryption later
         username = self.username_login.text
@@ -360,6 +401,7 @@ class RexableApp(App):
         self.sm.add_widget(ProfileScreen(name='profile_screen'))
         self.sm.add_widget(RecommendationPreferenceScreen(name='recommendation_preference_screen'))
         self.sm.add_widget(AboutScreen(name='about_screen'))
+##        self.sm.add_widget(RecipeSearchBar(name='recipe_search_bar'))
 
         try:
             RexableApp.store.get('credentials')['username']
@@ -377,6 +419,7 @@ class RexableApp(App):
 
         self.user_login = [username, password]
 
+        
         if self.user_login[0] != "" and self.user_login[1] != "":
             self.sm.current = 'main_screen'
         else:
