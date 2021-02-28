@@ -37,7 +37,7 @@ def search(query):
 
 
 
-        result_dict['name'] = food_lable
+        result_dict['name'] = food_label
         result_dict['cal'] = "{:.0f}".format(calories)
         result_dict['ingredient'] = ingredient_list
         result_dict['image_link'] = image_link
