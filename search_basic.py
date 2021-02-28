@@ -5,6 +5,9 @@ import json
 
 def search(query):
 
+    result_dict = {}
+
+    
     def jprint(obj):
         # create a formatted string of the Python JSON object
         text = json.dumps(obj, sort_keys=True, indent=4)
@@ -31,10 +34,20 @@ def search(query):
         ingredient_list = response.json()["hits"][number_of_result]["recipe"]["ingredientLines"]
         food_label = response.json()["hits"][number_of_result]["recipe"]["label"]
         image_link = response.json()["hits"][number_of_result]["recipe"]["image"]
+
+
+
+        result_dict['name'] = food_lable
+        result_dict['cal'] = "{:.0f}".format(calories)
+        result_dict['ingredient'] = ingredient_list
+        result_dict['image_link'] = image_link
         
         print()
         
         print("Recipe Name: " + food_label)
+
+
+        
         print("Calories: "+ "{:.0f}".format(calories))
         
         
@@ -51,3 +64,6 @@ def search(query):
         
         print("Image Link: " + image_link)
         print()
+
+    return result_dict
+        
