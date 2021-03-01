@@ -22,6 +22,7 @@ response = requests.get(PATH)
 
 
 for number_of_result in range(total_result):
+    print(response.json())
 
     calories = response.json()["hits"][number_of_result]["recipe"]["calories"]
     ingredient_list = response.json()["hits"][number_of_result]["recipe"]["ingredientLines"]

@@ -46,7 +46,7 @@ def search(query):
         print()
         
         print("Recipe Name: " + food_label)
-
+        #print(response.json())
 
         
         print("Calories: "+ "{:.0f}".format(calories))

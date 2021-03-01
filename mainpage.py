@@ -130,8 +130,8 @@ Builder.load_string("""
 <DietDropDown>:
     text: 'Diet'
 
-<SettingScreen>:
-    name: 'setting_screen'
+<SettingsScreen>:
+    name: 'settings_screen'
     BoxLayout:
         orientation: 'vertical'
         Button:
@@ -174,7 +174,7 @@ Builder.load_string("""
         Button:
             text: 'Back'
             size_hint: (.5, .5)
-            on_release: root.manager.current = 'setting_screen'
+            on_release: root.manager.current = 'settings_screen'
     
 <RecommendationPreferenceScreen>:
     name: 'recommendation_preference_screen'
@@ -200,7 +200,7 @@ Builder.load_string("""
         Button:
             text: 'Back'
             size_hint: (.5, .5)
-            on_release: root.manager.current = 'setting_screen'
+            on_release: root.manager.current = 'settings_screen'
     
 <AboutScreen>:
     name: 'about_screen'
@@ -209,13 +209,13 @@ Builder.load_string("""
         Label:
             text: 'Rexable'
         Label: 
-            text: 'Develop by UCI CS 125 Group 4'
+            text: 'Developed by UCI CS 125 Group 4'
         Label:
             text: 'Winter Quarter 2021'
         Button:
             text: 'Back'
             size_hint: (.5, .5)
-            on_release: root.manager.current = 'setting_screen'
+            on_release: root.manager.current = 'settings_screen'
 
 
 
@@ -247,13 +247,9 @@ Builder.load_string("""
         BoxLayout:
             orientation: 'horizontal'
             Button:
-                text: 'Login'
+                text: 'Settings'
                 size_hint: (.5, .5)
-                on_release: root.manager.current = 'login_screen'
-            Button:
-                text: 'Setting'
-                size_hint: (.5, .5)
-                on_release: root.manager.current = 'setting_screen'
+                on_release: root.manager.current = 'settings_screen'
 
                 
             Button:
@@ -294,7 +290,6 @@ class RecommendationLayout(GridLayout):
 
 class RecipeSearchBar(Screen):
 
-
     def get_query(self,query):
 
         self.query = query
@@ -317,19 +312,30 @@ class SignUpScreen(Screen):
         Screen.__init__(self)
         self.name='signup_screen'
         self.allergies = []
+        self.cooking_time = -1
+        self.username = ""
+        self.password = ""
+
     def get_username(self, the_text):
         self.username = the_text
+
     def get_password(self, the_text):
         #later add message if it's not at least 8 characters and/or doesn't contain a lowercase letter, uppercase letter, and number
         self.password = the_text
+
     def get_allergies(self, the_text):
         temp_list = the_text.split()
         #now removing whitespace
         for i in temp_list:
             self.allergies.append(i.replace(" ", ""))
+
     def get_cookingtime(self, the_text):
         #later add exception handling
-        self.cooking_time = int(the_text)
+        try:
+            self.cooking_time = int(the_text)
+        except Exception:
+            self.cooking_time = -1
+
     def enter_info(self):
         #later add function where we can use a hashing function to store a hashed password instead the literal password
         #if collection in database exists, create user's document
@@ -342,7 +348,7 @@ class SignUpScreen(Screen):
         
 
 
-class SettingScreen(Screen):
+class SettingsScreen(Screen):
     pass
 
 class ProfileScreen(Screen):
@@ -401,7 +407,7 @@ class RexableApp(App):
         self.sm.add_widget(MainScreen(name='main_screen'))
         self.sm.add_widget(LoginScreen(name='login_screen'))
         self.sm.add_widget(SignUpScreen())
-        self.sm.add_widget(SettingScreen(name='setting_screen'))
+        self.sm.add_widget(SettingsScreen(name='setting_screen'))
         self.sm.add_widget(ProfileScreen(name='profile_screen'))
         self.sm.add_widget(RecommendationPreferenceScreen(name='recommendation_preference_screen'))
         self.sm.add_widget(AboutScreen(name='about_screen'))
