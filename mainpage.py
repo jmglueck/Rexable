@@ -4,6 +4,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.lang import Builder
 from kivy.uix.dropdown import DropDown
+from kivy.graphics import Color, Rectangle, Line
 from kivy.uix.gridlayout import GridLayout
 from kivy.storage.jsonstore import JsonStore
 from kivy.uix.label import Label
@@ -38,13 +39,21 @@ except errors.ServerSelectionTimeoutError as err:
 
 Builder.load_string("""
 <LoginScreen>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 102, 0.2
+        Rectangle:
+            pos: self.pos
+            size: self.size
     name: 'login_screen'
     AnchorLayout:
         anchor_x: 'center'
         anchor_y: 'top'
+        pos_hint: {'x': 0.35}
         BoxLayout:
             orientation: 'vertical'
             size_hint: (0.9, 0.7)
+            padding: [15,15]
             Label:
                 text: 'Username'
                 halign: 'center'
@@ -74,17 +83,32 @@ Builder.load_string("""
         anchor_x: 'center'
         anchor_y: 'center'
         size_hint: (0.7, 0.3)
+        pos_hint: {'x': 0.15}
         BoxLayout:
-            padding: [15]
+            spacing: 15
             orientation: 'horizontal'
             Button:
                 text: 'Login'
+                background_normal: ''
+                background_color: 102, 102, 153, 0.4
+                size_hint: (0.5, 0.5)
+                pos_hint: {'y': 0.5}
                 on_release: root.login()
             Button:
                 text: 'Sign Up'
+                background_normal: ''
+                background_color: 102, 102, 153, 0.4
+                size_hint: (0.5, 0.5)
+                pos_hint: {'y': 0.5}
                 on_release: root.manager.current = 'signup_screen'
 
 <SignUpScreen>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 102, 0.2
+        Rectangle:
+            pos: self.pos
+            size: self.size
     name: 'signup_screen'
     BoxLayout:
         orientation: 'vertical'
@@ -107,6 +131,8 @@ Builder.load_string("""
         Label:
             text: 'Choose your diet'
         DietDropDown:
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
             on_release: self.diet_dropdown()
         Label: 
             text: 'List any allergies (separated by comma, such as "Peanuts,Shellfish")'
@@ -126,32 +152,54 @@ Builder.load_string("""
             on_text: root.get_cookingtime(self.text)
         Button:
             text: '=>'
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
             on_release: root.enter_info()
 <DietDropDown>:
     text: 'Diet'
 
 <SettingsScreen>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 102, 0.2
+        Rectangle:
+            pos: self.pos
+            size: self.size
     name: 'settings_screen'
     BoxLayout:
         orientation: 'vertical'
         Button:
             text: 'Profile'
             size_hint: (.5, .5)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
             on_release: root.manager.current = 'profile_screen'
         Button:
-            text: 'Recommendation Preference'
+            text: 'Recommendation Preferences'
             size_hint: (.5, .5)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
             on_release: root.manager.current = 'recommendation_preference_screen'
         Button:
             text: 'About'
             size_hint: (.5, .5)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
             on_release: root.manager.current = 'about_screen'
         Button:
             text: 'Back'
             size_hint: (.5, .5)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
             on_release: root.manager.current = 'main_screen'
             
 <ProfileScreen>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 102, 0.2
+        Rectangle:
+            pos: self.pos
+            size: self.size
     name: 'profile_screen'
     BoxLayout:
         orientation: 'vertical'
@@ -174,9 +222,17 @@ Builder.load_string("""
         Button:
             text: 'Back'
             size_hint: (.5, .5)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
             on_release: root.manager.current = 'settings_screen'
     
 <RecommendationPreferenceScreen>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 102, 0.2
+        Rectangle:
+            pos: self.pos
+            size: self.size
     name: 'recommendation_preference_screen'
     BoxLayout:
         orientation: 'vertical'
@@ -200,9 +256,17 @@ Builder.load_string("""
         Button:
             text: 'Back'
             size_hint: (.5, .5)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
             on_release: root.manager.current = 'settings_screen'
     
 <AboutScreen>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 102, 0.2
+        Rectangle:
+            pos: self.pos
+            size: self.size
     name: 'about_screen'
     BoxLayout:
         orientation: 'vertical'
@@ -215,30 +279,40 @@ Builder.load_string("""
         Button:
             text: 'Back'
             size_hint: (.5, .5)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
             on_release: root.manager.current = 'settings_screen'
 
 
 
 <RecipeSearchBar>:
     name: 'recipe_search_bar'
+    size_hint: (1, 0.115)
     BoxLayout:
         orientation: 'horizontal'
         TextInput:
-            
             multiline: False
             font_size: '18sp'
             height: 40
             width: 80
-            size_hint: (8, None)
+            size_hint: (7, None)
             on_text: root.get_query(self.text)
         Button:
             text: 'Search'
-            size_hint: (0.6,0.18)
+            size_hint: (0.5,0.9)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
             on_release: root.start_search()
 
             
                                   
 <MainScreen>:
+    canvas.before:
+        Color:
+            rgba: 0, 0, 102, 0.2
+        Rectangle:
+            pos: self.pos
+            size: self.size
     name: 'main_screen'
     BoxLayout:
         orientation: 'vertical'
@@ -247,18 +321,43 @@ Builder.load_string("""
         BoxLayout:
             orientation: 'horizontal'
             Button:
+                canvas.before:
+                    Color:
+                        rgba: 0, 0, 0, 1
+                    Line:
+                        width: 2
+                        rectangle: self.x, self.y, self.width, self.height
                 text: 'Settings'
                 size_hint: (.5, .5)
+                background_normal: ''
+                background_color: 102, 102, 153, 0.4
                 on_release: root.manager.current = 'settings_screen'
 
                 
             Button:
+                canvas.before:
+                    Color:
+                        rgba: 0, 0, 0, 1
+                    Line:
+                        width: 2
+                        rectangle: self.x, self.y, self.width, self.height
                 text: 'Quit'
                 size_hint: (.5, .5)
+                background_normal: ''
+                background_color: 102, 102, 153, 0.4
                 on_press: app.stop()
+
             Button:
+                canvas.before:
+                    Color:
+                        rgba: 0, 0, 0, 1
+                    Line:
+                        width: 2
+                        rectangle: self.x, self.y, self.width, self.height
                 text: 'Logout'
                 size_hint: (.5, .5)
+                background_normal: ''
+                background_color: 102, 102, 153, 0.4
                 on_press: root.logout()
 
 
@@ -277,7 +376,7 @@ class DietDropDown(Button):
     def diet_dropdown(self):
         drop_down = DropDown(size_hint_y=0.5, height=100)
         for i in ['kosher', 'halal', 'keto', 'vegetarian', 'vegan', 'low-carb', 'low-fat', 'none']:
-            diet_button = Button(text=i, size_hint_y=None, height =35)
+            diet_button = Button(text=i, size_hint_y=None, height =35, background_normal='', background_color=[102, 102, 153, 0.4])
             diet_button.bind(on_release=lambda diet_button: drop_down.select(diet_button.text))
             drop_down.add_widget(diet_button)
         #main_button = Button(text='Diet', size_hint=(None, None), height=40)
@@ -288,7 +387,7 @@ class DietDropDown(Button):
 class RecommendationLayout(GridLayout):
     pass
 
-class RecipeSearchBar(Screen):
+class RecipeSearchBar(BoxLayout):
 
     def get_query(self,query):
 
@@ -411,7 +510,7 @@ class RexableApp(App):
         self.sm.add_widget(ProfileScreen(name='profile_screen'))
         self.sm.add_widget(RecommendationPreferenceScreen(name='recommendation_preference_screen'))
         self.sm.add_widget(AboutScreen(name='about_screen'))
-        self.sm.add_widget(RecipeSearchBar(name='recipe_search_bar'))
+        #self.sm.add_widget(RecipeSearchBar(name='recipe_search_bar'))
 
         try:
             RexableApp.store.get('credentials')['username']
