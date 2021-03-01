@@ -4,7 +4,7 @@ import json
 
 
 def search(query):
-
+    result_list = []
     result_dict = {}
 
     
@@ -17,7 +17,7 @@ def search(query):
 
 ##    query = input('Please enter your food for recipe: ')
     # query = "chicken"
-    total_result = 5
+    total_result = 10
     API_ID = '278937dd'
     API_KEY = 'd3c394fe3da45b85e2c2dc534748b4b8'
     PATH = f'https://api.edamam.com/search?q={query}&app_id={API_ID}&app_key={API_KEY}&hits=recipe[ingredients]&from=0&to={total_result}'
@@ -36,12 +36,13 @@ def search(query):
         image_link = response.json()["hits"][number_of_result]["recipe"]["image"]
 
 
-
-        result_dict['name'] = food_label
-        result_dict['cal'] = "{:.0f}".format(calories)
+        result_dict['search_query'] = query
+        result_dict['recipe_name'] = food_label
+        result_dict['calories'] = "{:.0f}".format(calories)
         result_dict['ingredient'] = ingredient_list
         result_dict['image_link'] = image_link
-        
+        result_list.append(result_dict)
+        result_dict = {}
         print()
         
         print("Recipe Name: " + food_label)
@@ -64,6 +65,8 @@ def search(query):
         
         print("Image Link: " + image_link)
         print()
+        
 
-    return result_dict
+        
+    return result_list
         

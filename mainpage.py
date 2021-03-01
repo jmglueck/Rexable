@@ -223,14 +223,13 @@ Builder.load_string("""
     name: 'recipe_search_bar'
     BoxLayout:
         orientation: 'horizontal'
-            
         TextInput:
-            text: 'Search for Recipe: '
+            
             multiline: False
             font_size: '18sp'
             height: 40
             width: 80
-            size_hint: (5, None)
+            size_hint: (8, None)
             on_text: root.get_query(self.text)
         Button:
             text: 'Search'
@@ -306,9 +305,10 @@ class RecipeSearchBar(Screen):
         result = search(self.query)
         self.result = result
 
+        print(result)
+        
         if recipeCollect != None:
-
-            recipeCollect.insert_one(result)
+            recipeCollect.insert_many(result)
 
 
 
