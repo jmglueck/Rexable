@@ -305,7 +305,7 @@ class RecipeSearchBar(Screen):
         result = search(self.query)
         self.result = result
 
-        print(result)
+##        print(result)
         
         if recipeCollect != None:
             recipeCollect.insert_many(result)
