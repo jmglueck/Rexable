@@ -11,7 +11,7 @@ from kivy.uix.label import Label
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
-from pymongo import MongoClient,errrors
+from pymongo import MongoClient,errors
 from search_basic import search
 
 
@@ -379,6 +379,12 @@ Builder.load_string("""
 
 <MeatCategory>
     name: 'meat_category'
+    canvas.before:
+        Color:
+            rgba: 0, 0, 102, 0.2
+        Rectangle:
+            pos: self.pos
+            size: self.size
 
     size_hint: (1, 1)
 
@@ -395,9 +401,6 @@ Builder.load_string("""
             background_color: 102, 102, 153, 0.4
             on_release: root.start_search('chicken')
 
-
-
-
         Button:
             text: 'Beef'
             pos_hint:{'center_x':0,'center_y':1}
@@ -407,7 +410,6 @@ Builder.load_string("""
             background_color: 102, 102, 153, 0.4
             on_release: root.start_search('beef')
 
-
         Button:
             text: 'Pork'
             pos_hint:{'center_x':0,'center_y':1}
@@ -416,9 +418,6 @@ Builder.load_string("""
             background_normal: ''
             background_color: 102, 102, 153, 0.4
             on_release: root.start_search('pork')
-
-
-
         Button:
             text: 'Lamb'
             pos_hint:{'center_x':0,'center_y':1}
@@ -427,7 +426,6 @@ Builder.load_string("""
             background_normal: ''
             background_color: 102, 102, 153, 0.4
             on_release: root.start_search('lamb')
-
 
         Button:
             text: 'Turkey'
@@ -450,74 +448,58 @@ Builder.load_string("""
 
     BoxLayout:
         orientation: 'vertical'
+        spacing: 25
+        size_hint: (0.6, 0.65)
+        pos_hint:{'center_x': 0.6, 'center_y': 0.4}
         Label:
             id: result_1
-            pos_hint:{'center_x':0.5,'center_y':0.8}
             text: ''
-            size_hint: (0.8,0.1)
+            size_hint: (0.8,0.5)
             halign: 'left'
-
         Label:
             id: result_2
-            pos_hint:{'center_x':0.5,'center_y':0.7}
             text: ''
-            size_hint: (0.8,0.1)
+            size_hint: (0.8,0.5)
             halign: 'left'
 
         Label:
             id: result_3
-            pos_hint:{'center_x':0.5,'center_y':0.6}
             text: ''
-            size_hint: (0.8,0.1)
+            size_hint: (0.8,0.5)
             halign: 'left'
-
         Label:
             id: result_4
-            pos_hint:{'center_x':0.5,'center_y':0.5}
             text: ''
-            size_hint: (0.8,0.1)
+            size_hint: (0.8,0.5)
             halign: 'left'
-
         Label:
             id: result_5
-            pos_hint:{'center_x':0.5,'center_y':0.4}
             text: ''
-            size_hint: (0.8,0.1)
+            size_hint: (0.8,0.5)
             halign: 'left'
-
         Label:
             id: result_6
-            pos_hint:{'center_x':0.5,'center_y':0.3}
             text: ''
-            size_hint: (0.8,0.1)
-
+            size_hint: (0.8,0.5)
         Label:
             id: result_7
-            pos_hint:{'center_x':0.5,'center_y':0.2}
             text: ''
-            size_hint: (0.8,0.1)
+            size_hint: (0.8,0.5)
             halign: 'left'
-
         Label:
             id: result_8
-            pos_hint:{'center_x':0.5,'center_y':0.1}
             text: ''
-            size_hint: (0.8,0.1)
+            size_hint: (0.8,0.5)
             halign: 'left'
-
-
         Label:
             id: result_9
-            pos_hint:{'center_x':0.5,'center_y':0.05}
             text: ''
-            size_hint: (0.8,0.1)
+            size_hint: (0.8,0.5)
             halign: 'left'
-
         Label:
             id: result_10
-            pos_hint:{'center_x':0.5,'center_y':0.04}
             text: ''
-            size_hint: (0.8,0.1)
+            size_hint: (0.8,0.5)
             halign: 'left'
 
 
@@ -525,6 +507,12 @@ Builder.load_string("""
 
     name: 'recommendation'
     size_hint: (1, 0.115)
+    canvas.before:
+        Color:
+            rgba: 0, 0, 102, 0.2
+        Rectangle:
+            pos: self.pos
+            size: self.size
     BoxLayout:
         orientation: 'horizontal'
 
