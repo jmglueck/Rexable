@@ -293,6 +293,7 @@ Builder.load_string("""
     BoxLayout:
         orientation: 'horizontal'
         TextInput:
+            id: text_input
             multiline: False
             font_size: '18sp'
             size_hint: (7, 0.2)
@@ -306,7 +307,7 @@ Builder.load_string("""
             background_color: 102, 102, 153, 0.4
             font_size: '18sp'
             text_size: self.width - dp(5), self.height - dp(5)
-            on_release: root.start_search() 
+            on_release: root.start_search()
 
     BoxLayout:
         orientation: 'vertical'
@@ -701,7 +702,7 @@ class RecipeSearchBar(BoxLayout):
 
             exec(f'self.ids.result_{count+1}.text = "{new_text}"')
 
-
+        self.ids.text_input.text = ''
 
 class Recommendation(Screen):
 
