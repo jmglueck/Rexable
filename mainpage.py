@@ -784,7 +784,7 @@ class MeatCategory(Screen):
             self.result = result
 
 
-            C = result[:10]
+            ten_results = result[:10]
 
             for count,i in enumerate(ten_results):
 
