@@ -17,7 +17,7 @@ def search(query):
 
 ##    query = input('Please enter your food for recipe: ')
     # query = "chicken"
-    total_result = 10
+    total_result = 50
     API_ID = '278937dd'
     API_KEY = 'd3c394fe3da45b85e2c2dc534748b4b8'
     PATH = f'https://api.edamam.com/search?q={query}&app_id={API_ID}&app_key={API_KEY}&hits=recipe[ingredients]&from=0&to={total_result}'
@@ -43,28 +43,28 @@ def search(query):
         result_dict['image_link'] = image_link
         result_list.append(result_dict)
         result_dict = {}
-        print()
-        
-        print("Recipe Name: " + food_label)
-        #print(response.json())
-
-        
-        print("Calories: "+ "{:.0f}".format(calories))
-        
-        
-        ingredient_list = response.json()["hits"][number_of_result]["recipe"]["ingredientLines"]
-        count = 1
-        print("Ingredients: ",end='')
-        for i in ingredient_list:
-            if count<len(ingredient_list):
-                i = i+', '
-                print(i,end='')
-            else:
-                print(i)
-            count+=1
-        
-        print("Image Link: " + image_link)
-        print()
+##        print()
+##        
+##        print("Recipe Name: " + food_label)
+##        #print(response.json())
+##
+##        
+##        print("Calories: "+ "{:.0f}".format(calories))
+##        
+##        
+##        ingredient_list = response.json()["hits"][number_of_result]["recipe"]["ingredientLines"]
+##        count = 1
+##        print("Ingredients: ",end='')
+##        for i in ingredient_list:
+##            if count<len(ingredient_list):
+##                i = i+', '
+##                print(i,end='')
+##            else:
+##                print(i)
+##            count+=1
+##        
+##        print("Image Link: " + image_link)
+##        print()
         
 
         

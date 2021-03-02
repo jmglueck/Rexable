@@ -11,8 +11,9 @@ from kivy.uix.label import Label
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
-from pymongo import MongoClient, errors
+from pymongo import MongoClient,errrors
 from search_basic import search
+
 
 try:
     # try to instantiate a client instance
@@ -683,26 +684,45 @@ class RecipeSearchBar(BoxLayout):
 
     def get_query(self,query):
 
-        self.query = query
-##        print(query)
+        self.query = query.lower()
 
     def start_search(self):
-##        print(self.query)
-        result = search(self.query)
-        self.result = result
 
-##        print(result)
+        database_result = recipeCollect.find({"search_query": self.query}).limit(10)
+        
+        self.result = database_result
 
-        if recipeCollect != None:
-            recipeCollect.insert_many(result)
+       
+        
+        if database_result.count() != 0:
+            for count,i in enumerate(database_result):
 
-        for count,i in enumerate(result):
+                new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
+                
+                exec(f'self.ids.result_{count+1}.text = "{new_text}"')
 
-            new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
+            self.ids.text_input.text = ''
 
-            exec(f'self.ids.result_{count+1}.text = "{new_text}"')
 
-        self.ids.text_input.text = ''
+        else:
+        
+            result = search(self.query)
+            self.result = result
+
+            ten_results = result[:10]
+
+            for count,i in enumerate(ten_results):
+
+                new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
+
+                exec(f'self.ids.result_{count+1}.text = "{new_text}"')
+
+            if recipeCollect != None:
+                recipeCollect.insert_many(result)
+
+
+
+            self.ids.text_input.text = ''
 
 class Recommendation(Screen):
 
@@ -742,18 +762,43 @@ class Recommendation(Screen):
 class MeatCategory(Screen):
 
     def start_search(self,query):
-        result = search(query)
-        self.result = result
 
-        if recipeCollect != None:
-            recipeCollect.insert_many(result)
+        query = query.lower()
+        
+        database_result = recipeCollect.find({"search_query": query}).limit(10)
+        
+        self.result = database_result
+
+        if database_result.count() != 0:
+            for count,i in enumerate(database_result):
+
+                new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
+                
+                exec(f'self.ids.result_{count+1}.text = "{new_text}"')
 
 
-        for count,i in enumerate(result):
 
-            new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
+        else:
+        
+            result = search(query)
+            self.result = result
 
-            exec(f'self.ids.result_{count+1}.text = "{new_text}"')
+
+            C = result[:10]
+
+            for count,i in enumerate(ten_results):
+
+                new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
+
+                exec(f'self.ids.result_{count+1}.text = "{new_text}"')
+
+                
+            
+            if recipeCollect != None:
+                recipeCollect.insert_many(result)
+
+
+
 
 
 class SignUpScreen(Screen):
