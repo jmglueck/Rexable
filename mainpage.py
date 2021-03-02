@@ -11,7 +11,7 @@ from kivy.uix.label import Label
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
-from pymongo import MongoClient,errrors
+from pymongo import MongoClient,errors
 from search_basic import search
 
 
@@ -318,6 +318,10 @@ Builder.load_string("""
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
+
+        Button:
+            text: 'View'
+            pos_hint:{'center_x':0.8,'center_y':0.7}
 
         Label:
             id: result_2
