@@ -12,7 +12,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
 from pymongo import MongoClient, errors
-from search_basic import search 
+from search_basic import search
 
 try:
     # try to instantiate a client instance
@@ -33,7 +33,7 @@ except errors.ServerSelectionTimeoutError as err:
     db = None
     userCollect = None
     recipeCollect = None
-    
+
     # catch pymongo.errors.ServerSelectionTimeoutError
     print ("pymongo ERROR:", err)
 
@@ -134,7 +134,7 @@ Builder.load_string("""
             background_normal: ''
             background_color: 102, 102, 153, 0.4
             on_release: self.diet_dropdown()
-        Label: 
+        Label:
             text: 'List any allergies (separated by comma, such as "Peanuts,Shellfish")'
         TextInput:
             multiline: False
@@ -142,7 +142,7 @@ Builder.load_string("""
             height: 30
             size_hint: (.2, None)
             on_text: root.get_allergies(self.text)
-        Label: 
+        Label:
             text: 'How many hours in a day do you have to cook?'
         TextInput:
             multiline: False
@@ -192,7 +192,7 @@ Builder.load_string("""
             background_normal: ''
             background_color: 102, 102, 153, 0.4
             on_release: root.manager.current = 'main_screen'
-            
+
 <ProfileScreen>:
     canvas.before:
         Color:
@@ -218,14 +218,14 @@ Builder.load_string("""
             multiline: False
             font_size: '12sp'
             height: 30
-            size_hint: (.2, None)     
+            size_hint: (.2, None)
         Button:
             text: 'Back'
             size_hint: (.5, .5)
             background_normal: ''
             background_color: 102, 102, 153, 0.4
             on_release: root.manager.current = 'settings_screen'
-    
+
 <RecommendationPreferenceScreen>:
     canvas.before:
         Color:
@@ -239,14 +239,14 @@ Builder.load_string("""
         Label:
             text: 'Choose your diet'
         DietDropDown:
-        Label: 
+        Label:
             text: 'List any allergies (separated by comma, such as "Peanuts,Shellfish")'
         TextInput:
             multiline: False
             font_size: '12sp'
             height: 30
             size_hint: (.2, None)
-        Label: 
+        Label:
             text: 'How many hours in a day do you have to cook?'
         TextInput:
             multiline: False
@@ -259,7 +259,7 @@ Builder.load_string("""
             background_normal: ''
             background_color: 102, 102, 153, 0.4
             on_release: root.manager.current = 'settings_screen'
-    
+
 <AboutScreen>:
     canvas.before:
         Color:
@@ -272,7 +272,7 @@ Builder.load_string("""
         orientation: 'vertical'
         Label:
             text: 'Rexable'
-        Label: 
+        Label:
             text: 'Developed by UCI CS 125 Group 4'
         Label:
             text: 'Winter Quarter 2021'
@@ -286,33 +286,107 @@ Builder.load_string("""
 
 
 <RecipeSearchBar>:
+
     name: 'recipe_search_bar'
-    size_hint: (1, 0.115)
+
+    
     BoxLayout:
         orientation: 'horizontal'
         TextInput:
             multiline: False
             font_size: '18sp'
-            height: 40
-            width: 80
-            size_hint: (7, None)
+            size_hint: (7, 0.2)
+            pos_hint:{'center_x':0,'center_y':0.9}
             on_text: root.get_query(self.text)
         Button:
             text: 'Search'
-            size_hint: (0.5,0.9)
+            size_hint: (1,0.2)
+            pos_hint:{'center_x':0,'center_y':0.9}
             background_normal: ''
             background_color: 102, 102, 153, 0.4
-            on_release: root.start_search()
+            font_size: '18sp'
+            text_size: self.width - dp(5), self.height - dp(5)
+            on_release: root.start_search() 
+
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            id: result_1
+            pos_hint:{'center_x':0.5,'center_y':0.7}
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+        Label:
+            id: result_2
+            pos_hint:{'center_x':0.5,'center_y':0.7}
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+        Label:
+            id: result_3
+            pos_hint:{'center_x':0.5,'center_y':0.7}
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+        Label:
+            id: result_4
+            pos_hint:{'center_x':0.5,'center_y':0.6}
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+        Label:
+            id: result_5
+            pos_hint:{'center_x':0.5,'center_y':0.5}
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+        Label:
+            id: result_6
+            pos_hint:{'center_x':0.5,'center_y':0.4}
+            text: ''
+            size_hint: (0.8,0.5)
+
+        Label:
+            id: result_7
+            pos_hint:{'center_x':0.5,'center_y':0.3}
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+        Label:
+            id: result_8
+            pos_hint:{'center_x':0.5,'center_y':0.2}
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
 
 
-        
+        Label:
+            id: result_9
+            pos_hint:{'center_x':0.5,'center_y':0.1}
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+        Label:
+            id: result_10
+            pos_hint:{'center_x':0.5,'center_y':0.0}
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
 
 <MeatCategory>
     name: 'meat_category'
 
     size_hint: (1, 1)
 
-    
+
     BoxLayout:
         orientation: 'horizontal'
 
@@ -325,7 +399,7 @@ Builder.load_string("""
             background_color: 102, 102, 153, 0.4
             on_release: root.start_search('chicken')
 
-            
+
 
 
         Button:
@@ -378,77 +452,78 @@ Builder.load_string("""
             background_color: 102, 102, 153, 0.4
             on_release: root.manager.current = 'recommendation'
 
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            id: result_1
+            pos_hint:{'center_x':0.5,'center_y':0.8}
+            text: ''
+            size_hint: (0.8,0.1)
+            halign: 'left'
 
-    Label:
-        id: result_1
-        pos_hint:{'center_x':0.5,'center_y':0.9}
-        text: ''
-        size_hint: (0.8,0.5)
-        halign: 'left'
+        Label:
+            id: result_2
+            pos_hint:{'center_x':0.5,'center_y':0.7}
+            text: ''
+            size_hint: (0.8,0.1)
+            halign: 'left'
 
-    Label:
-        id: result_2
-        pos_hint:{'center_x':0.5,'center_y':0.8}
-        text: ''
-        size_hint: (0.8,0.5)
-        halign: 'left'
+        Label:
+            id: result_3
+            pos_hint:{'center_x':0.5,'center_y':0.6}
+            text: ''
+            size_hint: (0.8,0.1)
+            halign: 'left'
 
-    Label:
-        id: result_3
-        pos_hint:{'center_x':0.5,'center_y':0.7}
-        text: ''
-        size_hint: (0.8,0.5)
-        halign: 'left'
+        Label:
+            id: result_4
+            pos_hint:{'center_x':0.5,'center_y':0.5}
+            text: ''
+            size_hint: (0.8,0.1)
+            halign: 'left'
 
-    Label:
-        id: result_4
-        pos_hint:{'center_x':0.5,'center_y':0.6}
-        text: ''
-        size_hint: (0.8,0.5)
-        halign: 'left'
-    
-    Label:
-        id: result_5
-        pos_hint:{'center_x':0.5,'center_y':0.5}
-        text: ''
-        size_hint: (0.8,0.5)
-        halign: 'left'
+        Label:
+            id: result_5
+            pos_hint:{'center_x':0.5,'center_y':0.4}
+            text: ''
+            size_hint: (0.8,0.1)
+            halign: 'left'
 
-    Label:
-        id: result_6
-        pos_hint:{'center_x':0.5,'center_y':0.4}
-        text: ''
-        size_hint: (0.8,0.5)
+        Label:
+            id: result_6
+            pos_hint:{'center_x':0.5,'center_y':0.3}
+            text: ''
+            size_hint: (0.8,0.1)
 
-    Label:
-        id: result_7
-        pos_hint:{'center_x':0.5,'center_y':0.3}
-        text: ''
-        size_hint: (0.8,0.5)
-        halign: 'left'
+        Label:
+            id: result_7
+            pos_hint:{'center_x':0.5,'center_y':0.2}
+            text: ''
+            size_hint: (0.8,0.1)
+            halign: 'left'
 
-    Label:
-        id: result_8
-        pos_hint:{'center_x':0.5,'center_y':0.2}
-        text: ''
-        size_hint: (0.8,0.5)
-        halign: 'left'
+        Label:
+            id: result_8
+            pos_hint:{'center_x':0.5,'center_y':0.1}
+            text: ''
+            size_hint: (0.8,0.1)
+            halign: 'left'
 
-        
-    Label:
-        id: result_9
-        pos_hint:{'center_x':0.5,'center_y':0.1}
-        text: ''
-        size_hint: (0.8,0.5)
-        halign: 'left'
-    
-    Label:
-        id: result_10
-        pos_hint:{'center_x':0.5,'center_y':0.0}
-        text: ''
-        size_hint: (0.8,0.5)
-        halign: 'left'
-        
+
+        Label:
+            id: result_9
+            pos_hint:{'center_x':0.5,'center_y':0.05}
+            text: ''
+            size_hint: (0.8,0.1)
+            halign: 'left'
+
+        Label:
+            id: result_10
+            pos_hint:{'center_x':0.5,'center_y':0.04}
+            text: ''
+            size_hint: (0.8,0.1)
+            halign: 'left'
+
 
 <Recommendation>:
 
@@ -456,7 +531,7 @@ Builder.load_string("""
     size_hint: (1, 0.115)
     BoxLayout:
         orientation: 'horizontal'
-            
+
         Button:
             text: 'Meat'
             size_hint: (0.5,0.9)
@@ -476,7 +551,7 @@ Builder.load_string("""
             background_normal: ''
             background_color: 102, 102, 153, 0.4
             on_release: root.vegetable()
-            
+
         Button:
             text: 'Fruit'
             size_hint: (0.5,0.9)
@@ -492,7 +567,7 @@ Builder.load_string("""
             background_normal: ''
             background_color: 102, 102, 153, 0.4
             on_release: root.drinks()
-            
+
         Button:
             text: 'Dessert'
             size_hint: (0.5,0.9)
@@ -506,8 +581,8 @@ Builder.load_string("""
             background_normal: ''
             background_color: 102, 102, 153, 0.4
             on_release: root.manager.current = 'main_screen'
-            
-                                  
+
+
 <MainScreen>:
     canvas.before:
         Color:
@@ -549,7 +624,7 @@ Builder.load_string("""
                 background_color: 102, 102, 153, 0.4
                 on_press: root.manager.current = 'recommendation'
 
-                
+
             Button:
                 canvas.before:
                     Color:
@@ -579,10 +654,10 @@ Builder.load_string("""
 
 
 
-    
+
 <RecommendationLayout>:
     size_hint: (0.5, 0.5)
-    height: 100 
+    height: 100
     width: 100
 
 """)
@@ -609,19 +684,24 @@ class RecipeSearchBar(BoxLayout):
 
         self.query = query
 ##        print(query)
-        
+
     def start_search(self):
 ##        print(self.query)
         result = search(self.query)
         self.result = result
 
 ##        print(result)
-        
+
         if recipeCollect != None:
             recipeCollect.insert_many(result)
 
+        for count,i in enumerate(result):
 
-            
+            new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
+
+            exec(f'self.ids.result_{count+1}.text = "{new_text}"')
+
+
 
 class Recommendation(Screen):
 
@@ -629,32 +709,32 @@ class Recommendation(Screen):
 
 
     def meat(self):
-        
+
         print('Meat')
 
 
     def seafood(self):
-        
+
         print('Seafood')
 
 
     def vegetable(self):
-        
+
         print('Vegetable')
 
 
     def fruit(self):
-        
+
         print('Fruit')
 
 
     def drinks(self):
-        
+
         print('Drinks')
 
 
     def dessert(self):
-        
+
         print('Dessert')
 
 
@@ -663,7 +743,7 @@ class MeatCategory(Screen):
     def start_search(self,query):
         result = search(query)
         self.result = result
-        
+
         if recipeCollect != None:
             recipeCollect.insert_many(result)
 
@@ -671,8 +751,8 @@ class MeatCategory(Screen):
         for count,i in enumerate(result):
 
             new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
-            
-            exec(f'self.ids.result_{count+1}.text = "{new_text}"') 
+
+            exec(f'self.ids.result_{count+1}.text = "{new_text}"')
 
 
 class SignUpScreen(Screen):
@@ -708,12 +788,12 @@ class SignUpScreen(Screen):
         #later add function where we can use a hashing function to store a hashed password instead the literal password
         #if collection in database exists, create user's document
         if userCollect != None:
-           the_dict = {"username": self.username, "password": self.password, "allergies": self.allergies, 
-           "cookingTime": self.cooking_time, "viewedRecipes": dict()} 
+           the_dict = {"username": self.username, "password": self.password, "allergies": self.allergies,
+           "cookingTime": self.cooking_time, "viewedRecipes": dict()}
            userCollect.insert_one(the_dict)
         RexableApp.store.put('credentials', username = self.username, password = self.password)
         self.parent.current = "main_screen"
-        
+
 
 
 class SettingsScreen(Screen):
@@ -798,7 +878,7 @@ class RexableApp(App):
 
         self.user_login = [username, password]
 
-        
+
         if self.user_login[0] != "" and self.user_login[1] != "":
             self.sm.current = 'main_screen'
         else:
