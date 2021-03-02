@@ -17,7 +17,7 @@ def search(query):
 
 ##    query = input('Please enter your food for recipe: ')
     # query = "chicken"
-    total_result = 2
+    total_result = 10
     API_ID = '278937dd'
     API_KEY = 'd3c394fe3da45b85e2c2dc534748b4b8'
     PATH = f'https://api.edamam.com/search?q={query}&app_id={API_ID}&app_key={API_KEY}&hits=recipe[ingredients]&from=0&to={total_result}'

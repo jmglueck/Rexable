@@ -304,23 +304,35 @@ Builder.load_string("""
             background_color: 102, 102, 153, 0.4
             on_release: root.start_search()
 
+
+        
+
 <MeatCategory>
     name: 'meat_category'
-    size_hint: (1, 0.115)
+
+    size_hint: (1, 1)
+
+    
     BoxLayout:
         orientation: 'horizontal'
 
         Button:
             text: 'Chicken'
-            size_hint: (0.5,0.9)
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
             background_normal: ''
             background_color: 102, 102, 153, 0.4
             on_release: root.start_search('chicken')
 
+            
+
 
         Button:
             text: 'Beef'
-            size_hint: (0.5,0.9)
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
             background_normal: ''
             background_color: 102, 102, 153, 0.4
             on_release: root.start_search('beef')
@@ -328,7 +340,9 @@ Builder.load_string("""
 
         Button:
             text: 'Pork'
-            size_hint: (0.5,0.9)
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
             background_normal: ''
             background_color: 102, 102, 153, 0.4
             on_release: root.start_search('pork')
@@ -337,7 +351,9 @@ Builder.load_string("""
 
         Button:
             text: 'Lamb'
-            size_hint: (0.5,0.9)
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
             background_normal: ''
             background_color: 102, 102, 153, 0.4
             on_release: root.start_search('lamb')
@@ -345,7 +361,9 @@ Builder.load_string("""
 
         Button:
             text: 'Turkey'
-            size_hint: (0.5,0.9)
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
             background_normal: ''
             background_color: 102, 102, 153, 0.4
             on_release: root.start_search('turkey')
@@ -353,12 +371,84 @@ Builder.load_string("""
 
         Button:
             text: 'Back'
-            size_hint: (0.5,0.9)
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
             background_normal: ''
             background_color: 102, 102, 153, 0.4
             on_release: root.manager.current = 'recommendation'
-        
 
+
+    Label:
+        id: result_1
+        pos_hint:{'center_x':0.5,'center_y':0.9}
+        text: ''
+        size_hint: (0.8,0.5)
+        halign: 'left'
+
+    Label:
+        id: result_2
+        pos_hint:{'center_x':0.5,'center_y':0.8}
+        text: ''
+        size_hint: (0.8,0.5)
+        halign: 'left'
+
+    Label:
+        id: result_3
+        pos_hint:{'center_x':0.5,'center_y':0.7}
+        text: ''
+        size_hint: (0.8,0.5)
+        halign: 'left'
+
+    Label:
+        id: result_4
+        pos_hint:{'center_x':0.5,'center_y':0.6}
+        text: ''
+        size_hint: (0.8,0.5)
+        halign: 'left'
+    
+    Label:
+        id: result_5
+        pos_hint:{'center_x':0.5,'center_y':0.5}
+        text: ''
+        size_hint: (0.8,0.5)
+        halign: 'left'
+
+    Label:
+        id: result_6
+        pos_hint:{'center_x':0.5,'center_y':0.4}
+        text: ''
+        size_hint: (0.8,0.5)
+
+    Label:
+        id: result_7
+        pos_hint:{'center_x':0.5,'center_y':0.3}
+        text: ''
+        size_hint: (0.8,0.5)
+        halign: 'left'
+
+    Label:
+        id: result_8
+        pos_hint:{'center_x':0.5,'center_y':0.2}
+        text: ''
+        size_hint: (0.8,0.5)
+        halign: 'left'
+
+        
+    Label:
+        id: result_9
+        pos_hint:{'center_x':0.5,'center_y':0.1}
+        text: ''
+        size_hint: (0.8,0.5)
+        halign: 'left'
+    
+    Label:
+        id: result_10
+        pos_hint:{'center_x':0.5,'center_y':0.0}
+        text: ''
+        size_hint: (0.8,0.5)
+        halign: 'left'
+        
 
 <Recommendation>:
 
@@ -576,7 +666,13 @@ class MeatCategory(Screen):
         
         if recipeCollect != None:
             recipeCollect.insert_many(result)
-    
+
+
+        for count,i in enumerate(result):
+
+            new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
+            
+            exec(f'self.ids.result_{count+1}.text = "{new_text}"') 
 
 
 class SignUpScreen(Screen):
