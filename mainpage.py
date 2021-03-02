@@ -304,6 +304,118 @@ Builder.load_string("""
             background_color: 102, 102, 153, 0.4
             on_release: root.start_search()
 
+<MeatCategory>
+    name: 'meat_category'
+    size_hint: (1, 0.115)
+    BoxLayout:
+        orientation: 'horizontal'
+
+        Button:
+            text: 'Chicken'
+            size_hint: (0.5,0.9)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('chicken')
+
+
+        Button:
+            text: 'Beef'
+            size_hint: (0.5,0.9)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('beef')
+
+
+        Button:
+            text: 'Pork'
+            size_hint: (0.5,0.9)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('pork')
+
+
+
+        Button:
+            text: 'Lamb'
+            size_hint: (0.5,0.9)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('lamb')
+
+
+        Button:
+            text: 'Turkey'
+            size_hint: (0.5,0.9)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('turkey')
+
+
+        Button:
+            text: 'Back'
+            size_hint: (0.5,0.9)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.manager.current = 'recommendation'
+        
+
+
+<Recommendation>:
+
+    name: 'recommendation'
+    size_hint: (1, 0.115)
+    BoxLayout:
+        orientation: 'horizontal'
+            
+        Button:
+            text: 'Meat'
+            size_hint: (0.5,0.9)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.manager.current = 'meat_category'
+        Button:
+            text: 'Seafood'
+            size_hint: (0.5,0.9)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.seafood()
+
+        Button:
+            text: 'Vegetable'
+            size_hint: (0.5,0.9)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.vegetable()
+            
+        Button:
+            text: 'Fruit'
+            size_hint: (0.5,0.9)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.fruit()
+
+
+
+        Button:
+            text: 'Drinks'
+            size_hint: (0.5,0.9)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.drinks()
+            
+        Button:
+            text: 'Dessert'
+            size_hint: (0.5,0.9)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.dessert()
+
+        Button:
+            text: 'Back'
+            size_hint: (0.5,0.9)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.manager.current = 'main_screen'
             
                                   
 <MainScreen>:
@@ -332,6 +444,20 @@ Builder.load_string("""
                 background_normal: ''
                 background_color: 102, 102, 153, 0.4
                 on_release: root.manager.current = 'settings_screen'
+
+
+            Button:
+                canvas.before:
+                    Color:
+                        rgba: 0, 0, 0, 1
+                    Line:
+                        width: 2
+                        rectangle: self.x, self.y, self.width, self.height
+                text: 'Recommendation'
+                size_hint: (.5, .5)
+                background_normal: ''
+                background_color: 102, 102, 153, 0.4
+                on_press: root.manager.current = 'recommendation'
 
                 
             Button:
@@ -404,6 +530,53 @@ class RecipeSearchBar(BoxLayout):
         if recipeCollect != None:
             recipeCollect.insert_many(result)
 
+
+            
+
+class Recommendation(Screen):
+
+
+
+
+    def meat(self):
+        
+        print('Meat')
+
+
+    def seafood(self):
+        
+        print('Seafood')
+
+
+    def vegetable(self):
+        
+        print('Vegetable')
+
+
+    def fruit(self):
+        
+        print('Fruit')
+
+
+    def drinks(self):
+        
+        print('Drinks')
+
+
+    def dessert(self):
+        
+        print('Dessert')
+
+
+class MeatCategory(Screen):
+
+    def start_search(self,query):
+        result = search(query)
+        self.result = result
+        
+        if recipeCollect != None:
+            recipeCollect.insert_many(result)
+    
 
 
 class SignUpScreen(Screen):
@@ -510,7 +683,8 @@ class RexableApp(App):
         self.sm.add_widget(ProfileScreen(name='profile_screen'))
         self.sm.add_widget(RecommendationPreferenceScreen(name='recommendation_preference_screen'))
         self.sm.add_widget(AboutScreen(name='about_screen'))
-        #self.sm.add_widget(RecipeSearchBar(name='recipe_search_bar'))
+        self.sm.add_widget(Recommendation(name='recommendation'))
+        self.sm.add_widget(MeatCategory(name='meat_category'))
 
         try:
             RexableApp.store.get('credentials')['username']
