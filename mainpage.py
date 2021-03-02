@@ -290,101 +290,91 @@ Builder.load_string("""
 
     name: 'recipe_search_bar'
 
-    
-    BoxLayout:
-        orientation: 'horizontal'
-        TextInput:
-            id: text_input
-            multiline: False
-            font_size: '18sp'
-            size_hint: (7, 0.2)
-            pos_hint:{'center_x':0,'center_y':0.9}
-            on_text: root.get_query(self.text)
-        Button:
-            text: 'Search'
-            size_hint: (1,0.2)
-            pos_hint:{'center_x':0,'center_y':0.9}
-            background_normal: ''
-            background_color: 102, 102, 153, 0.4
-            font_size: '18sp'
-            text_size: self.width - dp(5), self.height - dp(5)
-            on_release: root.start_search()
-
     BoxLayout:
         orientation: 'vertical'
-        Label:
-            id: result_1
-            pos_hint:{'center_x':0.5,'center_y':0.7}
-            text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: (1, 0.5)
+            TextInput:
+                id: text_input
+                multiline: False
+                font_size: '18sp'
+                size_hint: (7, 0.3)
+                pos_hint:{'center_x':0,'center_y':0.9}
+                on_text: root.get_query(self.text)
+            Button:
+                text: 'Search'
+                size_hint: (1,0.3)
+                pos_hint:{'center_x':0,'center_y':0.9}
+                background_normal: ''
+                background_color: 102, 102, 153, 0.4
+                font_size: '18sp'
+                text_size: self.width - dp(5), self.height - dp(5)
+                on_release: root.start_search()
 
-        Button:
-            text: 'View'
-            pos_hint:{'center_x':0.8,'center_y':0.7}
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: (1, 0.5)
+            spacing: 20
+            Label:
+                id: result_1
+                pos_hint:{'center_x':0.5,'center_y':0.7}
+                text: ''
+                halign: 'left'
 
-        Label:
-            id: result_2
-            pos_hint:{'center_x':0.5,'center_y':0.7}
-            text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
+            Label:
+                id: result_2
+                pos_hint:{'center_x':0.5,'center_y':0.7}
+                text: ''
+                halign: 'left'
 
-        Label:
-            id: result_3
-            pos_hint:{'center_x':0.5,'center_y':0.7}
-            text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
+            Label:
+                id: result_3
+                pos_hint:{'center_x':0.5,'center_y':0.7}
+                text: ''
+                halign: 'left'
 
-        Label:
-            id: result_4
-            pos_hint:{'center_x':0.5,'center_y':0.6}
-            text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
+            Label:
+                id: result_4
+                pos_hint:{'center_x':0.5,'center_y':0.6}
+                text: ''
+                halign: 'left'
 
-        Label:
-            id: result_5
-            pos_hint:{'center_x':0.5,'center_y':0.5}
-            text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
+            Label:
+                id: result_5
+                pos_hint:{'center_x':0.5,'center_y':0.5}
+                text: ''
+                halign: 'left'
 
-        Label:
-            id: result_6
-            pos_hint:{'center_x':0.5,'center_y':0.4}
-            text: ''
-            size_hint: (0.8,0.5)
+            Label:
+                id: result_6
+                pos_hint:{'center_x':0.5,'center_y':0.4}
+                text: ''
 
-        Label:
-            id: result_7
-            pos_hint:{'center_x':0.5,'center_y':0.3}
-            text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
+            Label:
+                id: result_7
+                pos_hint:{'center_x':0.5,'center_y':0.3}
+                text: ''
+                halign: 'left'
 
-        Label:
-            id: result_8
-            pos_hint:{'center_x':0.5,'center_y':0.2}
-            text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
+            Label:
+                id: result_8
+                pos_hint:{'center_x':0.5,'center_y':0.2}
+                text: ''
+                halign: 'left'
 
 
-        Label:
-            id: result_9
-            pos_hint:{'center_x':0.5,'center_y':0.1}
-            text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
+            Label:
+                id: result_9
+                pos_hint:{'center_x':0.5,'center_y':0.1}
+                text: ''
+                halign: 'left'
 
-        Label:
-            id: result_10
-            pos_hint:{'center_x':0.5,'center_y':0.0}
-            text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
+            Label:
+                id: result_10
+                pos_hint:{'center_x':0.5,'center_y':0.0}
+                text: ''
+                halign: 'left'
 
 
 <MeatCategory>
