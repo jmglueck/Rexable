@@ -503,6 +503,136 @@ Builder.load_string("""
             halign: 'left'
 
 
+
+<SeafoodCategory>
+    name: 'seafood_category'
+    canvas.before:
+        Color:
+            rgba: 0, 0, 102, 0.2
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    size_hint: (1, 1)
+
+
+    BoxLayout:
+        orientation: 'horizontal'
+
+        Button:
+            text: 'Crab'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('crab')
+
+        Button:
+            text: 'Fish'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('fish')
+
+        Button:
+            text: 'Shrimp'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('shrimp')
+
+        Button:
+            text: 'Lobster'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('lobster')
+        Button:
+            text: 'Scallop'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('scallop')
+
+
+        Button:
+            text: 'Back'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.manager.current = 'recommendation'
+
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 25
+        size_hint: (0.6, 0.65)
+        pos_hint:{'center_x': 0.6, 'center_y': 0.4}
+        Label:
+            id: result_1
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+        Label:
+            id: result_2
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+        Label:
+            id: result_3
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+        Label:
+            id: result_4
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+        Label:
+            id: result_5
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+        Label:
+            id: result_6
+            text: ''
+            size_hint: (0.8,0.5)
+        Label:
+            id: result_7
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+        Label:
+            id: result_8
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+        Label:
+            id: result_9
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+        Label:
+            id: result_10
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+
+
+
+
 <Recommendation>:
 
     name: 'recommendation'
@@ -527,7 +657,7 @@ Builder.load_string("""
             size_hint: (0.5,0.9)
             background_normal: ''
             background_color: 102, 102, 153, 0.4
-            on_release: root.seafood()
+            on_release: root.manager.current = 'seafood_category'
 
         Button:
             text: 'Vegetable'
@@ -758,7 +888,40 @@ class MeatCategory(Screen):
                 
                 exec(f'self.ids.result_{count+1}.text = "{new_text}"')
 
+        else:
+        
+            result = search(query)
+            self.result = result
 
+
+            ten_results = result[:10]
+
+            for count,i in enumerate(ten_results):
+
+                new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
+
+                exec(f'self.ids.result_{count+1}.text = "{new_text}"')
+            
+            if recipeCollect != None:
+                recipeCollect.insert_many(result)
+
+
+class SeafoodCategory(Screen):
+
+    def start_search(self,query):
+
+        query = query.lower()
+        
+        database_result = recipeCollect.find({"search_query": query}).limit(10)
+        
+        self.result = database_result
+
+        if database_result.count() != 0:
+            for count,i in enumerate(database_result):
+
+                new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
+                
+                exec(f'self.ids.result_{count+1}.text = "{new_text}"')
 
         else:
         
@@ -773,14 +936,9 @@ class MeatCategory(Screen):
                 new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
 
                 exec(f'self.ids.result_{count+1}.text = "{new_text}"')
-
-                
             
             if recipeCollect != None:
                 recipeCollect.insert_many(result)
-
-
-
 
 
 class SignUpScreen(Screen):
@@ -889,6 +1047,7 @@ class RexableApp(App):
         self.sm.add_widget(AboutScreen(name='about_screen'))
         self.sm.add_widget(Recommendation(name='recommendation'))
         self.sm.add_widget(MeatCategory(name='meat_category'))
+        self.sm.add_widget(SeafoodCategory(name='seafood_category'))
 
         try:
             RexableApp.store.get('credentials')['username']
