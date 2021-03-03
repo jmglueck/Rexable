@@ -1071,6 +1071,208 @@ Builder.load_string("""
 
 
 
+
+
+<DrinksCategory>
+    name: 'drinks_category'
+    canvas.before:
+        Color:
+            rgba: 0, 0, 102, 0.2
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    size_hint: (1, 1)
+
+
+    BoxLayout:
+        orientation: 'horizontal'
+
+        Button:
+            text: 'Beer'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('beer')
+
+
+        Button:
+            text: 'Cocktails'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('cocktails')
+
+        Button:
+            text: 'Wine'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('wine')
+
+        Button:
+            text: 'Hot Chocolate'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('Hot Chocolate')
+
+
+        Button:
+            text: 'Coffee'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('Coffee')
+
+        Button:
+            text: 'Milk'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('Milk')
+            
+        Button:
+            text: 'Tea'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('Tea')
+
+
+
+        Button:
+            text: 'Apple Juice'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('apple juice')
+
+            
+
+        Button:
+            text: 'Orange Juice'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('orange juice')
+
+        Button:
+            text: 'Lemonade'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('lemonade')
+
+
+        Button:
+            text: 'Soda'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('Soda')
+
+
+        Button:
+            text: 'Search More'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.manager.current = 'main_screen'
+
+
+        Button:
+            text: 'Back'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.manager.current = 'recommendation'
+
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 25
+        size_hint: (0.6, 0.65)
+        pos_hint:{'center_x': 0.6, 'center_y': 0.4}
+        Label:
+            id: result_1
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+        Label:
+            id: result_2
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+        Label:
+            id: result_3
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+        Label:
+            id: result_4
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+        Label:
+            id: result_5
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+        Label:
+            id: result_6
+            text: ''
+            size_hint: (0.8,0.5)
+        Label:
+            id: result_7
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+        Label:
+            id: result_8
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+        Label:
+            id: result_9
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+        Label:
+            id: result_10
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+
+
+
 <Recommendation>:
 
     name: 'recommendation'
@@ -1118,7 +1320,7 @@ Builder.load_string("""
             size_hint: (0.5,0.9)
             background_normal: ''
             background_color: 102, 102, 153, 0.4
-            on_release: root.drinks()
+            on_release: root.manager.current = 'drinks_category'
 
         Button:
             text: 'Dessert'
@@ -1267,9 +1469,11 @@ class RecipeSearchBar(BoxLayout):
 
                 exec(f'self.ids.result_{count+1}.text = "{new_text}"')
 
-            if recipeCollect != None:
+            if recipeCollect != None and result !=[]:
+                print(result)
                 recipeCollect.insert_many(result)
-
+            else:
+                self.ids.result_1.text = 'No Result'
 
 
             self.ids.text_input.text = ''
@@ -1340,9 +1544,11 @@ class MeatCategory(Screen):
 
                 exec(f'self.ids.result_{count+1}.text = "{new_text}"')
             
-            if recipeCollect != None:
+            if recipeCollect != None and result !=[]:
                 recipeCollect.insert_many(result)
-
+            else:
+                self.ids.result_1.text = 'No Result'
+                
 
 class SeafoodCategory(Screen):
 
@@ -1375,9 +1581,10 @@ class SeafoodCategory(Screen):
 
                 exec(f'self.ids.result_{count+1}.text = "{new_text}"')
             
-            if recipeCollect != None:
+            if recipeCollect != None and result !=[]:
                 recipeCollect.insert_many(result)
-
+            else:
+                self.ids.result_1.text = 'No Result'
 
 
 class VegetableCategory(Screen):
@@ -1411,10 +1618,11 @@ class VegetableCategory(Screen):
 
                 exec(f'self.ids.result_{count+1}.text = "{new_text}"')
             
-            if recipeCollect != None:
+            if recipeCollect != None and result !=[]:
                 recipeCollect.insert_many(result)
 
-
+            else:
+                self.ids.result_1.text = 'No Result'
 
 
 class FruitCategory(Screen):
@@ -1448,8 +1656,49 @@ class FruitCategory(Screen):
 
                 exec(f'self.ids.result_{count+1}.text = "{new_text}"')
             
-            if recipeCollect != None:
+            if recipeCollect != None and result !=[]:
                 recipeCollect.insert_many(result)
+            else:
+                self.ids.result_1.text = 'No Result'
+
+
+class DrinksCategory(Screen):
+
+    def start_search(self,query):
+
+        query = query.lower()
+        
+        database_result = recipeCollect.find({"search_query": query}).limit(10)
+        
+        self.result = database_result
+
+        if database_result.count() != 0:
+            for count,i in enumerate(database_result):
+
+                new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
+                
+                exec(f'self.ids.result_{count+1}.text = "{new_text}"')
+
+        else:
+        
+            result = search(query)
+            self.result = result
+
+
+            ten_results = result[:10]
+
+            for count,i in enumerate(ten_results):
+
+                new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
+
+                exec(f'self.ids.result_{count+1}.text = "{new_text}"')
+            
+            if recipeCollect != None and result !=[]:
+                recipeCollect.insert_many(result)
+
+            else:
+                self.ids.result_1.text = 'No Result'
+                
 
 
 class SignUpScreen(Screen):
@@ -1561,7 +1810,7 @@ class RexableApp(App):
         self.sm.add_widget(SeafoodCategory(name='seafood_category'))
         self.sm.add_widget(VegetableCategory(name='vegetable_category'))
         self.sm.add_widget(FruitCategory(name='fruit_category'))
-
+        self.sm.add_widget(DrinksCategory(name='drinks_category'))
 
     
         try:
