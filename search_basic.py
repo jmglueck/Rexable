@@ -30,19 +30,24 @@ def search(query):
 
     for number_of_result in range(total_result):
 
-        calories = response.json()["hits"][number_of_result]["recipe"]["calories"]
-        ingredient_list = response.json()["hits"][number_of_result]["recipe"]["ingredientLines"]
-        food_label = response.json()["hits"][number_of_result]["recipe"]["label"]
-        image_link = response.json()["hits"][number_of_result]["recipe"]["image"]
+        try:
+            calories = response.json()["hits"][number_of_result]["recipe"]["calories"]
+            ingredient_list = response.json()["hits"][number_of_result]["recipe"]["ingredientLines"]
+            food_label = response.json()["hits"][number_of_result]["recipe"]["label"]
+            image_link = response.json()["hits"][number_of_result]["recipe"]["image"]
 
+            result_dict['search_query'] = query
+            result_dict['recipe_name'] = food_label
+            result_dict['calories'] = "{:.0f}".format(calories)
+            result_dict['ingredient'] = ingredient_list
+            result_dict['image_link'] = image_link
+            result_list.append(result_dict)
+            result_dict = {}
 
-        result_dict['search_query'] = query
-        result_dict['recipe_name'] = food_label
-        result_dict['calories'] = "{:.0f}".format(calories)
-        result_dict['ingredient'] = ingredient_list
-        result_dict['image_link'] = image_link
-        result_list.append(result_dict)
-        result_dict = {}
+        except IndexError:
+            print(f'Only {number_of_result} results')
+            break
+        
 ##        print()
 ##        
 ##        print("Recipe Name: " + food_label)
