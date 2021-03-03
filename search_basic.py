@@ -20,12 +20,12 @@ def search(query):
     total_result = 50
     API_ID = '278937dd'
     API_KEY = 'd3c394fe3da45b85e2c2dc534748b4b8'
-    PATH = f'https://api.edamam.com/search?q={query}&app_id={API_ID}&app_key={API_KEY}&hits=recipe[ingredients]&from=0&to={total_result}'
+    PATH = f'https://api.edamam.com/search?q={query}&app_id={API_ID}&app_key={API_KEY}&from=0&to={total_result}'
 
 
 
     response = requests.get(PATH)
-    # jprint(response.json())
+##    jprint(response.json())
 
 
     for number_of_result in range(total_result):
@@ -65,11 +65,13 @@ def search(query):
             result_dict = {}
 
         except IndexError:
+            print(ke)
             print(f'Only {number_of_result} results')
             break
-        except KeyError:
-            print(f'5 Queries/Minute REACHED, please wait...')
-            break
+        except KeyError as ke:
+            print(food_label + 'is missing '+str(ke))
+##            print(f'5 Queries/Minute REACHED, please wait...')
+            continue
         
 ##        print()
 ##        
