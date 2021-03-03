@@ -35,12 +35,18 @@ def search(query):
             ingredient_list = response.json()["hits"][number_of_result]["recipe"]["ingredientLines"]
             food_label = response.json()["hits"][number_of_result]["recipe"]["label"]
             image_link = response.json()["hits"][number_of_result]["recipe"]["image"]
+            source = response.json()["hits"][number_of_result]["recipe"]["url"]
+            health_labels = response.json()["hits"][number_of_result]["recipe"]["healthLabels"]
+            diet_labels = response.json()["hits"][number_of_result]["recipe"]["dietLabels"]
 
             result_dict['search_query'] = query
             result_dict['recipe_name'] = food_label
             result_dict['calories'] = "{:.0f}".format(calories)
             result_dict['ingredient'] = ingredient_list
             result_dict['image_link'] = image_link
+            result_dict['source_url'] = source
+            result_dict['tags'] = health_labels
+            result_dict['diet'] = diet_labels
             result_list.append(result_dict)
             result_dict = {}
 
