@@ -47,6 +47,9 @@ def search(query):
         except IndexError:
             print(f'Only {number_of_result} results')
             break
+        except KeyError:
+            print(f'5 Queries/Minute REACHED, please wait...')
+            break
         
 ##        print()
 ##        
