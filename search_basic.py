@@ -38,6 +38,12 @@ def search(query):
             source = response.json()["hits"][number_of_result]["recipe"]["url"]
             health_labels = response.json()["hits"][number_of_result]["recipe"]["healthLabels"]
             diet_labels = response.json()["hits"][number_of_result]["recipe"]["dietLabels"]
+            meal_type = response.json()["hits"][number_of_result]["recipe"]["mealType"][0]
+            dish_type = response.json()["hits"][number_of_result]["recipe"]["dishType"][0]
+            fat_content = response.json()["hits"][number_of_result]["recipe"]["totalNutrients"]["FAT"]
+            carb_content = response.json()["hits"][number_of_result]["recipe"]["totalNutrients"]["CHOCDF"]
+            sugar_content = response.json()["hits"][number_of_result]["recipe"]["totalNutrients"]["SUGAR"]
+            salt_content = response.json()["hits"][number_of_result]["recipe"]["totalNutrients"]["NA"]
 
             result_dict['search_query'] = query
             result_dict['recipe_name'] = food_label
@@ -47,6 +53,14 @@ def search(query):
             result_dict['source_url'] = source
             result_dict['tags'] = health_labels
             result_dict['diet'] = diet_labels
+            result_dict['meal_type'] = meal_type
+            result_dict['dish_type'] = dish_type
+            result_dict['fat_content'] = fat_content
+            result_dict['carb_content'] = carb_content
+            result_dict['sugar_content'] = sugar_content
+            result_dict['salt_content'] = salt_content
+
+
             result_list.append(result_dict)
             result_dict = {}
 
