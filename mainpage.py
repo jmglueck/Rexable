@@ -1273,6 +1273,186 @@ Builder.load_string("""
 
 
 
+<DessertCategory>
+    name: 'dessert_category'
+    canvas.before:
+        Color:
+            rgba: 0, 0, 102, 0.2
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    size_hint: (1, 1)
+
+
+    BoxLayout:
+        orientation: 'horizontal'
+
+        Button:
+            text: 'Cake'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('cake')
+
+
+        Button:
+            text: 'Candy'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('candy')
+
+        Button:
+            text: 'Cookie'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('cookie')
+
+        Button:
+            text: 'Custard'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('custard')
+
+
+        Button:
+            text: 'Donut'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('donut')
+
+        Button:
+            text: 'Ice Cream'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('ice cream')
+            
+        Button:
+            text: 'Pastry'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('pastry')
+
+
+
+        Button:
+            text: 'Pie'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('pie')
+
+            
+
+        Button:
+            text: 'Pudding'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.start_search('pudding')
+
+      
+        Button:
+            text: 'Search More'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.manager.current = 'main_screen'
+
+
+        Button:
+            text: 'Back'
+            pos_hint:{'center_x':0,'center_y':1}
+            text_size: self.width - dp(10), self.height - dp(10)
+            size_hint: (0.3,0.2)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.manager.current = 'recommendation'
+
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 25
+        size_hint: (0.6, 0.65)
+        pos_hint:{'center_x': 0.6, 'center_y': 0.4}
+        Label:
+            id: result_1
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+        Label:
+            id: result_2
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+        Label:
+            id: result_3
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+        Label:
+            id: result_4
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+        Label:
+            id: result_5
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+        Label:
+            id: result_6
+            text: ''
+            size_hint: (0.8,0.5)
+        Label:
+            id: result_7
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+        Label:
+            id: result_8
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+        Label:
+            id: result_9
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+        Label:
+            id: result_10
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+
+
 <Recommendation>:
 
     name: 'recommendation'
@@ -1313,8 +1493,6 @@ Builder.load_string("""
             background_color: 102, 102, 153, 0.4
             on_release: root.manager.current = 'fruit_category'
 
-
-
         Button:
             text: 'Drinks'
             size_hint: (0.5,0.9)
@@ -1327,7 +1505,7 @@ Builder.load_string("""
             size_hint: (0.5,0.9)
             background_normal: ''
             background_color: 102, 102, 153, 0.4
-            on_release: root.dessert()
+            on_release: root.manager.current = 'dessert_category'
 
         Button:
             text: 'Back'
@@ -1700,6 +1878,42 @@ class DrinksCategory(Screen):
                 self.ids.result_1.text = 'No Result'
                 
 
+class DessertCategory(Screen):
+
+    def start_search(self,query):
+
+        query = query.lower()
+        
+        database_result = recipeCollect.find({"search_query": query}).limit(10)
+        
+        self.result = database_result
+
+        if database_result.count() != 0:
+            for count,i in enumerate(database_result):
+
+                new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
+                
+                exec(f'self.ids.result_{count+1}.text = "{new_text}"')
+
+        else:
+        
+            result = search(query)
+            self.result = result
+
+
+            ten_results = result[:10]
+
+            for count,i in enumerate(ten_results):
+
+                new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
+
+                exec(f'self.ids.result_{count+1}.text = "{new_text}"')
+            
+            if recipeCollect != None and result !=[]:
+                recipeCollect.insert_many(result)
+
+            else:
+                self.ids.result_1.text = 'No Result'
 
 class SignUpScreen(Screen):
     def __init__(self):
@@ -1811,7 +2025,10 @@ class RexableApp(App):
         self.sm.add_widget(VegetableCategory(name='vegetable_category'))
         self.sm.add_widget(FruitCategory(name='fruit_category'))
         self.sm.add_widget(DrinksCategory(name='drinks_category'))
+        self.sm.add_widget(DessertCategory(name='dessert_category'))
 
+
+        
     
         try:
             RexableApp.store.get('credentials')['username']

@@ -45,13 +45,13 @@ def search(query):
                 meal_type = response.json()["hits"][number_of_result]["recipe"]["mealType"][0]
             except KeyError as ke:
                 meal_type = None
-                print(food_label + 'is missing '+str(ke))
+                print(food_label + ' is missing '+str(ke))
 
             try:
                 dish_type = response.json()["hits"][number_of_result]["recipe"]["dishType"][0]
             except KeyError as ke:
                 dish_type = None
-                print(food_label + 'is missing '+str(ke))
+                print(food_label + ' is missing '+str(ke))
             fat_content = response.json()["hits"][number_of_result]["recipe"]["totalNutrients"]["FAT"]
             carb_content = response.json()["hits"][number_of_result]["recipe"]["totalNutrients"]["CHOCDF"]
             sugar_content = response.json()["hits"][number_of_result]["recipe"]["totalNutrients"]["SUGAR"]
@@ -80,7 +80,7 @@ def search(query):
             print(f'Only {number_of_result} results')
             break
         except KeyError as ke:
-            print(food_label + 'is missing '+str(ke))
+            print(food_label + ' is missing '+str(ke))
 ##            print(f'5 Queries/Minute REACHED, please wait...')
             continue
         
