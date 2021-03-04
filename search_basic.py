@@ -30,6 +30,8 @@ def search(query):
 
     for number_of_result in range(total_result):
 
+        
+
         try:
             calories = response.json()["hits"][number_of_result]["recipe"]["calories"]
             ingredient_list = response.json()["hits"][number_of_result]["recipe"]["ingredientLines"]
@@ -38,8 +40,18 @@ def search(query):
             source = response.json()["hits"][number_of_result]["recipe"]["url"]
             health_labels = response.json()["hits"][number_of_result]["recipe"]["healthLabels"]
             diet_labels = response.json()["hits"][number_of_result]["recipe"]["dietLabels"]
-            meal_type = response.json()["hits"][number_of_result]["recipe"]["mealType"][0]
-            dish_type = response.json()["hits"][number_of_result]["recipe"]["dishType"][0]
+
+            try:
+                meal_type = response.json()["hits"][number_of_result]["recipe"]["mealType"][0]
+            except KeyError as ke:
+                meal_type = None
+                print(food_label + 'is missing '+str(ke))
+
+            try:
+                dish_type = response.json()["hits"][number_of_result]["recipe"]["dishType"][0]
+            except KeyError as ke:
+                dish_type = None
+                print(food_label + 'is missing '+str(ke))
             fat_content = response.json()["hits"][number_of_result]["recipe"]["totalNutrients"]["FAT"]
             carb_content = response.json()["hits"][number_of_result]["recipe"]["totalNutrients"]["CHOCDF"]
             sugar_content = response.json()["hits"][number_of_result]["recipe"]["totalNutrients"]["SUGAR"]
@@ -65,7 +77,6 @@ def search(query):
             result_dict = {}
 
         except IndexError:
-            print(ke)
             print(f'Only {number_of_result} results')
             break
         except KeyError as ke:
