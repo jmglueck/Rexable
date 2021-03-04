@@ -2,6 +2,7 @@ from kivy.app import App
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
+from kivy.uix.behaviors import ButtonBehavior
 from kivy.lang import Builder
 from kivy.uix.dropdown import DropDown
 from kivy.graphics import Color, Rectangle, Line
@@ -312,135 +313,85 @@ Builder.load_string("""
                 font_size: '18sp'
                 text_size: self.width - dp(5), self.height - dp(5)
                 on_release: root.start_search()
-
-        BoxLayout:
-
-            orientation: 'vertical'
-            AsyncImage:
-                id: img_1
-                source: ''
-                pos_hint:{'center_x':0.7,'center_y':0.7}
-                
-            AsyncImage:
-                id: img_2
-                source: ''
-                pos_hint:{'center_x':0.7,'center_y':0.7}
-
-
-
-            AsyncImage:
-                id: img_3
-                source: ''
-                pos_hint:{'center_x':0.7,'center_y':0.7}
-
-
-            AsyncImage:
-                id: img_4
-                source: ''
-                pos_hint:{'center_x':0.7,'center_y':0.7}
-
-
-            AsyncImage:
-                id: img_5
-                source: ''
-                pos_hint:{'center_x':0.7,'center_y':0.7}
-
-
-            AsyncImage:
-                id: img_6
-                source: ''
-                pos_hint:{'center_x':0.7,'center_y':0.7}
-
-
-
-            AsyncImage:
-                id: img_7
-                source: ''
-                pos_hint:{'center_x':0.7,'center_y':0.7}
-
-
-            AsyncImage:
-                id: img_8
-                source: ''
-                pos_hint:{'center_x':0.7,'center_y':0.7}
-
-
-
-            AsyncImage:
-                id: img_9
-                source: ''
-                pos_hint:{'center_x':0.7,'center_y':0.7}
-
-
-            AsyncImage:
-                id: img_10
-                source: ''
-                pos_hint:{'center_x':0.7,'center_y':0.7}
         
         BoxLayout:
             orientation: 'vertical'
             spacing: 20
 
-            Label:
+            ClickableLabel:
                 id: result_1
                 pos_hint:{'center_x':0.5,'center_y':0.7}
-                text: ''
-                halign: 'left'
+                on_press: root.parent.parent.manager.current = 'recipe_screen'
 
-            Label:
+            ClickableLabel:
                 id: result_2
                 pos_hint:{'center_x':0.5,'center_y':0.7}
                 text: ''
                 halign: 'left'
+                on_press: root.parent.parent.manager.current = 'recipe_screen'
 
-            Label:
+
+
+            ClickableLabel:
                 id: result_3
                 pos_hint:{'center_x':0.5,'center_y':0.7}
                 text: ''
                 halign: 'left'
+                on_press: root.parent.parent.manager.current = 'recipe_screen'
 
-            Label:
+
+            ClickableLabel:
                 id: result_4
                 pos_hint:{'center_x':0.5,'center_y':0.6}
                 text: ''
                 halign: 'left'
+                on_press: root.parent.parent.manager.current = 'recipe_screen'
 
-            Label:
+            ClickableLabel:
                 id: result_5
                 pos_hint:{'center_x':0.5,'center_y':0.5}
                 text: ''
                 halign: 'left'
+                on_press: root.parent.parent.manager.current = 'recipe_screen'
 
-            Label:
+            ClickableLabel:
                 id: result_6
                 pos_hint:{'center_x':0.5,'center_y':0.4}
                 text: ''
+                on_press: root.parent.parent.manager.current = 'recipe_screen'
 
-            Label:
+            ClickableLabel:
                 id: result_7
                 pos_hint:{'center_x':0.5,'center_y':0.3}
                 text: ''
                 halign: 'left'
+                on_press: root.parent.parent.manager.current = 'recipe_screen'
 
-            Label:
+            ClickableLabel:
                 id: result_8
                 pos_hint:{'center_x':0.5,'center_y':0.2}
                 text: ''
                 halign: 'left'
+                on_press: root.parent.parent.manager.current = 'recipe_screen'
 
 
-            Label:
+            ClickableLabel:
                 id: result_9
                 pos_hint:{'center_x':0.5,'center_y':0.1}
                 text: ''
                 halign: 'left'
+                on_press: root.parent.parent.manager.current = 'recipe_screen'
 
-            Label:
+            ClickableLabel:
                 id: result_10
                 pos_hint:{'center_x':0.5,'center_y':0.0}
                 text: ''
                 halign: 'left'
+                on_press: root.parent.parent.manager.current = 'recipe_screen'
 
+<ClickableLabel@ButtonBehavior+Label>:
+    text: ''
+    halign: 'left'
 
 <MeatCategory>
     name: 'meat_category'
@@ -2066,6 +2017,9 @@ Builder.load_string("""
 
 """)
 
+class ClickableLabel(ButtonBehavior, Label):
+    pass
+
 
 class DietDropDown(Button):
     def diet_dropdown(self):
@@ -2103,7 +2057,7 @@ class RecipeSearchBar(BoxLayout):
                 new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
                 img_link = i["image_link"]
                 exec(f'self.ids.result_{count+1}.text = "{new_text}"')
-                exec(f'self.ids.img_{count+1}.source = "{img_link}"')
+                #exec(f'self.ids.img_{count+1}.source = "{img_link}"')
                 
             self.ids.text_input.text = ''
 
@@ -2120,7 +2074,7 @@ class RecipeSearchBar(BoxLayout):
                 new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
                 img_link = i["image_link"]
                 exec(f'self.ids.result_{count+1}.text = "{new_text}"')
-                exec(f'self.ids.img_{count+1}.source = "{img_link}"')
+                #exec(f'self.ids.img_{count+1}.source = "{img_link}"')
 
             if recipeCollect != None and result !=[]:
                 print(result)
@@ -2130,6 +2084,7 @@ class RecipeSearchBar(BoxLayout):
 
 
             self.ids.text_input.text = ''
+            
 
 class Recommendation(Screen):
 
