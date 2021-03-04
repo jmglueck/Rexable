@@ -2052,16 +2052,13 @@ Builder.load_string("""
                 on_press: root.logout()
 
 
+
+
+
 <RecommendationLayout>:
     size_hint: (0.5, 0.5)
     height: 100
     width: 100
-
-<RecipeScreen>:
-    BoxLayout:
-        orientation: 'vertical'
-        Label:
-            text: 'Test'
 
 """)
 
@@ -2438,9 +2435,6 @@ class SignUpScreen(Screen):
         self.parent.current = "main_screen"
 
 
-class RecipeScreen(Screen):
-    #add RecycleView later
-    pass
 
 class SettingsScreen(Screen):
     pass
