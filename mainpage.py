@@ -2052,13 +2052,17 @@ Builder.load_string("""
                 on_press: root.logout()
 
 
-
-
-
 <RecommendationLayout>:
     size_hint: (0.5, 0.5)
     height: 100
     width: 100
+
+<RecipeScreen>:
+    name: 'recipe_screen'
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: 'Test'
 
 """)
 
@@ -2435,6 +2439,8 @@ class SignUpScreen(Screen):
         self.parent.current = "main_screen"
 
 
+class RecipeScreen(Screen):
+    pass #add RecycleView later
 
 class SettingsScreen(Screen):
     pass
@@ -2506,6 +2512,7 @@ class RexableApp(App):
         self.sm.add_widget(FruitCategory(name='fruit_category'))
         self.sm.add_widget(DrinksCategory(name='drinks_category'))
         self.sm.add_widget(DessertCategory(name='dessert_category'))
+        self.sm.add_widget(RecipeScreen(name='recipe_screen'))
 
 
         
