@@ -11,6 +11,7 @@ from kivy.uix.label import Label
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
+from kivy.loader import Loader
 from pymongo import MongoClient,errors
 from search_basic import search
 
@@ -313,9 +314,73 @@ Builder.load_string("""
                 on_release: root.start_search()
 
         BoxLayout:
+
             orientation: 'vertical'
-            size_hint: (1, 0.5)
+            AsyncImage:
+                id: img_1
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+                
+            AsyncImage:
+                id: img_2
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+
+            AsyncImage:
+                id: img_3
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_4
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_5
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_6
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+
+            AsyncImage:
+                id: img_7
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_8
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+
+            AsyncImage:
+                id: img_9
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_10
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+        
+        BoxLayout:
+            orientation: 'vertical'
             spacing: 20
+
             Label:
                 id: result_1
                 pos_hint:{'center_x':0.5,'center_y':0.7}
@@ -456,6 +521,71 @@ Builder.load_string("""
             background_color: 102, 102, 153, 0.4
             on_release: root.manager.current = 'recommendation'
 
+
+        BoxLayout:
+
+            orientation: 'vertical'
+            AsyncImage:
+                id: img_1
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+                
+            AsyncImage:
+                id: img_2
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+
+            AsyncImage:
+                id: img_3
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_4
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_5
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_6
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+
+            AsyncImage:
+                id: img_7
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_8
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+
+            AsyncImage:
+                id: img_9
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_10
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
     BoxLayout:
         orientation: 'vertical'
         spacing: 25
@@ -593,6 +723,73 @@ Builder.load_string("""
             background_normal: ''
             background_color: 102, 102, 153, 0.4
             on_release: root.manager.current = 'recommendation'
+
+
+        BoxLayout:
+
+            orientation: 'vertical'
+            AsyncImage:
+                id: img_1
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+                
+            AsyncImage:
+                id: img_2
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+
+            AsyncImage:
+                id: img_3
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_4
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_5
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_6
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+
+            AsyncImage:
+                id: img_7
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_8
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+
+            AsyncImage:
+                id: img_9
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_10
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
 
     BoxLayout:
         orientation: 'vertical'
@@ -771,6 +968,73 @@ Builder.load_string("""
             background_normal: ''
             background_color: 102, 102, 153, 0.4
             on_release: root.manager.current = 'recommendation'
+
+
+        BoxLayout:
+
+            orientation: 'vertical'
+            AsyncImage:
+                id: img_1
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+                
+            AsyncImage:
+                id: img_2
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+
+            AsyncImage:
+                id: img_3
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_4
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_5
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_6
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+
+            AsyncImage:
+                id: img_7
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_8
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+
+            AsyncImage:
+                id: img_9
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_10
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
 
     BoxLayout:
         orientation: 'vertical'
@@ -1013,6 +1277,74 @@ Builder.load_string("""
             background_color: 102, 102, 153, 0.4
             on_release: root.manager.current = 'recommendation'
 
+
+        BoxLayout:
+
+            orientation: 'vertical'
+            AsyncImage:
+                id: img_1
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+                
+            AsyncImage:
+                id: img_2
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+
+            AsyncImage:
+                id: img_3
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_4
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_5
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_6
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+
+            AsyncImage:
+                id: img_7
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_8
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+
+            AsyncImage:
+                id: img_9
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_10
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+
+
     BoxLayout:
         orientation: 'vertical'
         spacing: 25
@@ -1214,6 +1546,75 @@ Builder.load_string("""
             background_color: 102, 102, 153, 0.4
             on_release: root.manager.current = 'recommendation'
 
+
+
+        BoxLayout:
+
+            orientation: 'vertical'
+            AsyncImage:
+                id: img_1
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+                
+            AsyncImage:
+                id: img_2
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+
+            AsyncImage:
+                id: img_3
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_4
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_5
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_6
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+
+            AsyncImage:
+                id: img_7
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_8
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+
+            AsyncImage:
+                id: img_9
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_10
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+
+
     BoxLayout:
         orientation: 'vertical'
         spacing: 25
@@ -1394,6 +1795,73 @@ Builder.load_string("""
             background_normal: ''
             background_color: 102, 102, 153, 0.4
             on_release: root.manager.current = 'recommendation'
+
+
+        BoxLayout:
+
+            orientation: 'vertical'
+            AsyncImage:
+                id: img_1
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+                
+            AsyncImage:
+                id: img_2
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+
+            AsyncImage:
+                id: img_3
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_4
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_5
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_6
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+
+            AsyncImage:
+                id: img_7
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_8
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+
+            AsyncImage:
+                id: img_9
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
+            AsyncImage:
+                id: img_10
+                source: ''
+                pos_hint:{'center_x':0.7,'center_y':0.7}
+
+
 
     BoxLayout:
         orientation: 'vertical'
@@ -1625,12 +2093,14 @@ class RecipeSearchBar(BoxLayout):
        
         
         if database_result.count() != 0:
+
             for count,i in enumerate(database_result):
 
                 new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
-                
+                img_link = i["image_link"]
                 exec(f'self.ids.result_{count+1}.text = "{new_text}"')
-
+                exec(f'self.ids.img_{count+1}.source = "{img_link}"')
+                
             self.ids.text_input.text = ''
 
 
@@ -1644,8 +2114,9 @@ class RecipeSearchBar(BoxLayout):
             for count,i in enumerate(ten_results):
 
                 new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
-
+                img_link = i["image_link"]
                 exec(f'self.ids.result_{count+1}.text = "{new_text}"')
+                exec(f'self.ids.img_{count+1}.source = "{img_link}"')
 
             if recipeCollect != None and result !=[]:
                 print(result)
@@ -1705,8 +2176,9 @@ class MeatCategory(Screen):
             for count,i in enumerate(database_result):
 
                 new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
-                
+                img_link = i["image_link"]
                 exec(f'self.ids.result_{count+1}.text = "{new_text}"')
+                exec(f'self.ids.img_{count+1}.source = "{img_link}"')
 
         else:
         
@@ -1719,8 +2191,9 @@ class MeatCategory(Screen):
             for count,i in enumerate(ten_results):
 
                 new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
-
+                img_link = i["image_link"]
                 exec(f'self.ids.result_{count+1}.text = "{new_text}"')
+                exec(f'self.ids.img_{count+1}.source = "{img_link}"')
             
             if recipeCollect != None and result !=[]:
                 recipeCollect.insert_many(result)
@@ -1742,8 +2215,9 @@ class SeafoodCategory(Screen):
             for count,i in enumerate(database_result):
 
                 new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
-                
+                img_link = i["image_link"]
                 exec(f'self.ids.result_{count+1}.text = "{new_text}"')
+                exec(f'self.ids.img_{count+1}.source = "{img_link}"')
 
         else:
         
@@ -1756,8 +2230,9 @@ class SeafoodCategory(Screen):
             for count,i in enumerate(ten_results):
 
                 new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
-
+                img_link = i["image_link"]
                 exec(f'self.ids.result_{count+1}.text = "{new_text}"')
+                exec(f'self.ids.img_{count+1}.source = "{img_link}"')
             
             if recipeCollect != None and result !=[]:
                 recipeCollect.insert_many(result)
@@ -1779,8 +2254,9 @@ class VegetableCategory(Screen):
             for count,i in enumerate(database_result):
 
                 new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
-                
+                img_link = i["image_link"]
                 exec(f'self.ids.result_{count+1}.text = "{new_text}"')
+                exec(f'self.ids.img_{count+1}.source = "{img_link}"')
 
         else:
         
@@ -1793,12 +2269,12 @@ class VegetableCategory(Screen):
             for count,i in enumerate(ten_results):
 
                 new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
-
+                img_link = i["image_link"]
                 exec(f'self.ids.result_{count+1}.text = "{new_text}"')
+                exec(f'self.ids.img_{count+1}.source = "{img_link}"')
             
             if recipeCollect != None and result !=[]:
                 recipeCollect.insert_many(result)
-
             else:
                 self.ids.result_1.text = 'No Result'
 
@@ -1817,8 +2293,9 @@ class FruitCategory(Screen):
             for count,i in enumerate(database_result):
 
                 new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
-                
+                img_link = i["image_link"]
                 exec(f'self.ids.result_{count+1}.text = "{new_text}"')
+                exec(f'self.ids.img_{count+1}.source = "{img_link}"')
 
         else:
         
@@ -1831,8 +2308,9 @@ class FruitCategory(Screen):
             for count,i in enumerate(ten_results):
 
                 new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
-
+                img_link = i["image_link"]
                 exec(f'self.ids.result_{count+1}.text = "{new_text}"')
+                exec(f'self.ids.img_{count+1}.source = "{img_link}"')
             
             if recipeCollect != None and result !=[]:
                 recipeCollect.insert_many(result)
@@ -1854,8 +2332,9 @@ class DrinksCategory(Screen):
             for count,i in enumerate(database_result):
 
                 new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
-                
+                img_link = i["image_link"]
                 exec(f'self.ids.result_{count+1}.text = "{new_text}"')
+                exec(f'self.ids.img_{count+1}.source = "{img_link}"')
 
         else:
         
@@ -1868,12 +2347,12 @@ class DrinksCategory(Screen):
             for count,i in enumerate(ten_results):
 
                 new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
-
+                img_link = i["image_link"]
                 exec(f'self.ids.result_{count+1}.text = "{new_text}"')
+                exec(f'self.ids.img_{count+1}.source = "{img_link}"')
             
             if recipeCollect != None and result !=[]:
                 recipeCollect.insert_many(result)
-
             else:
                 self.ids.result_1.text = 'No Result'
                 
@@ -1892,8 +2371,9 @@ class DessertCategory(Screen):
             for count,i in enumerate(database_result):
 
                 new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
-                
+                img_link = i["image_link"]
                 exec(f'self.ids.result_{count+1}.text = "{new_text}"')
+                exec(f'self.ids.img_{count+1}.source = "{img_link}"')
 
         else:
         
@@ -1906,12 +2386,12 @@ class DessertCategory(Screen):
             for count,i in enumerate(ten_results):
 
                 new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
-
+                img_link = i["image_link"]
                 exec(f'self.ids.result_{count+1}.text = "{new_text}"')
+                exec(f'self.ids.img_{count+1}.source = "{img_link}"')
             
             if recipeCollect != None and result !=[]:
                 recipeCollect.insert_many(result)
-
             else:
                 self.ids.result_1.text = 'No Result'
 
