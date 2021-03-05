@@ -4,6 +4,8 @@ from kivy.lang import Builder
 from kivy.metrics import dp
 from kivy.properties import ObjectProperty
 from kivy.uix.image import Image
+from kivy.storage.jsonstore import JsonStore
+from kivy.uix.image import AsyncImage
 
 from kivymd.bottomsheet import MDListBottomSheet, MDGridBottomSheet
 from kivymd.button import MDIconButton
@@ -18,7 +20,32 @@ from kivymd.snackbar import Snackbar
 from kivymd.theming import ThemeManager
 from kivymd.time_picker import MDTimePicker
 from basic_search import search
-from kivy.uix.image import AsyncImage
+
+
+from pymongo import MongoClient,errors
+
+try:
+    # try to instantiate a client instance
+    client = MongoClient(
+        host = [ "localhost:" + "27017" ],
+        serverSelectionTimeoutMS = 3000 # 3 second timeout
+    )
+    db = client["rexableDatabase"]
+    userCollect = db["users"]
+    recipeCollect = db["recipes"]
+
+    # print the version of MongoDB server if connection successful
+    print ("server version:", client.server_info()["version"])
+
+except errors.ServerSelectionTimeoutError as err:
+    # set the client and db names to 'None' and [] if exception
+    client = None
+    db = None
+    userCollect = None
+    recipeCollect = None
+
+    # catch pymongo.errors.ServerSelectionTimeoutError
+    print ("pymongo ERROR:", err)
 
 main_widget_kv = '''
 #:import Toolbar kivymd.toolbar.Toolbar
@@ -65,7 +92,11 @@ NavigationLayout:
 
         NavigationDrawerIconButton:
             icon: 'checkbox-blank-circle'
-            text: "Toolbars"
+            text: "Main"
+            on_release: app.root.ids.scr_mngr.current = 'main_screen'
+        NavigationDrawerIconButton:
+            icon: 'checkbox-blank-circle'
+            text: "Search"
             on_release: app.root.ids.scr_mngr.current = 'search'
 
     BoxLayout:
@@ -95,22 +126,67 @@ NavigationLayout:
                             spacing: 30
                             MDTextField:
                                 hint_text: "Username"
+                                id:username
                             MDTextField:
                                 hint_text: "Password"
+                                id:password
                             MDRaisedButton:
                                 text: "          Sign in          "
                                 opposite_colors: True
                                 size_hint: None, None
                                 size: 4 * dp(32), dp(32)
                                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                                on_release: app.root.ids.scr_mngr.current = 'search'
+                                on_release: app.log_in()
                             MDRaisedButton:
                                 text: "Create account"
                                 opposite_colors: True
                                 size_hint: None, None
                                 size: 4 * dp(32), dp(32)
                                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                                on_release: app.root.ids.scr_mngr.current = 'create_account'
+                                on_release: app.change_screen('create_account')
+            Screen:
+                name: 'main_screen'
+                BoxLayout:
+                    orientation: 'vertical'
+                    Toolbar:
+                        id: toolbar
+                        title: 'Rexable'
+                        md_bg_color: app.theme_cls.primary_color
+                        background_palette: 'Primary'
+                        background_hue: '500'
+                        left_action_items: [['menu', lambda x: app.root.toggle_nav_drawer()]]
+                        right_action_items: [['dots-vertical', lambda x: app.show_bottom_sheet()]]
+
+
+                    BoxLayout:
+                        height: self.minimum_height
+                        spacing: 30
+                        size_hint_y: None
+                        height: self.minimum_height
+                        padding: dp(20)
+                        MDTextField:
+                            hint_text: "Search some thing"
+                            id:search_text
+                        MDRaisedButton:
+                            text: "Search"
+                            opposite_colors: True
+                            size_hint: None, None
+                            size: 4 * dp(32), dp(32)
+                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                            on_release: app.search()
+                 
+                    RecycleView:
+                        id: rv
+                        key_viewclass: 'viewclass'
+                        key_size: 'height'
+
+                        RecycleBoxLayout:
+                            padding: dp(12)
+                            default_size: None, dp(48)
+                            default_size_hint: 2, None
+                            size_hint_y: None
+                            height: self.minimum_height
+                            orientation: 'vertical'
             Screen:
                 name: 'search'
                 BoxLayout:
@@ -177,8 +253,10 @@ NavigationLayout:
                             spacing: 30
                             MDTextField:
                                 hint_text: "Username"
+                                id:newusername
                             MDTextField:
                                 hint_text: "Password"
+                                id:newpassword
                             MDRaisedButton:
                                 text: "Create account"
                                 opposite_colors: True
@@ -196,38 +274,12 @@ class Rexable(App):
 
 
     def build(self):
+        self.logged_in = False
+        self.data_dir = self.user_data_dir
+        self.store = JsonStore('app_storage.json')
+        self.user_login = ["", ""]
         main_widget = Builder.load_string(main_widget_kv)
-
-
         return main_widget
-
-
-
-    def show_example_snackbar(self, snack_type):
-        if snack_type == 'simple':
-            Snackbar(text="This is a snackbar!").show()
-        elif snack_type == 'button':
-            Snackbar(text="This is a snackbar", button_text="with a button!", button_callback=lambda *args: 2).show()
-        elif snack_type == 'verylong':
-            Snackbar(text="This is a very very very very very very very long snackbar!").show()
-
-    def show_example_dialog(self):
-        content = MDLabel(font_style='Body1',
-                          theme_text_color='Secondary',
-                          text="This is a dialog with a title and some text. "
-                               "That's pretty awesome right!",
-                          size_hint_y=None,
-                          valign='top')
-        content.bind(texture_size=content.setter('size'))
-        self.dialog = MDDialog(title="This is a test dialog",
-                               content=content,
-                               size_hint=(.8, None),
-                               height=dp(200),
-                               auto_dismiss=False)
-
-        self.dialog.add_action_button("Dismiss",
-                                      action=lambda *x: self.dialog.dismiss())
-        self.dialog.open()
 
 
     def show_bottom_sheet(self):
@@ -246,11 +298,75 @@ class Rexable(App):
 
     def on_stop(self):
         pass
+
+    def log_in(self):
+        self.username = self.root.ids.username.text
+        self.password = self.root.ids.password.text
+        print(self.username+self.password)        
+        content = MDLabel(font_style='Body1',
+                          theme_text_color='Secondary',
+                          text="Please enter correct username and password ",
+                          size_hint_y=None,
+                          valign='top')
+        content.bind(texture_size=content.setter('size'))
+        dialog = MDDialog(title="Wrong username or password",
+                               content=content,
+                               size_hint=(.8, None),
+                               height=dp(200),
+                               auto_dismiss=False)
+
+        dialog.add_action_button("Dismiss",
+                                      action=lambda *x: dialog.dismiss())      
+        try:
+            results = userCollect.find_one({"username": self.username})
+            #if results == None:
+            #    self.parent.current = 'login_screen'
+            if results["password"] == self.password:
+                #this is just a preliminary password/username system; will add hashing and encryption later
+                self.store.put('credentials', username = self.username, password = self.password)
+                self.change_screen('search')
+            else:
+                dialog.open()  
+        except errors.CollectionInvalid:
+            dialog.open()  
+ 
     def log_out(self):
+        self.store.put('credentials', username = "", password = "")
         self.change_screen('log_in')
+ 
     def create_account(self):
-        self.change_screen('log_in')
+        username = self.root.ids.newusername.text
+        password = self.root.ids.newpassword.text
+        if userCollect != None:
+           the_dict = {"username": username, "password": password}
+
+           # "allergies": self.allergies,
+           # "cookingTime": self.cooking_time, "viewedRecipes": dict()}
+           userCollect.insert_one(the_dict)
+        self.store.put('credentials', username = username, password = password)
+        self.change_screen("main_screen")
+
     def search(self):
+        def show_search(recipe_name):
+            content = MDLabel(font_style='Body1',
+                              theme_text_color='Secondary',
+                              text="Add later",
+                              size_hint_y=None,
+                              valign='top')
+            content.bind(texture_size=content.setter('size'))
+            dialog = MDDialog(title=recipe_name,
+                                   content=content,
+                                   size_hint=(.8, None),
+                                   height=dp(200),
+                                   auto_dismiss=False)
+
+            dialog.add_action_button("Add to favourite",action=lambda x: dialog.dismiss()) 
+            dialog.add_action_button("close",action=lambda x: dialog.dismiss()) 
+
+
+            dialog.open()
+
+
         data = []
         result = search(self.root.ids.search_text.text)
         for i in range(len(result)):
@@ -258,6 +374,7 @@ class Rexable(App):
             item['text']=result[i]['recipe_name']
             item['secondary_text']=result[i]['calories']
             item['ImageLeftWidget']={'source':result[i]['image_link']}
+            item['on_release']=lambda *x:show_search(result[i]['recipe_name'])
             data.append(item)
         self.root.ids.rv.data = data
 
