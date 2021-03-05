@@ -321,14 +321,12 @@ Builder.load_string("""
             ClickableLabel:
                 id: result_1
                 pos_hint:{'center_x':0.5,'center_y':0.7}
-                on_press: root.parent.parent.manager.current = 'recipe_screen'
 
             ClickableLabel:
                 id: result_2
                 pos_hint:{'center_x':0.5,'center_y':0.7}
                 text: ''
                 halign: 'left'
-                on_press: root.parent.parent.manager.current = 'recipe_screen'
 
 
 
@@ -337,7 +335,6 @@ Builder.load_string("""
                 pos_hint:{'center_x':0.5,'center_y':0.7}
                 text: ''
                 halign: 'left'
-                on_press: root.parent.parent.manager.current = 'recipe_screen'
 
 
             ClickableLabel:
@@ -345,34 +342,29 @@ Builder.load_string("""
                 pos_hint:{'center_x':0.5,'center_y':0.6}
                 text: ''
                 halign: 'left'
-                on_press: root.parent.parent.manager.current = 'recipe_screen'
 
             ClickableLabel:
                 id: result_5
                 pos_hint:{'center_x':0.5,'center_y':0.5}
                 text: ''
                 halign: 'left'
-                on_press: root.parent.parent.manager.current = 'recipe_screen'
 
             ClickableLabel:
                 id: result_6
                 pos_hint:{'center_x':0.5,'center_y':0.4}
                 text: ''
-                on_press: root.parent.parent.manager.current = 'recipe_screen'
 
             ClickableLabel:
                 id: result_7
                 pos_hint:{'center_x':0.5,'center_y':0.3}
                 text: ''
                 halign: 'left'
-                on_press: root.parent.parent.manager.current = 'recipe_screen'
 
             ClickableLabel:
                 id: result_8
                 pos_hint:{'center_x':0.5,'center_y':0.2}
                 text: ''
                 halign: 'left'
-                on_press: root.parent.parent.manager.current = 'recipe_screen'
 
 
             ClickableLabel:
@@ -380,18 +372,17 @@ Builder.load_string("""
                 pos_hint:{'center_x':0.5,'center_y':0.1}
                 text: ''
                 halign: 'left'
-                on_press: root.parent.parent.manager.current = 'recipe_screen'
 
             ClickableLabel:
                 id: result_10
                 pos_hint:{'center_x':0.5,'center_y':0.0}
                 text: ''
                 halign: 'left'
-                on_press: root.parent.parent.manager.current = 'recipe_screen'
 
 <ClickableLabel@ButtonBehavior+Label>:
     text: ''
     halign: 'left'
+    on_press: app.goto_recipe_screen(self.data)
 
 <MeatCategory>
     name: 'meat_category'
@@ -542,52 +533,52 @@ Builder.load_string("""
         spacing: 25
         size_hint: (0.6, 0.65)
         pos_hint:{'center_x': 0.6, 'center_y': 0.4}
-        Label:
+        ClickableLabel:
             id: result_1
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_2
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
 
-        Label:
+        ClickableLabel:
             id: result_3
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_4
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_5
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_6
             text: ''
             size_hint: (0.8,0.5)
-        Label:
+        ClickableLabel:
             id: result_7
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_8
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_9
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_10
             text: ''
             size_hint: (0.8,0.5)
@@ -747,52 +738,52 @@ Builder.load_string("""
         spacing: 25
         size_hint: (0.6, 0.65)
         pos_hint:{'center_x': 0.6, 'center_y': 0.4}
-        Label:
+        ClickableLabel:
             id: result_1
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_2
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
 
-        Label:
+        ClickableLabel:
             id: result_3
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_4
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_5
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_6
             text: ''
             size_hint: (0.8,0.5)
-        Label:
+        ClickableLabel:
             id: result_7
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_8
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_9
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_10
             text: ''
             size_hint: (0.8,0.5)
@@ -992,52 +983,52 @@ Builder.load_string("""
         spacing: 25
         size_hint: (0.6, 0.65)
         pos_hint:{'center_x': 0.6, 'center_y': 0.4}
-        Label:
+        ClickableLabel:
             id: result_1
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_2
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
 
-        Label:
+        ClickableLabel:
             id: result_3
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_4
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_5
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_6
             text: ''
             size_hint: (0.8,0.5)
-        Label:
+        ClickableLabel:
             id: result_7
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_8
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_9
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_10
             text: ''
             size_hint: (0.8,0.5)
@@ -1301,52 +1292,52 @@ Builder.load_string("""
         spacing: 25
         size_hint: (0.6, 0.65)
         pos_hint:{'center_x': 0.6, 'center_y': 0.4}
-        Label:
+        ClickableLabel:
             id: result_1
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_2
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
 
-        Label:
+        ClickableLabel:
             id: result_3
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_4
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_5
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_6
             text: ''
             size_hint: (0.8,0.5)
-        Label:
+        ClickableLabel:
             id: result_7
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_8
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_9
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_10
             text: ''
             size_hint: (0.8,0.5)
@@ -1571,52 +1562,52 @@ Builder.load_string("""
         spacing: 25
         size_hint: (0.6, 0.65)
         pos_hint:{'center_x': 0.6, 'center_y': 0.4}
-        Label:
+        ClickableLabel:
             id: result_1
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_2
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
 
-        Label:
+        ClickableLabel:
             id: result_3
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_4
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_5
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_6
             text: ''
             size_hint: (0.8,0.5)
-        Label:
+        ClickableLabel:
             id: result_7
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_8
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_9
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_10
             text: ''
             size_hint: (0.8,0.5)
@@ -1819,52 +1810,52 @@ Builder.load_string("""
         spacing: 25
         size_hint: (0.6, 0.65)
         pos_hint:{'center_x': 0.6, 'center_y': 0.4}
-        Label:
+        ClickableLabel:
             id: result_1
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_2
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
 
-        Label:
+        ClickableLabel:
             id: result_3
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_4
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_5
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_6
             text: ''
             size_hint: (0.8,0.5)
-        Label:
+        ClickableLabel:
             id: result_7
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_8
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_9
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-        Label:
+        ClickableLabel:
             id: result_10
             text: ''
             size_hint: (0.8,0.5)
@@ -2010,15 +2001,15 @@ Builder.load_string("""
 
 <RecipeScreen>:
     name: 'recipe_screen'
-    BoxLayout:
-        orientation: 'vertical'
-        Label:
-            text: 'Test'
+    id: recipe_screen
 
 """)
 
 class ClickableLabel(ButtonBehavior, Label):
-    pass
+    def __init__(self):
+        ButtonBehavior.__init__(self)
+        Label.__init__(self)
+        self.data = {}
 
 
 class DietDropDown(Button):
@@ -2057,6 +2048,7 @@ class RecipeSearchBar(BoxLayout):
                 new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
                 img_link = i["image_link"]
                 exec(f'self.ids.result_{count+1}.text = "{new_text}"')
+                exec(f'self.ids.result_{count+1}.data = i')
                 #exec(f'self.ids.img_{count+1}.source = "{img_link}"')
                 
             self.ids.text_input.text = ''
@@ -2074,6 +2066,7 @@ class RecipeSearchBar(BoxLayout):
                 new_text = f"{count+1}. {i['recipe_name']}, {i['calories']} Cal"
                 img_link = i["image_link"]
                 exec(f'self.ids.result_{count+1}.text = "{new_text}"')
+                exec(f'self.ids.result_{count+1}.data = i')
                 #exec(f'self.ids.img_{count+1}.source = "{img_link}"')
 
             if recipeCollect != None and result !=[]:
@@ -2395,7 +2388,17 @@ class SignUpScreen(Screen):
 
 
 class RecipeScreen(Screen):
-    pass #add RecycleView later
+    def __init__(self, **kwargs):
+        Screen.__init__(self, **kwargs)
+        app = App.get_running_app()
+        self.data = app.data
+        self.data = app.data
+        self.name = 'recipe_screen'
+        boxlayout = BoxLayout()
+        label = Label(text=self.data["recipe_name"])
+        boxlayout.add_widget(label)
+        self.add_widget(boxlayout)
+
 
 class SettingsScreen(Screen):
     pass
@@ -2420,7 +2423,7 @@ class RexableApp(App):
         RexableApp.store = JsonStore('app_storage.json')
         user_login = ["", ""]
         self.sm = ScreenManager()
-
+        self.data = {"recipe_name": "test"}
 
 
     def login(self):
@@ -2467,7 +2470,7 @@ class RexableApp(App):
         self.sm.add_widget(FruitCategory(name='fruit_category'))
         self.sm.add_widget(DrinksCategory(name='drinks_category'))
         self.sm.add_widget(DessertCategory(name='dessert_category'))
-        self.sm.add_widget(RecipeScreen(name='recipe_screen'))
+        self.sm.add_widget(RecipeScreen())
 
 
         
@@ -2495,6 +2498,10 @@ class RexableApp(App):
             self.sm.current = 'login_screen'
 
         return self.sm
+    
+    def goto_recipe_screen(self, the_data):
+        self.sm.current = 'recipe_screen'
+        self.data = the_data
 
 class LoginScreen(Screen):
     def get_username(self, username):
