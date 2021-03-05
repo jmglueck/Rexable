@@ -19,6 +19,8 @@ from kivymd.selectioncontrols import MDCheckbox
 from kivymd.snackbar import Snackbar
 from kivymd.theming import ThemeManager
 from kivymd.time_picker import MDTimePicker
+from kivymd.grid import SmartTileWithLabel
+
 from basic_search import search
 
 
@@ -180,15 +182,22 @@ NavigationLayout:
                         key_viewclass: 'viewclass'
                         key_size: 'height'
 
-                        RecycleBoxLayout:
-                            padding: dp(12)
-                            default_size: None, dp(48)
-                            default_size_hint: 2, None
+                        RecycleGridLayout:
+                            cols: 3
+                            row_default_height: (self.width - self.cols*self.spacing[0])/self.cols
+                            row_force_default: True
                             size_hint_y: None
                             height: self.minimum_height
-                            orientation: 'vertical'
+                            padding: dp(4), dp(4)
+                            spacing: dp(4)
             Screen:
                 name: 'search'
+                MDSpinner:
+                    id: spinner
+                    size_hint: None, None
+                    size: dp(46), dp(46)
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    active: True
                 BoxLayout:
                     orientation: 'vertical'
                     Toolbar:
@@ -217,19 +226,21 @@ NavigationLayout:
                             size: 4 * dp(32), dp(32)
                             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                             on_release: app.search()
-                 
+                        
+
                     RecycleView:
                         id: rv
                         key_viewclass: 'viewclass'
                         key_size: 'height'
 
-                        RecycleBoxLayout:
-                            padding: dp(12)
-                            default_size: None, dp(48)
-                            default_size_hint: 2, None
+                        RecycleGridLayout:
+                            cols: 3
+                            row_default_height: (self.width - self.cols*self.spacing[0])/self.cols
+                            row_force_default: True
                             size_hint_y: None
                             height: self.minimum_height
-                            orientation: 'vertical'
+                            padding: dp(4), dp(4)
+                            spacing: dp(4)
             Screen:
                 name: 'create_account'
                 BoxLayout:
@@ -264,6 +275,10 @@ NavigationLayout:
                                 size: 4 * dp(32), dp(32)
                                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                                 on_release: app.create_account()
+
+
+<SearchTile>
+    on_release: app.show_search_result(self.text)
 ''' 
 
 class Rexable(App):
@@ -301,11 +316,10 @@ class Rexable(App):
 
     def log_in(self):
         self.username = self.root.ids.username.text
-        self.password = self.root.ids.password.text
-        print(self.username+self.password)        
+        self.password = self.root.ids.password.text       
         content = MDLabel(font_style='Body1',
                           theme_text_color='Secondary',
-                          text="Please enter correct username and password ",
+                          text="Try again",
                           size_hint_y=None,
                           valign='top')
         content.bind(texture_size=content.setter('size'))
@@ -319,9 +333,9 @@ class Rexable(App):
                                       action=lambda *x: dialog.dismiss())      
         try:
             results = userCollect.find_one({"username": self.username})
-            #if results == None:
-            #    self.parent.current = 'login_screen'
-            if results["password"] == self.password:
+            if results == None:
+               dialog.open()  
+            elif results["password"] == self.password:
                 #this is just a preliminary password/username system; will add hashing and encryption later
                 self.store.put('credentials', username = self.username, password = self.password)
                 self.change_screen('search')
@@ -346,39 +360,38 @@ class Rexable(App):
         self.store.put('credentials', username = username, password = password)
         self.change_screen("main_screen")
 
+    def show_search_result(self,recipe_name):
+        recipe_name = recipe_name
+        content = MDLabel(font_style='Body1',
+          theme_text_color='Secondary',
+          text="Add later",
+          size_hint_y=None,
+          valign='top')
+        content.bind(texture_size=content.setter('size'))
+        dialog = MDDialog(title=recipe_name,
+                               content=content,
+                               size_hint=(.8, None),
+                               height=dp(200),
+                               auto_dismiss=False)
+
+        dialog.add_action_button("Add to favourite",action=lambda x: dialog.dismiss()) 
+        dialog.add_action_button("close",action=lambda x: dialog.dismiss()) 
+        dialog.open()
+
     def search(self):
-        def show_search(recipe_name):
-            content = MDLabel(font_style='Body1',
-                              theme_text_color='Secondary',
-                              text="Add later",
-                              size_hint_y=None,
-                              valign='top')
-            content.bind(texture_size=content.setter('size'))
-            dialog = MDDialog(title=recipe_name,
-                                   content=content,
-                                   size_hint=(.8, None),
-                                   height=dp(200),
-                                   auto_dismiss=False)
-
-            dialog.add_action_button("Add to favourite",action=lambda x: dialog.dismiss()) 
-            dialog.add_action_button("close",action=lambda x: dialog.dismiss()) 
-
-
-            dialog.open()
-
-
         data = []
         result = search(self.root.ids.search_text.text)
+        self.root.ids.spiner.active = False
         for i in range(len(result)):
-            item = {'viewclass':'ThreeLineAvatarIconListItem','text':'','secondary_text':''}
+            item = {'viewclass':'SearchTile'}
+            item['mipmap']=True
             item['text']=result[i]['recipe_name']
-            item['secondary_text']=result[i]['calories']
-            item['ImageLeftWidget']={'source':result[i]['image_link']}
-            item['on_release']=lambda *x:show_search(result[i]['recipe_name'])
+            item['source']=result[i]['image_link']
             data.append(item)
         self.root.ids.rv.data = data
 
-
+class SearchTile(SmartTileWithLabel):
+    pass
 
 
 if __name__ == '__main__':
