@@ -17,6 +17,10 @@ from pymongo import MongoClient,errors
 from search_basic import search
 
 
+recipeName = ''
+databaseResult = {}
+
+
 try:
     # try to instantiate a client instance
     client = MongoClient(
@@ -291,7 +295,8 @@ Builder.load_string("""
 <RecipeSearchBar>:
 
     name: 'recipe_search_bar'
-
+    id: recipeSearch
+    
     BoxLayout:
         orientation: 'vertical'
         BoxLayout:
@@ -321,68 +326,92 @@ Builder.load_string("""
             ClickableLabel:
                 id: result_1
                 pos_hint:{'center_x':0.5,'center_y':0.7}
+                text: ''
+                halign: 'left'
+                on_press: app.goto_recipe_screen()
+                on_press: root.prepare_result(self)
 
+                
             ClickableLabel:
                 id: result_2
                 pos_hint:{'center_x':0.5,'center_y':0.7}
                 text: ''
                 halign: 'left'
-
-
-
+                on_press: app.goto_recipe_screen()
+                on_press: root.prepare_result(self)
+                
             ClickableLabel:
                 id: result_3
                 pos_hint:{'center_x':0.5,'center_y':0.7}
                 text: ''
                 halign: 'left'
-
+                on_press: app.goto_recipe_screen()
+                on_press: root.prepare_result(self)
 
             ClickableLabel:
                 id: result_4
                 pos_hint:{'center_x':0.5,'center_y':0.6}
                 text: ''
                 halign: 'left'
+                on_press: app.goto_recipe_screen()
+                on_press: root.prepare_result(self)
 
+                
             ClickableLabel:
                 id: result_5
                 pos_hint:{'center_x':0.5,'center_y':0.5}
                 text: ''
                 halign: 'left'
+                on_press: app.goto_recipe_screen()
+                on_press: root.prepare_result(self)
 
+                
             ClickableLabel:
                 id: result_6
                 pos_hint:{'center_x':0.5,'center_y':0.4}
                 text: ''
+                on_press: app.goto_recipe_screen()
+                on_press: root.prepare_result(self)
 
+                
             ClickableLabel:
                 id: result_7
                 pos_hint:{'center_x':0.5,'center_y':0.3}
                 text: ''
                 halign: 'left'
+                on_press: app.goto_recipe_screen()
+                on_press: root.prepare_result(self)
 
+                
             ClickableLabel:
                 id: result_8
                 pos_hint:{'center_x':0.5,'center_y':0.2}
                 text: ''
                 halign: 'left'
-
+                on_press: app.goto_recipe_screen()
+                on_press: root.prepare_result(self)
 
             ClickableLabel:
                 id: result_9
                 pos_hint:{'center_x':0.5,'center_y':0.1}
                 text: ''
                 halign: 'left'
+                on_press: app.goto_recipe_screen()
+                on_press: root.prepare_result(self)
 
+                
             ClickableLabel:
                 id: result_10
                 pos_hint:{'center_x':0.5,'center_y':0.0}
                 text: ''
                 halign: 'left'
+                on_press: app.goto_recipe_screen()
+                on_press: root.prepare_result(self)
 
+                
 <ClickableLabel@ButtonBehavior+Label>:
-    text: ''
-    halign: 'left'
-    on_press: app.goto_recipe_screen(self.data)
+
+
 
 <MeatCategory>
     name: 'meat_category'
@@ -1926,6 +1955,8 @@ Builder.load_string("""
 
 
 <MainScreen>:
+
+    
     canvas.before:
         Color:
             rgba: 0, 0, 102, 0.2
@@ -2002,8 +2033,232 @@ Builder.load_string("""
 <RecipeScreen>:
     name: 'recipe_screen'
     id: recipe_screen
+    canvas.before:
+        Color:
+            rgba: 0, 0, 102, 0.2
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    size_hint: (1, 1)
+
+
+    BoxLayout:
+    
+        orientation: 'horizontal'
+        
+        Button:
+            text: 'Display'
+            size_hint: (0.5,0.9)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.display_result()
+
+
+        Button:
+            text: 'Back'
+            size_hint: (0.5,0.9)
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            on_release: root.manager.current = 'main_screen'
+
+        Label:
+            id: name
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+            
+        Label:
+            id: calories
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+
+
+    BoxLayout:
+        orientation: 'vertical'
+        
+        Label:
+            id: ingredient_1
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+        Label:
+            id: ingredient_2
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+
+        Label:
+            id: ingredient_3
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+        Label:
+            id: ingredient_4
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+
+        Label:
+            id: ingredient_5
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+        Label:
+            id: ingredient_6
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+
+        Label:
+            id: ingredient_7
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+        Label:
+            id: ingredient_8
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+
+
+        Label:
+            id: ingredient_9
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+        Label:
+            id: ingredient_10
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+
+        Label:
+            id: ingredient_11
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+        Label:
+            id: ingredient_12
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+
+        AsyncImage:
+            id: img
+            source: ''
+            background_normal: ''
+            background_color: 102, 102, 153, 0.4
+            pos_hint:{'center_x':0.7,'center_y':0.7}
+        
+    
 
 """)
+
+
+class RexableApp(App):
+    def __init__(self):
+        App.__init__(self)
+        self.logged_in = False
+        self._app_name = 'rexable_app'
+        data_dir = getattr(self, 'user_data_dir')
+        #store = JsonStore(data_dir.join('app_storage.json'))
+        RexableApp.store = JsonStore('app_storage.json')
+        user_login = ["", ""]
+        self.sm = ScreenManager()
+        self.data = {}
+
+
+    def login(self):
+        #this is just a preliminary password/username system; will add hashing and encryption later
+        username = self.username_login.text
+        password = self.username_password.text
+        RexableApp.store.put('credentials', username = username, password = password)
+        try:
+            RexableApp.store.get('credentials')['username']
+        except KeyError:
+            username = ""
+        else:
+            username = RexableApp.store.get('credentials')['username']
+
+        try:
+            RexableApp.store.get('credentials')['password']
+        except KeyError:
+            password = ""
+        else:
+            password = RexableApp.store.get('credentials')['password']
+
+        self.user_login = [username, password]
+
+
+        if self.user_login[0] != "" and self.user_login[1] != "":
+            self.sm.current = 'main_screen'
+        else:
+            self.sm.current = 'login_screen'
+
+    def build(self):
+        username = ''
+        password = ''
+        self.sm.add_widget(MainScreen(name='main_screen'))
+        self.sm.add_widget(LoginScreen(name='login_screen'))
+        self.sm.add_widget(SignUpScreen())
+        self.sm.add_widget(SettingsScreen(name='settings_screen'))
+        self.sm.add_widget(ProfileScreen(name='profile_screen'))
+        self.sm.add_widget(RecommendationPreferenceScreen(name='recommendation_preference_screen'))
+        self.sm.add_widget(AboutScreen(name='about_screen'))
+        self.sm.add_widget(Recommendation(name='recommendation'))
+        self.sm.add_widget(MeatCategory(name='meat_category'))
+        self.sm.add_widget(SeafoodCategory(name='seafood_category'))
+        self.sm.add_widget(VegetableCategory(name='vegetable_category'))
+        self.sm.add_widget(FruitCategory(name='fruit_category'))
+        self.sm.add_widget(DrinksCategory(name='drinks_category'))
+        self.sm.add_widget(DessertCategory(name='dessert_category'))
+        self.sm.add_widget(RecipeScreen(name='recipe_screen'))
+
+
+        
+    
+        try:
+            RexableApp.store.get('credentials')['username']
+        except KeyError:
+            username = ""
+        else:
+            username = RexableApp.store.get('credentials')['username']
+
+        try:
+            RexableApp.store.get('credentials')['password']
+        except KeyError:
+            password = ""
+        else:
+            password = RexableApp.store.get('credentials')['password']
+
+        self.user_login = [username, password]
+
+
+        if self.user_login[0] != "" and self.user_login[1] != "":
+            self.sm.current = 'main_screen'
+        else:
+            self.sm.current = 'login_screen'
+
+        return self.sm
+    
+    def goto_recipe_screen(self):
+        self.sm.current = 'recipe_screen'
+
 
 class ClickableLabel(ButtonBehavior, Label):
     def __init__(self):
@@ -2028,6 +2283,12 @@ class RecommendationLayout(GridLayout):
     pass
 
 class RecipeSearchBar(BoxLayout):
+
+
+    def __init__(self, **kwargs):
+        BoxLayout.__init__(self, **kwargs)
+        app = App.get_running_app()
+        self.name = 'recipe_search_bar'
 
     def get_query(self,query):
 
@@ -2077,6 +2338,16 @@ class RecipeSearchBar(BoxLayout):
 
 
             self.ids.text_input.text = ''
+
+
+
+    def prepare_result(self,instance):
+
+        recipe_screen = RecipeScreen()
+        
+        recipe_name = instance.text
+        
+        RecipeScreen.store_result(self, recipe_screen, recipe_name)
             
 
 class Recommendation(Screen):
@@ -2388,18 +2659,88 @@ class SignUpScreen(Screen):
 
 
 class RecipeScreen(Screen):
+
     def __init__(self, **kwargs):
         Screen.__init__(self, **kwargs)
         app = App.get_running_app()
-        self.data = app.data
-        self.data = app.data
-        self.name = 'recipe_screen'
-        boxlayout = BoxLayout()
-        label = Label(text=self.data["recipe_name"])
-        boxlayout.add_widget(label)
-        self.add_widget(boxlayout)
+        self.recipe_name = ''
+        self.database_result = ''
+##        self.data = app.data
+##        self.name = ''
+##        self.calories = ''
+##        self.img_link = ''
+##        self.ingredient_list = ''
+##        self.image_link = ''
+        
+##        boxlayout = BoxLayout()
+##        label = Label(text=self.data["recipe_name"])
+##        boxlayout.add_widget(label)
+##        self.add_widget(boxlayout)
+
+    def get_id(self):
+        for key, val in self.ids.items():
+            print("key={0}, val={1}".format(key, val))
 
 
+    def display_result(self):
+        global recipeName, databaseResult
+
+
+        
+##        print(databaseResult)
+
+        if databaseResult.count() != 0:
+            
+            for i in databaseResult:
+
+                print('IN')
+                
+                calories = i['calories']
+                img_link = i["image_link"]
+                ingredient_list = i['ingredient']
+                image_link = i['image_link']
+
+                print(f'Calories: {calories}\nIngredients: \n')
+
+                self.ids.name.text = recipeName
+                self.ids.calories.text = f'Calories: {calories}\nIngredients: \n'
+                self.ids.img.source = img_link
+
+                for count, i in enumerate(ingredient_list):
+                    exec(f'self.ids.ingredient_{count+1}.text = "{i}"')
+
+                    
+    def store_result(self,recipe_screen, recipe_name):
+
+        global recipeName, databaseResult
+        
+        recipeName = recipe_name.split(',')[0].split('. ')[1]
+        print(recipeName)
+        databaseResult = recipeCollect.find({"recipe_name": recipeName})
+
+
+        
+##        if database_result.count() != 0:
+##            for i in database_result:
+##                calories = i['calories']
+##                img_link = i["image_link"]
+##                ingredient_list = i['ingredient']
+##                image_link = i['image_link']
+##
+##                
+##                print(f'Calories: {calories}\nIngredients: \n')
+####                recipe_screen.get_id()
+##
+##                
+##                recipe_screen.ids.calories.text = f'Calories: {calories}\nIngredients: \n'
+##                print(recipe_screen.ids.calories.text )
+##                recipe_screen.ids.img.source = img_link
+##
+##                for count, i in enumerate(ingredient_list):
+##                    print(i)
+##                    exec(f'recipe_screen.ids.ingredient_{count+1}.text = "{i}"')
+
+        
 class SettingsScreen(Screen):
     pass
 
@@ -2413,95 +2754,7 @@ class AboutScreen(Screen):
     pass
 
 
-class RexableApp(App):
-    def __init__(self):
-        App.__init__(self)
-        self.logged_in = False
-        self._app_name = 'rexable_app'
-        data_dir = getattr(self, 'user_data_dir')
-        #store = JsonStore(data_dir.join('app_storage.json'))
-        RexableApp.store = JsonStore('app_storage.json')
-        user_login = ["", ""]
-        self.sm = ScreenManager()
-        self.data = {"recipe_name": "test"}
 
-
-    def login(self):
-        #this is just a preliminary password/username system; will add hashing and encryption later
-        username = self.username_login.text
-        password = self.username_password.text
-        RexableApp.store.put('credentials', username = username, password = password)
-        try:
-            RexableApp.store.get('credentials')['username']
-        except KeyError:
-            username = ""
-        else:
-            username = RexableApp.store.get('credentials')['username']
-
-        try:
-            RexableApp.store.get('credentials')['password']
-        except KeyError:
-            password = ""
-        else:
-            password = RexableApp.store.get('credentials')['password']
-
-        self.user_login = [username, password]
-
-
-        if self.user_login[0] != "" and self.user_login[1] != "":
-            self.sm.current = 'main_screen'
-        else:
-            self.sm.current = 'login_screen'
-
-    def build(self):
-        username = ''
-        password = ''
-        self.sm.add_widget(MainScreen(name='main_screen'))
-        self.sm.add_widget(LoginScreen(name='login_screen'))
-        self.sm.add_widget(SignUpScreen())
-        self.sm.add_widget(SettingsScreen(name='settings_screen'))
-        self.sm.add_widget(ProfileScreen(name='profile_screen'))
-        self.sm.add_widget(RecommendationPreferenceScreen(name='recommendation_preference_screen'))
-        self.sm.add_widget(AboutScreen(name='about_screen'))
-        self.sm.add_widget(Recommendation(name='recommendation'))
-        self.sm.add_widget(MeatCategory(name='meat_category'))
-        self.sm.add_widget(SeafoodCategory(name='seafood_category'))
-        self.sm.add_widget(VegetableCategory(name='vegetable_category'))
-        self.sm.add_widget(FruitCategory(name='fruit_category'))
-        self.sm.add_widget(DrinksCategory(name='drinks_category'))
-        self.sm.add_widget(DessertCategory(name='dessert_category'))
-        self.sm.add_widget(RecipeScreen())
-
-
-        
-    
-        try:
-            RexableApp.store.get('credentials')['username']
-        except KeyError:
-            username = ""
-        else:
-            username = RexableApp.store.get('credentials')['username']
-
-        try:
-            RexableApp.store.get('credentials')['password']
-        except KeyError:
-            password = ""
-        else:
-            password = RexableApp.store.get('credentials')['password']
-
-        self.user_login = [username, password]
-
-
-        if self.user_login[0] != "" and self.user_login[1] != "":
-            self.sm.current = 'main_screen'
-        else:
-            self.sm.current = 'login_screen'
-
-        return self.sm
-    
-    def goto_recipe_screen(self, the_data):
-        self.sm.current = 'recipe_screen'
-        self.data = the_data
 
 class LoginScreen(Screen):
     def get_username(self, username):
