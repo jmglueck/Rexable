@@ -2044,116 +2044,86 @@ Builder.load_string("""
 
     size_hint: (1, 1)
     BoxLayout:
-    
-        orientation: 'horizontal'
-        size_hint: (0.5, 0.5)
-        spacing: 15
-
-
+        orientation: 'vertical'
+        spacing: 20
         Button:
             text: 'Back'
             background_normal: ''
             background_color: 102, 102, 153, 0.4
             on_release: root.manager.current = 'main_screen'
+        
+        AsyncImage:
+            id: img
+            source: ''
+            background_normal: ''
+            size_hint: (1, 1) 
+            allow_stretch: True
+            background_color: 102, 102, 153, 0.4
+            pos_hint:{'center_x':0.7,'center_y':0.7}
 
         Label:
             id: name
             text: ''
-            halign: 'left'
-            
+            size_hint: (0.5, 1)
+        
         Label:
             id: calories
             text: ''
-            halign: 'left'
-
-
-    BoxLayout:
-        orientation: 'vertical'
-        
+            size_hint: (0.5, 1)
+    
         Label:
             id: ingredient_1
             text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
 
         Label:
             id: ingredient_2
             text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
 
 
         Label:
             id: ingredient_3
             text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
 
         Label:
             id: ingredient_4
             text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
 
 
         Label:
             id: ingredient_5
             text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
 
         Label:
             id: ingredient_6
             text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
 
 
         Label:
             id: ingredient_7
             text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
 
         Label:
             id: ingredient_8
             text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
 
 
 
         Label:
             id: ingredient_9
             text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
 
         Label:
             id: ingredient_10
             text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
-
 
         Label:
             id: ingredient_11
             text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
 
         Label:
             id: ingredient_12
             text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
-        
-        AsyncImage:
-            id: img
-            source: ''
-            background_normal: ''
-            background_color: 102, 102, 153, 0.4
-            pos_hint:{'center_x':0.7,'center_y':0.7}
+
     
 
 """)
