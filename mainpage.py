@@ -2033,6 +2033,7 @@ Builder.load_string("""
 
 <RecipeScreen>:
     name: 'recipe_screen'
+    on_enter: root.display_result()
     id: recipe_screen
     canvas.before:
         Color:
@@ -2042,23 +2043,15 @@ Builder.load_string("""
             size: self.size
 
     size_hint: (1, 1)
-
-
     BoxLayout:
     
         orientation: 'horizontal'
-        
-        Button:
-            text: 'Display'
-            size_hint: (0.5,0.9)
-            background_normal: ''
-            background_color: 102, 102, 153, 0.4
-            on_release: root.display_result()
+        size_hint: (0.5, 0.5)
+        spacing: 15
 
 
         Button:
             text: 'Back'
-            size_hint: (0.5,0.9)
             background_normal: ''
             background_color: 102, 102, 153, 0.4
             on_release: root.manager.current = 'main_screen'
@@ -2066,15 +2059,12 @@ Builder.load_string("""
         Label:
             id: name
             text: ''
-            size_hint: (0.8,0.5)
             halign: 'left'
             
         Label:
             id: calories
             text: ''
-            size_hint: (0.8,0.5)
             halign: 'left'
-
 
 
     BoxLayout:
@@ -2157,94 +2147,13 @@ Builder.load_string("""
             text: ''
             size_hint: (0.8,0.5)
             halign: 'left'
-
-
-        Label:
-            id: ingredient_13
-            text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
-
-        Label:
-            id: ingredient_14
-            text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
-
-
-        Label:
-            id: ingredient_15
-            text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
-
-        Label:
-            id: ingredient_16
-            text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
-
-
-        Label:
-            id: ingredient_17
-            text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
-
-        Label:
-            id: ingredient_18
-            text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
-
-
-        Label:
-            id: ingredient_19
-            text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
-
-        Label:
-            id: ingredient_20
-            text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
-
-
-
-        Label:
-            id: ingredient_21
-            text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
-
-        Label:
-            id: ingredient_22
-            text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
-
-
-        Label:
-            id: ingredient_23
-            text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
-
-        Label:
-            id: ingredient_24
-            text: ''
-            size_hint: (0.8,0.5)
-            halign: 'left'
-
-
+        
         AsyncImage:
             id: img
             source: ''
             background_normal: ''
             background_color: 102, 102, 153, 0.4
             pos_hint:{'center_x':0.7,'center_y':0.7}
-        
     
 
 """)
