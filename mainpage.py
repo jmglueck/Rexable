@@ -2159,6 +2159,85 @@ Builder.load_string("""
             halign: 'left'
 
 
+        Label:
+            id: ingredient_13
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+        Label:
+            id: ingredient_14
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+
+        Label:
+            id: ingredient_15
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+        Label:
+            id: ingredient_16
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+
+        Label:
+            id: ingredient_17
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+        Label:
+            id: ingredient_18
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+
+        Label:
+            id: ingredient_19
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+        Label:
+            id: ingredient_20
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+
+
+        Label:
+            id: ingredient_21
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+        Label:
+            id: ingredient_22
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+
+        Label:
+            id: ingredient_23
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+        Label:
+            id: ingredient_24
+            text: ''
+            size_hint: (0.8,0.5)
+            halign: 'left'
+
+
         AsyncImage:
             id: img
             source: ''
