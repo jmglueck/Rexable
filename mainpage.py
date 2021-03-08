@@ -15,6 +15,7 @@ from kivy.core.window import Window
 from kivy.loader import Loader
 from pymongo import MongoClient,errors
 from search_basic import search
+from user import User
 
 #update
 
@@ -2130,10 +2131,11 @@ Builder.load_string("""
 
 
 class RexableApp(App):
-    def __init__(self):
+    def __init__(self, user):
         App.__init__(self)
         self.logged_in = False
         self._app_name = 'rexable_app'
+        self.user = user
         data_dir = getattr(self, 'user_data_dir')
         #store = JsonStore(data_dir.join('app_storage.json'))
         RexableApp.store = JsonStore('app_storage.json')
@@ -2153,6 +2155,7 @@ class RexableApp(App):
             username = ""
         else:
             username = RexableApp.store.get('credentials')['username']
+            self.user.input_username(username)
 
         try:
             RexableApp.store.get('credentials')['password']
@@ -2172,9 +2175,9 @@ class RexableApp(App):
     def build(self):
         username = ''
         password = ''
-        self.sm.add_widget(MainScreen(name='main_screen'))
-        self.sm.add_widget(LoginScreen(name='login_screen'))
-        self.sm.add_widget(SignUpScreen())
+        self.sm.add_widget(MainScreen(user = self.user))
+        self.sm.add_widget(LoginScreen(user = self.user))
+        self.sm.add_widget(SignUpScreen(user = self.user))
         self.sm.add_widget(SettingsScreen(name='settings_screen'))
         self.sm.add_widget(ProfileScreen(name='profile_screen'))
         self.sm.add_widget(RecommendationPreferenceScreen(name='recommendation_preference_screen'))
@@ -2186,7 +2189,7 @@ class RexableApp(App):
         self.sm.add_widget(FruitCategory(name='fruit_category'))
         self.sm.add_widget(DrinksCategory(name='drinks_category'))
         self.sm.add_widget(DessertCategory(name='dessert_category'))
-        self.sm.add_widget(RecipeScreen(name='recipe_screen'))
+        self.sm.add_widget(RecipeScreen(user = self.user, name='recipe_screen'))
 
 
         
@@ -2197,6 +2200,7 @@ class RexableApp(App):
             username = ""
         else:
             username = RexableApp.store.get('credentials')['username']
+            self.user.input_username(username)
 
         try:
             RexableApp.store.get('credentials')['password']
@@ -2247,6 +2251,7 @@ class RecipeSearchBar(BoxLayout):
     def __init__(self, **kwargs):
         BoxLayout.__init__(self, **kwargs)
         app = App.get_running_app()
+        self.user = app.user
         self.name = 'recipe_search_bar'
 
     def get_query(self,query):
@@ -2302,7 +2307,7 @@ class RecipeSearchBar(BoxLayout):
 
     def prepare_result(self,instance):
 
-        recipe_screen = RecipeScreen()
+        recipe_screen = RecipeScreen(self.user)
         
         recipe_name = instance.text
         
@@ -2578,13 +2583,14 @@ class DessertCategory(Screen):
                 self.ids.result_1.text = 'No Result'
 
 class SignUpScreen(Screen):
-    def __init__(self):
+    def __init__(self, user):
         Screen.__init__(self)
         self.name='signup_screen'
         self.allergies = []
         self.cooking_time = -1
         self.username = ""
         self.password = ""
+        self.user = user
 
     def get_username(self, the_text):
         self.username = the_text
@@ -2614,16 +2620,18 @@ class SignUpScreen(Screen):
            "cookingTime": self.cooking_time, "viewedRecipes": dict()}
            userCollect.insert_one(the_dict)
         RexableApp.store.put('credentials', username = self.username, password = self.password)
+        self.user.input_username(self.username)
         self.parent.current = "main_screen"
 
 
 class RecipeScreen(Screen):
 
-    def __init__(self, **kwargs):
+    def __init__(self, user, **kwargs):
         Screen.__init__(self, **kwargs)
         app = App.get_running_app()
         self.recipe_name = ''
         self.database_result = ''
+        self.user = user
 ##        self.data = app.data
 ##        self.name = ''
 ##        self.calories = ''
@@ -2643,8 +2651,6 @@ class RecipeScreen(Screen):
 
     def display_result(self):
         global recipeName, databaseResult
-
-
         
 ##        print(databaseResult)
 
@@ -2659,11 +2665,22 @@ class RecipeScreen(Screen):
                 ingredient_list = i['ingredient']
                 image_link = i['image_link']
 
+
                 print(f'Calories: {calories}\nIngredients: \n')
 
                 self.ids.name.text = recipeName
                 self.ids.calories.text = f'Calories: {calories}\nIngredients: \n'
                 self.ids.img.source = img_link
+
+                #get user from database and save recipe in database
+                username = self.user.get_username()
+                set_doc = "viewedRecipes"
+                try:
+                    for key, value in i.items():
+                        userCollect.update({"username": username}, {"$set": {set_doc + "." + recipeName + "." + key : value }})
+                    userCollect.update({"username" : username}, {"$inc": {set_doc + "." + recipeName + ".numberOfViews": 1 }})
+                except Exception as e:
+                    print(e)
 
                 for count, i in enumerate(ingredient_list):
                     exec(f'self.ids.ingredient_{count+1}.text = "{i}"')
@@ -2716,6 +2733,11 @@ class AboutScreen(Screen):
 
 
 class LoginScreen(Screen):
+    def __init__(self, user):
+        Screen.__init__(self)
+        self.user = user
+        self.name ='login_screen'
+
     def get_username(self, username):
         self.username = username
     def get_password(self, password):
@@ -2729,6 +2751,7 @@ class LoginScreen(Screen):
             if results["password"] == self.password:
                 #this is just a preliminary password/username system; will add hashing and encryption later
                 RexableApp.store.put('credentials', username = self.username, password = self.password)
+                self.user.input_username(self.username)
                 self.parent.current = 'main_screen'
             else:
                 self.parent.current = 'login_screen'
@@ -2736,9 +2759,15 @@ class LoginScreen(Screen):
             self.parent.current = 'login_screen'
 
 class MainScreen(Screen):
+    def __init__(self, user):
+        Screen.__init__(self)
+        self.user = user 
+        self.name = 'main_screen'
+
     def logout(self):
         RexableApp.store.put('credentials', username = "", password = "")
-        RexableApp().stop()
+        RexableApp(self.user).stop()
 
 if __name__ == '__main__':
-    RexableApp().run()
+    user = User()
+    RexableApp(user).run()
