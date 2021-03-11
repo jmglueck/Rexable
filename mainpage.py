@@ -14,9 +14,10 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
 from kivy.loader import Loader
-from pymongo import MongoClient,errors
+from pymongo import MongoClient, errors
 from search_basic import search
 from user import User
+from webscraper import webscrape_recipe
 
 #update
 
@@ -2115,12 +2116,12 @@ Builder.load_string("""
         ScrollView:
             do_scroll_x: False
             do_scroll_y: True
-            height: 200
+            size_hint_y: 0.8
             BoxLayout:
                 size_hint_y: None
-                height: self.minimum_height
                 orientation: 'vertical'
                 spacing: 20
+                height: self.minimum_height
                 
                 AsyncImage:
                     id: img
@@ -2194,6 +2195,11 @@ Builder.load_string("""
 
                 Label:
                     id: ingredient_12
+                    text: ''
+
+                Label:
+                    id: recipe_text
+                    size_hint_y: 0.5
                     text: ''
 
     
@@ -2724,6 +2730,7 @@ class RecipeScreen(Screen):
         global recipeName, databaseResult
         
 ##        print(databaseResult)
+        source_url = ''
 
         if databaseResult.count() != 0:
             
@@ -2735,6 +2742,11 @@ class RecipeScreen(Screen):
                 img_link = i["image_link"]
                 ingredient_list = i['ingredient']
                 image_link = i['image_link']
+                try:
+                    source_url = i['source_url']
+                except Exception as e:
+                    print(e)
+                    print(i)
 
 
                 print(f'Calories: {calories}\nIngredients: \n')
@@ -2755,6 +2767,9 @@ class RecipeScreen(Screen):
 
                 for count, i in enumerate(ingredient_list):
                     exec(f'self.ids.ingredient_{count+1}.text = "{i}"')
+                
+        recipe_text = webscrape_recipe(source_url)
+        exec(f'self.ids.recipe_text.text = """{recipe_text}"""')
 
                     
     def store_result(self,recipe_screen, recipe_name):
