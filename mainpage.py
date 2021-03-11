@@ -10,6 +10,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.storage.jsonstore import JsonStore
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.scrollview import ScrollView
 from kivy.uix.textinput import TextInput
 from kivy.core.window import Window
 from kivy.loader import Loader
@@ -329,90 +330,151 @@ Builder.load_string("""
                 id: result_1
                 pos_hint:{'center_x':0.5,'center_y':0.7}
                 text: ''
+                bold: True
                 halign: 'left'
                 on_press: app.goto_recipe_screen()
                 on_press: root.prepare_result(self)
-
+                canvas.before:
+                    Color:
+                        rgba: 0, 0, 102, 0.2
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
                 
             ClickableLabel:
                 id: result_2
                 pos_hint:{'center_x':0.5,'center_y':0.7}
                 text: ''
+                bold: True
                 halign: 'left'
                 on_press: app.goto_recipe_screen()
                 on_press: root.prepare_result(self)
-                
+                canvas.before:
+                    Color:
+                        rgba: 0, 0, 102, 0.2
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size               
             ClickableLabel:
                 id: result_3
                 pos_hint:{'center_x':0.5,'center_y':0.7}
                 text: ''
+                bold: True
                 halign: 'left'
                 on_press: app.goto_recipe_screen()
                 on_press: root.prepare_result(self)
-
+                canvas.before:
+                    Color:
+                        rgba: 0, 0, 102, 0.2
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                        
             ClickableLabel:
                 id: result_4
                 pos_hint:{'center_x':0.5,'center_y':0.6}
                 text: ''
+                bold: True
                 halign: 'left'
                 on_press: app.goto_recipe_screen()
                 on_press: root.prepare_result(self)
-
+                canvas.before:
+                    Color:
+                        rgba: 0, 0, 102, 0.2
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
                 
             ClickableLabel:
                 id: result_5
                 pos_hint:{'center_x':0.5,'center_y':0.5}
                 text: ''
+                bold: True
                 halign: 'left'
                 on_press: app.goto_recipe_screen()
                 on_press: root.prepare_result(self)
-
+                canvas.before:
+                    Color:
+                        rgba: 0, 0, 102, 0.2
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
                 
             ClickableLabel:
                 id: result_6
                 pos_hint:{'center_x':0.5,'center_y':0.4}
                 text: ''
+                bold: True
                 on_press: app.goto_recipe_screen()
                 on_press: root.prepare_result(self)
-
+                canvas.before:
+                    Color:
+                        rgba: 0, 0, 102, 0.2
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
                 
             ClickableLabel:
                 id: result_7
                 pos_hint:{'center_x':0.5,'center_y':0.3}
                 text: ''
+                bold: True
                 halign: 'left'
                 on_press: app.goto_recipe_screen()
                 on_press: root.prepare_result(self)
-
+                canvas.before:
+                    Color:
+                        rgba: 0, 0, 102, 0.2
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
                 
             ClickableLabel:
                 id: result_8
                 pos_hint:{'center_x':0.5,'center_y':0.2}
                 text: ''
+                bold: True
                 halign: 'left'
                 on_press: app.goto_recipe_screen()
                 on_press: root.prepare_result(self)
+                canvas.before:
+                    Color:
+                        rgba: 0, 0, 102, 0.2
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
 
             ClickableLabel:
                 id: result_9
                 pos_hint:{'center_x':0.5,'center_y':0.1}
                 text: ''
+                bold: True
                 halign: 'left'
                 on_press: app.goto_recipe_screen()
                 on_press: root.prepare_result(self)
-
+                canvas.before:
+                    Color:
+                        rgba: 0, 0, 102, 0.2
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
                 
             ClickableLabel:
                 id: result_10
                 pos_hint:{'center_x':0.5,'center_y':0.0}
                 text: ''
+                bold: True
                 halign: 'left'
                 on_press: app.goto_recipe_screen()
                 on_press: root.prepare_result(self)
-
+                canvas.before:
+                    Color:
+                        rgba: 0, 0, 102, 0.2
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
                 
 <ClickableLabel@ButtonBehavior+Label>:
-
 
 
 <MeatCategory>
@@ -2042,88 +2104,97 @@ Builder.load_string("""
         Rectangle:
             pos: self.pos
             size: self.size
-
-    size_hint: (1, 1)
     BoxLayout:
         orientation: 'vertical'
-        spacing: 20
         Button:
             text: 'Back'
             background_normal: ''
+            size_hint: (1, 0.15)
             background_color: 102, 102, 153, 0.4
             on_release: root.manager.current = 'main_screen'
-        
-        AsyncImage:
-            id: img
-            source: ''
-            background_normal: ''
-            size_hint: (1, 1) 
-            allow_stretch: True
-            background_color: 102, 102, 153, 0.4
-            pos_hint:{'center_x':0.7,'center_y':0.7}
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+            height: 200
+            BoxLayout:
+                size_hint_y: None
+                height: self.minimum_height
+                orientation: 'vertical'
+                spacing: 20
+                
+                AsyncImage:
+                    id: img
+                    source: ''
+                    background_normal: ''
+                    size_hint: (None, None)
+                    height: 150
+                    width: 150 
+                    allow_stretch: True
+                    background_color: 102, 102, 153, 0.4
+                    pos_hint:{'center_x':0.25,'center_y':0.7}
 
-        Label:
-            id: name
-            text: ''
-            size_hint: (0.5, 1)
-        
-        Label:
-            id: calories
-            text: ''
-            size_hint: (0.5, 1)
-    
-        Label:
-            id: ingredient_1
-            text: ''
+                Label:
+                    id: name
+                    text: ''
+                    size_hint: (1, 1)
+                
+                Label:
+                    id: calories
+                    text: ''
+                    size_hint: (0.5, 1)
 
-        Label:
-            id: ingredient_2
-            text: ''
+                Label:
+                    id: ingredient_1
+                    text: ''
 
-
-        Label:
-            id: ingredient_3
-            text: ''
-
-        Label:
-            id: ingredient_4
-            text: ''
-
-
-        Label:
-            id: ingredient_5
-            text: ''
-
-        Label:
-            id: ingredient_6
-            text: ''
+                Label:
+                    id: ingredient_2
+                    text: ''
 
 
-        Label:
-            id: ingredient_7
-            text: ''
+                Label:
+                    id: ingredient_3
+                    text: ''
 
-        Label:
-            id: ingredient_8
-            text: ''
+                Label:
+                    id: ingredient_4
+                    text: ''
+
+
+                Label:
+                    id: ingredient_5
+                    text: ''
+
+                Label:
+                    id: ingredient_6
+                    text: ''
+
+
+                Label:
+                    id: ingredient_7
+                    text: ''
+
+                Label:
+                    id: ingredient_8
+                    text: ''
 
 
 
-        Label:
-            id: ingredient_9
-            text: ''
+                Label:
+                    id: ingredient_9
+                    text: ''
 
-        Label:
-            id: ingredient_10
-            text: ''
+                Label:
+                    id: ingredient_10
+                    text: ''
 
-        Label:
-            id: ingredient_11
-            text: ''
+                Label:
+                    id: ingredient_11
+                    text: ''
 
-        Label:
-            id: ingredient_12
-            text: ''
+                Label:
+                    id: ingredient_12
+                    text: ''
 
     
 
