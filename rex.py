@@ -27,6 +27,7 @@ from kivymd.list import OneLineAvatarIconListItem
 from basic_search import search
 from bmi import get_bmi
 from data import food_data
+from webscraper import webscrape_recipe
 
 
 from pymongo import MongoClient,errors
@@ -107,6 +108,10 @@ NavigationLayout:
             icon: 'checkbox-blank-circle'
             text: "Recommend"
             on_release: app.root.ids.scr_mngr.current = 'recommend1'
+        NavigationDrawerIconButton:
+            icon: 'checkbox-blank-circle'
+            text: "Faviourite recipe"
+            on_release: app.root.ids.scr_mngr.current = 'fav'
     BoxLayout:
         orientation: 'vertical'
         ScreenManager:
@@ -476,7 +481,7 @@ NavigationLayout:
                         md_bg_color: app.theme_cls.primary_color
                         background_palette: 'Primary'
                         background_hue: '500'
-                        left_action_items: [['arrow-left', lambda x:app.change_screen('log_in')]]
+                        left_action_items: [['menu', lambda x: app.root.toggle_nav_drawer()]]
                         right_action_items: [['dots-vertical', lambda x: app.show_bottom_sheet()]]
                     OneLineAvatarIconListItem:
                         text: "What you want to eat"
@@ -592,7 +597,7 @@ NavigationLayout:
                             height: self.minimum_height
                             padding: dp(4), dp(4)
                             spacing: dp(4)
-                            id:reco3
+                            id:fav
 
 <SearchTile>
     mipmap: True
@@ -600,6 +605,8 @@ NavigationLayout:
     ty:''
 <CheckboxList>
     RightCheckbox:
+
+
 ''' 
 
 class Rexable(App):
@@ -671,6 +678,9 @@ class Rexable(App):
                 self.root.ids.bmi.text = self.db['bmi']
                 self.root.ids.health.text = self.db['health']
                 self.root.ids.health_bmi.text = self.db['healthy_bmi_range']
+                self.fav = self.db['favourite_recipe']
+                for i in self.fav:
+                    self.root.ids.fav.add_widget(SearchTile(source=i['image_link'], text = i['recipe_name'],ty = 'fav'))
                 self.change_screen('main_page')
             else:
                 dialog.open()  
@@ -685,7 +695,7 @@ class Rexable(App):
         username = self.root.ids.newusername.text
         password = self.root.ids.newpassword.text
         if userCollect != None:
-           the_dict = {"username": username, "password": password,"allergies_dict": {},'bmi':'','health':'','healthy_bmi_range':'','favourite_recipe':''}
+           the_dict = {"username": username, "password": password,"allergies_dict": {},'bmi':'','health':'','healthy_bmi_range':'','favourite_recipe':[]}
 
            # "cookingTime": self.cooking_time, "viewedRecipes": dict()}
            userCollect.insert_one(the_dict)
@@ -695,34 +705,62 @@ class Rexable(App):
         # self.change_screen("main_page")
         self.change_screen("get_bmi_data")
 
-    def show_search_result(self,recipe_name,type):
+    def show_search_result(self,recipe_name,ty):
         recipe_name = recipe_name
         content = MDLabel(font_style='Body1',
           theme_text_color='Secondary',
-          text="Add later",
+          text=self.result_text(recipe_name,ty),
           size_hint_y=None,
           valign='top')
         content.bind(texture_size=content.setter('size'))
         dialog = MDDialog(title=recipe_name,
                                content=content,
                                size_hint=(.8, None),
-                               height=dp(200),
+                               height=dp(400),
                                auto_dismiss=False)
 
-        dialog.add_action_button("Add to favourite",action=lambda x: dialog.dismiss()) 
+        if ty != 'fav':
+            dialog.add_action_button("Add to favourite",action=lambda x: [self.add_fav(recipe_name,ty),dialog.dismiss()]) 
         dialog.add_action_button("close",action=lambda x: dialog.dismiss()) 
         dialog.open()
 
-    def add_fav(self):
-        pass
+    def result_text(self,recipe_name,ty):
+        item = {}
+        result = 'Calories \n'
+        if ty == 'search':
+            item = [i for i in self.search_result if recipe_name == i['recipe_name']][0]
+        elif ty == 'recommend':
+            item = [i for i in self.recommend_result if recipe_name == i['recipe_name']][0]
+        elif ty == 'fav':
+            item = [i for i in self.fav if recipe_name == i['recipe_name']][0]
+        result += '\n\n'
+        result += item['calories']
+        result += 'Ingredient \n'
+        for u in item['ingredient']:
+            result += (u+'\n')
+        # print(item)
+        # print(webscrape_recipe(item['url']),item['url'])
+        return result       
+
+    def add_fav(self,recipe_name,ty):
+        result = []
+        if ty == 'search':
+            result = [i for i in self.search_result if recipe_name == i['recipe_name']]
+        elif ty == 'recommend':
+            result += [i for i in self.recommend_result if recipe_name == i['recipe_name']]
+        self.fav += result
+        self.root.ids.fav.add_widget(SearchTile(source=result[0]['image_link'], text = result[0]['recipe_name'],ty = 'fav'))
+        res = userCollect.update_one({"username": self.username}, {"$set": {"favourite_recipe": self.fav}})
+        
 
     def search(self):
         data = []
-        result = search(self.root.ids.search_text.text,self.allergies)
+        self.search_result = []
+        self.search_result = search(self.root.ids.search_text.text,self.allergies)
         self.root.ids.gr.clear_widgets()
 
-        for i in range(len(result)):
-            self.root.ids.gr.add_widget(SearchTile(source=result[i]['image_link'], text = result[i]['recipe_name'], ty = 'search'))
+        for i in range(len(self.search_result)):
+            self.root.ids.gr.add_widget(SearchTile(source=self.search_result[i]['image_link'], text = self.search_result[i]['recipe_name'], ty = 'search'))
 
 
     def save_al(self):
@@ -767,17 +805,16 @@ class Rexable(App):
         self.change_screen('recommend2')
 
     def recommend2(self):        
-        result = []
+        self.recommend_result = []
         self.food_search = []
         self.root.ids.reco3.clear_widgets()
         for child in self.root.ids.reco2.children:
             if (child.ids['_right_container'].children[0].active):
                 self.food_search.append(child.text)
-        print(self.food_search)
         for text in self.food_search:
-            result += search(text,self.allergies,3)
-        for i in range(len(result)):
-            self.root.ids.reco3.add_widget(SearchTile(source=result[i]['image_link'], text = result[i]['recipe_name'],ty = recommend))
+            self.recommend_result += search(text,self.allergies,3)
+        for i in range(len(self.recommend_result)):
+            self.root.ids.reco3.add_widget(SearchTile(source=self.recommend_result[i]['image_link'], text = self.recommend_result[i]['recipe_name'],ty = 'recommend'))
         self.change_screen('recommend3')
 
 class SearchTile(SmartTileWithLabel):
@@ -786,6 +823,7 @@ class RightCheckbox(IRightBodyTouch, MDCheckbox):
     pass
 class CheckboxList(OneLineAvatarIconListItem):
     pass
+
 
 if __name__ == '__main__':
     # x = userCollect.delete_many({})
