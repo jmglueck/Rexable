@@ -6,6 +6,8 @@ from kivy.properties import ObjectProperty
 from kivy.uix.image import Image
 from kivy.storage.jsonstore import JsonStore
 from kivy.uix.image import AsyncImage
+from kivy.properties import StringProperty, BooleanProperty, ObjectProperty, \
+    NumericProperty, ListProperty, OptionProperty
 
 from kivymd.bottomsheet import MDListBottomSheet, MDGridBottomSheet
 from kivymd.button import MDIconButton
@@ -20,9 +22,11 @@ from kivymd.snackbar import Snackbar
 from kivymd.theming import ThemeManager
 from kivymd.time_picker import MDTimePicker
 from kivymd.grid import SmartTileWithLabel
+from kivymd.list import OneLineAvatarIconListItem
 
 from basic_search import search
 from bmi import get_bmi
+from data import food_data
 
 
 from pymongo import MongoClient,errors
@@ -99,6 +103,10 @@ NavigationLayout:
             icon: 'checkbox-blank-circle'
             text: "Search"
             on_release: app.root.ids.scr_mngr.current = 'search'
+        NavigationDrawerIconButton:
+            icon: 'checkbox-blank-circle'
+            text: "Recommend"
+            on_release: app.root.ids.scr_mngr.current = 'recommend1'
     BoxLayout:
         orientation: 'vertical'
         ScreenManager:
@@ -457,11 +465,141 @@ NavigationLayout:
                                 size: 4 * dp(32), dp(32)
                                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                                 on_release: app.change_screen('allergy')
+
+            Screen:
+                name: 'recommend1'
+                BoxLayout:
+                    orientation: 'vertical'
+                    Toolbar:
+                        id: toolbar
+                        title: 'Rexable'
+                        md_bg_color: app.theme_cls.primary_color
+                        background_palette: 'Primary'
+                        background_hue: '500'
+                        left_action_items: [['arrow-left', lambda x:app.change_screen('log_in')]]
+                        right_action_items: [['dots-vertical', lambda x: app.show_bottom_sheet()]]
+                    OneLineAvatarIconListItem:
+                        text: "What you want to eat"
+                    ScrollView:
+                        do_scroll_x: False
+                        BoxLayout:
+                            id:reco1
+                            orientation: 'vertical'
+                            size_hint_y: None
+                            height: self.minimum_height
+                            padding: dp(48)
+                            spacing: 10    
+
+                            OneLineAvatarIconListItem:
+                                text: "Proteins"
+                                RightCheckbox:
+                            OneLineAvatarIconListItem:
+                                text: "Fruits"
+                                RightCheckbox:
+                            OneLineAvatarIconListItem:
+                                text: "Vegetables"
+                                RightCheckbox:
+                            OneLineAvatarIconListItem:
+                                text: "Snacks"
+                                RightCheckbox:
+                            OneLineAvatarIconListItem:
+                                text: "Beverages"
+                                RightCheckbox:
+                    MDRaisedButton:
+                        text: "next"
+                        opposite_colors: True
+                        size_hint: None, None
+                        size: 4 * dp(32), dp(32)
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.8}
+                        on_release: app.recommend1()
+
+            Screen:
+                name: 'recommend2'
+                BoxLayout:
+                    orientation: 'vertical'
+                    Toolbar:
+                        id: toolbar
+                        title: 'Rexable'
+                        md_bg_color: app.theme_cls.primary_color
+                        background_palette: 'Primary'
+                        background_hue: '500'
+                        left_action_items: [['menu', lambda x: app.root.toggle_nav_drawer()]]
+                        right_action_items: [['dots-vertical', lambda x: app.show_bottom_sheet()]]
+                    OneLineAvatarIconListItem:
+                        text: "What you want to eat(max 3)"
+                    ScrollView:
+                        do_scroll_x: False
+                        BoxLayout:
+                            id:reco2
+                            orientation: 'vertical'
+                            size_hint_y: None
+                            height: self.minimum_height
+                            padding: dp(48)
+                            spacing: 10    
+
+
+                    MDRaisedButton:
+                        text: "next"
+                        opposite_colors: True
+                        size_hint: None, None
+                        size: 4 * dp(32), dp(32)
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.8}
+                        on_release: app.recommend2()
+            Screen:
+                name: 'recommend3'
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    Toolbar:
+                        id: toolbar
+                        title: 'Rexable'
+                        md_bg_color: app.theme_cls.primary_color
+                        background_palette: 'Primary'
+                        background_hue: '500'
+                        left_action_items: [['menu', lambda x: app.root.toggle_nav_drawer()]]
+                        right_action_items: [['dots-vertical', lambda x: app.show_bottom_sheet()]]
+                    ScrollView:
+                        do_scroll_x: False
+                        GridLayout:
+                            cols: 3
+                            row_default_height: (self.width - self.cols*self.spacing[0])/self.cols
+                            row_force_default: True
+                            size_hint_y: None
+                            height: self.minimum_height
+                            padding: dp(4), dp(4)
+                            spacing: dp(4)
+                            id:reco3
+            Screen:
+                name: 'fav'
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    Toolbar:
+                        id: toolbar
+                        title: 'Rexable'
+                        md_bg_color: app.theme_cls.primary_color
+                        background_palette: 'Primary'
+                        background_hue: '500'
+                        left_action_items: [['menu', lambda x: app.root.toggle_nav_drawer()]]
+                        right_action_items: [['dots-vertical', lambda x: app.show_bottom_sheet()]]
+                    ScrollView:
+                        do_scroll_x: False
+                        GridLayout:
+                            cols: 3
+                            row_default_height: (self.width - self.cols*self.spacing[0])/self.cols
+                            row_force_default: True
+                            size_hint_y: None
+                            height: self.minimum_height
+                            padding: dp(4), dp(4)
+                            spacing: dp(4)
+                            id:reco3
+
 <SearchTile>
     mipmap: True
-    on_release: app.show_search_result(self.text)
-<RightCheckbox>
-    id:_check_box
+    on_release: app.show_search_result(self.text,self.ty)
+    ty:''
+<CheckboxList>
+    RightCheckbox:
 ''' 
 
 class Rexable(App):
@@ -478,6 +616,7 @@ class Rexable(App):
         self.user_login = ["", ""]
         self.allergies = []
         self.allergies_dict = {}
+        self.fav = []
         main_widget = Builder.load_string(main_widget_kv)
 
 
@@ -556,7 +695,7 @@ class Rexable(App):
         # self.change_screen("main_page")
         self.change_screen("get_bmi_data")
 
-    def show_search_result(self,recipe_name):
+    def show_search_result(self,recipe_name,type):
         recipe_name = recipe_name
         content = MDLabel(font_style='Body1',
           theme_text_color='Secondary',
@@ -574,13 +713,16 @@ class Rexable(App):
         dialog.add_action_button("close",action=lambda x: dialog.dismiss()) 
         dialog.open()
 
+    def add_fav(self):
+        pass
+
     def search(self):
         data = []
         result = search(self.root.ids.search_text.text,self.allergies)
         self.root.ids.gr.clear_widgets()
 
         for i in range(len(result)):
-            self.root.ids.gr.add_widget(SearchTile(source=result[i]['image_link'], text = result[i]['recipe_name']))
+            self.root.ids.gr.add_widget(SearchTile(source=result[i]['image_link'], text = result[i]['recipe_name'], ty = 'search'))
 
 
     def save_al(self):
@@ -607,9 +749,42 @@ class Rexable(App):
         res = userCollect.update_one({"username": self.username}, {"$set": {"healthy_bmi_range": result[0]['healthy_bmi_range']}})             
         self.change_screen('allergy')
 
+    def recommend1(self):
+        self.food = []
+        for child in self.root.ids.reco1.children:
+            if (child.ids['_right_container'].children[0].active):
+                self.food.append(child.text)
+
+        self.foodlist = []
+        _food_data = food_data()
+        for i in _food_data:
+            if i in self.food:
+                self.foodlist += _food_data[i]
+        self.root.ids.reco2.clear_widgets()
+
+        for i in range(len(self.foodlist)):
+            self.root.ids.reco2.add_widget(CheckboxList(text = self.foodlist[i]))
+        self.change_screen('recommend2')
+
+    def recommend2(self):        
+        result = []
+        self.food_search = []
+        self.root.ids.reco3.clear_widgets()
+        for child in self.root.ids.reco2.children:
+            if (child.ids['_right_container'].children[0].active):
+                self.food_search.append(child.text)
+        print(self.food_search)
+        for text in self.food_search:
+            result += search(text,self.allergies,3)
+        for i in range(len(result)):
+            self.root.ids.reco3.add_widget(SearchTile(source=result[i]['image_link'], text = result[i]['recipe_name'],ty = recommend))
+        self.change_screen('recommend3')
+
 class SearchTile(SmartTileWithLabel):
-    pass
+    ty = StringProperty()
 class RightCheckbox(IRightBodyTouch, MDCheckbox):
+    pass
+class CheckboxList(OneLineAvatarIconListItem):
     pass
 
 if __name__ == '__main__':
