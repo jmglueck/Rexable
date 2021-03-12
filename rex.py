@@ -453,7 +453,7 @@ NavigationLayout:
                         md_bg_color: app.theme_cls.primary_color
                         background_palette: 'Primary'
                         background_hue: '500'
-                        left_action_items: [['arrow-left', lambda x:app.change_screen('log_in')]]
+                        left_action_items: [['arrow-left', lambda x:app.change_screen('main_page')]]
                         right_action_items: []
                     ScrollView:
                         do_scroll_y: False
@@ -470,6 +470,13 @@ NavigationLayout:
                                 size: 4 * dp(32), dp(32)
                                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                                 on_release: app.change_screen('allergy')
+                            MDRaisedButton:
+                                text: "Manage Info"
+                                opposite_colors: True
+                                size_hint: None, None
+                                size: 4 * dp(32), dp(32)
+                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                                on_release: app.change_screen('get_bmi_data')
 
             Screen:
                 name: 'recommend1'
@@ -624,6 +631,7 @@ class Rexable(App):
         self.allergies = []
         self.allergies_dict = {}
         self.fav = []
+        self.start = False
         main_widget = Builder.load_string(main_widget_kv)
 
 
@@ -694,6 +702,7 @@ class Rexable(App):
     def create_account(self):
         username = self.root.ids.newusername.text
         password = self.root.ids.newpassword.text
+        self.start = True
         if userCollect != None:
            the_dict = {"username": username, "password": password,"allergies_dict": {},'bmi':'','health':'','healthy_bmi_range':'','favourite_recipe':[]}
 
@@ -733,13 +742,12 @@ class Rexable(App):
             item = [i for i in self.recommend_result if recipe_name == i['recipe_name']][0]
         elif ty == 'fav':
             item = [i for i in self.fav if recipe_name == i['recipe_name']][0]
-        result += '\n\n'
         result += item['calories']
+        result += '\n'
         result += 'Ingredient \n'
         for u in item['ingredient']:
             result += (u+'\n')
-        # print(item)
-        # print(webscrape_recipe(item['url']),item['url'])
+        # result += webscrape_recipe(item['url'])
         return result       
 
     def add_fav(self,recipe_name,ty):
@@ -785,7 +793,11 @@ class Rexable(App):
         res = userCollect.update_one({"username": self.username}, {"$set": {"bmi": str(result[0]['bmi'])[:5]}})
         res = userCollect.update_one({"username": self.username}, {"$set": {"health": result[0]['health']}})
         res = userCollect.update_one({"username": self.username}, {"$set": {"healthy_bmi_range": result[0]['healthy_bmi_range']}})             
-        self.change_screen('allergy')
+        if self.start:
+            self.change_screen('allergy')
+            self.start = False
+        else:
+            self.change_screen('main_page')
 
     def recommend1(self):
         self.food = []
