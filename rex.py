@@ -747,7 +747,7 @@ class Rexable(App):
         result += 'Ingredient \n'
         for u in item['ingredient']:
             result += (u+'\n')
-        # result += webscrape_recipe(item['url'])
+        result += webscrape_recipe(item['url'])
         return result       
 
     def add_fav(self,recipe_name,ty):
