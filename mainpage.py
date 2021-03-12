@@ -305,17 +305,17 @@ Builder.load_string("""
         orientation: 'vertical'
         BoxLayout:
             orientation: 'horizontal'
-            size_hint: (1, 0.5)
+            size_hint: (1, 0.6)
             TextInput:
                 id: text_input
                 multiline: False
                 font_size: '18sp'
-                size_hint: (7, 0.3)
+                size_hint: (7, 0.4)
                 pos_hint:{'center_x':0,'center_y':0.9}
                 on_text: root.get_query(self.text)
             Button:
                 text: 'Search'
-                size_hint: (1,0.3)
+                size_hint: (1,0.4)
                 pos_hint:{'center_x':0,'center_y':0.9}
                 background_normal: ''
                 background_color: 102, 102, 153, 0.4
