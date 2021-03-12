@@ -22,6 +22,7 @@ from kivymd.time_picker import MDTimePicker
 from kivymd.grid import SmartTileWithLabel
 
 from basic_search import search
+from bmi import get_bmi
 
 
 from pymongo import MongoClient,errors
@@ -84,14 +85,12 @@ main_widget_kv = '''
 #:import MDThemePicker kivymd.theme_picker.MDThemePicker
 #:import MDBottomNavigation kivymd.tabs.MDBottomNavigation
 #:import MDBottomNavigationItem kivymd.tabs.MDBottomNavigationItem
-
 NavigationLayout:
     id: nav_layout
     MDNavigationDrawer:
         id: nav_drawer
         NavigationDrawerToolbar:
             title: "Navigation"
-
         NavigationDrawerIconButton:
             icon: 'checkbox-blank-circle'
             text: "Main"
@@ -100,7 +99,6 @@ NavigationLayout:
             icon: 'checkbox-blank-circle'
             text: "Search"
             on_release: app.root.ids.scr_mngr.current = 'search'
-
     BoxLayout:
         orientation: 'vertical'
         ScreenManager:
@@ -120,7 +118,6 @@ NavigationLayout:
                     ScrollView:
                         do_scroll_y: False
                         BoxLayout:
-                            left_action_items: []
                             orientation: 'vertical'
                             size_hint_y: None
                             height: self.minimum_height
@@ -147,7 +144,7 @@ NavigationLayout:
                                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                                 on_release: app.change_screen('create_account')
             Screen:
-                name: 'main_screen'
+                name: 'allergy'
                 BoxLayout:
                     orientation: 'vertical'
                     Toolbar:
@@ -159,45 +156,208 @@ NavigationLayout:
                         left_action_items: [['menu', lambda x: app.root.toggle_nav_drawer()]]
                         right_action_items: [['dots-vertical', lambda x: app.show_bottom_sheet()]]
 
-
-                    BoxLayout:
-                        height: self.minimum_height
-                        spacing: 30
-                        size_hint_y: None
-                        height: self.minimum_height
-                        padding: dp(20)
-                        MDTextField:
-                            hint_text: "Search some thing"
-                            id:search_text
-                        MDRaisedButton:
-                            text: "Search"
-                            opposite_colors: True
-                            size_hint: None, None
-                            size: 4 * dp(32), dp(32)
-                            pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                            on_release: app.search()
-                 
-                    RecycleView:
-                        id: rv
-                        key_viewclass: 'viewclass'
-                        key_size: 'height'
-
-                        RecycleGridLayout:
-                            cols: 3
-                            row_default_height: (self.width - self.cols*self.spacing[0])/self.cols
-                            row_force_default: True
+                    ScrollView:
+                        do_scroll_x: False
+                        BoxLayout:
+                            id:al
+                            orientation: 'vertical'
                             size_hint_y: None
                             height: self.minimum_height
-                            padding: dp(4), dp(4)
-                            spacing: dp(4)
+                            padding: dp(48)
+                            spacing: 10    
+                            OneLineAvatarIconListItem:
+                                text: "alcohol-free"
+                                RightCheckbox:
+                            OneLineAvatarIconListItem:
+                                text: "celery-free"
+                                RightCheckbox:
+                            OneLineAvatarIconListItem:
+                                text: "crustacean-free"
+                                RightCheckbox:
+                            OneLineAvatarIconListItem:
+                                text: "dairy-free"
+                                RightCheckbox:
+                            OneLineAvatarIconListItem:
+                                text: "egg-free"
+                                RightCheckbox:
+                            OneLineAvatarIconListItem:
+                                text: "fish-free"
+                                RightCheckbox:
+                            OneLineAvatarIconListItem:
+                                text: "fodmap-free"
+                                RightCheckbox:
+                            OneLineAvatarIconListItem:
+                                text: "gluten-free"
+                                RightCheckbox:
+                            OneLineAvatarIconListItem:
+                                text: "lupine-free"
+                                RightCheckbox:
+                            OneLineAvatarIconListItem:
+                                text: "mustard-free"
+                                RightCheckbox:
+                            OneLineAvatarIconListItem:
+                                text: "peanut-free"
+                                RightCheckbox:
+                            OneLineAvatarIconListItem:
+                                text: "red-meat-free"
+                                RightCheckbox:
+                            OneLineAvatarIconListItem:
+                                text: "mustard-free"
+                                RightCheckbox:
+                            OneLineAvatarIconListItem:
+                                text: "sesame-free"
+                                RightCheckbox:
+                            OneLineAvatarIconListItem:
+                                text: "tree-nut-free"
+                                RightCheckbox:
+                            OneLineAvatarIconListItem:
+                                text: "wheat-free"
+                                RightCheckbox:
+                    MDRaisedButton:
+                        text: "Save"
+                        opposite_colors: True
+                        size_hint: None, None
+                        size: 4 * dp(32), dp(32)
+                        pos_hint: {'center_x': 0.5, 'center_y': 0.8}
+                        on_release: app.save_al()
+
+            Screen:
+                name: 'get_bmi_data'
+                BoxLayout:
+                    orientation: 'vertical'
+                    Toolbar:
+                        id: toolbar
+                        title: 'Rexable'
+                        md_bg_color: app.theme_cls.primary_color
+                        background_palette: 'Primary'
+                        background_hue: '500'
+                        left_action_items: [['menu', lambda x: app.root.toggle_nav_drawer()]]
+                        right_action_items: [['dots-vertical', lambda x: app.show_bottom_sheet()]]
+
+                    ScrollView:
+                        do_scroll_x: False
+                        BoxLayout:
+                            orientation: 'vertical'
+                            size_hint_y: None
+                            height: self.minimum_height
+                            padding: dp(48)
+                            spacing: 10 
+
+                            MDTextField:
+                                hint_text: "Enter your age"
+                                id:age_text
+                            MDTextField:
+                                hint_text: "Enter your height"
+                                id:height_text
+                            MDTextField:
+                                hint_text: "Enter your weight"
+                                id:weight_text                                
+
+                            BoxLayout:
+                                height: self.minimum_height
+                                MDLabel:
+                                    text_size: self.size
+                                    text: "Gender"
+                                MDCheckbox:
+                                    id:            male
+                                    group:        'gender'
+                                    size_hint:    None, None
+                                    size:        dp(48), dp(48)
+                                    pos_hint:    {'center_x': 0.25, 'center_y': 0.5}
+                                MDLabel:
+                                    text: "Male"
+                                MDCheckbox:
+                                    group:        'gender'
+                                    size_hint:    None, None
+                                    size:        dp(48), dp(48)
+                                    pos_hint:    {'center_x': 0.25, 'center_y': 0.5}
+                                MDLabel:
+                                    text: "Female"
+                            MDLabel:
+                            MDRaisedButton:
+                                text: "next"
+                                opposite_colors: True
+                                size_hint: None, None
+                                size: 4 * dp(32), dp(32)
+                                pos_hint: {'center_x': 0.5, 'center_y': 1.5}
+                                on_release: app.cal_bmi()
+
+            Screen:
+                name: 'main_page'
+                BoxLayout:
+                    orientation: 'vertical'
+                    Toolbar:
+                        id: toolbar
+                        title: 'Rexable'
+                        md_bg_color: app.theme_cls.primary_color
+                        background_palette: 'Primary'
+                        background_hue: '500'
+                        left_action_items: [['menu', lambda x: app.root.toggle_nav_drawer()]]
+                        right_action_items: [['dots-vertical', lambda x: app.show_bottom_sheet()]]
+                    ScrollView:
+                        do_scroll_x: False
+
+                        BoxLayout:
+                            orientation: 'vertical'
+                            size_hint_y: None
+                            height: self.minimum_height
+                            MDLabel:
+                                font_style: 'Display1'
+                                theme_text_color: 'Primary'
+                                text: "   "
+                                halign: 'center'
+                                size_hint_y: None
+                                height: self.texture_size[1] + dp(4)
+                            MDLabel:
+                                font_style: 'Display1'
+                                theme_text_color: 'Primary'
+                                text: "BMI:"
+                                halign: 'center'
+                                size_hint_y: None
+                                height: self.texture_size[1] + dp(4)
+                            MDLabel:
+                                id:bmi
+                                font_style: 'Display1'
+                                theme_text_color: 'Primary'
+                                text: "1"
+                                halign: 'center'
+                                size_hint_y: None
+                                height: self.texture_size[1] + dp(4)
+                            MDLabel:
+                                font_style: 'Display1'
+                                theme_text_color: 'Primary'
+                                text: "Health:"
+                                halign: 'center'
+                                size_hint_y: None
+                                height: self.texture_size[1] + dp(4)
+                            MDLabel:
+                                id:health
+                                font_style: 'Display1'
+                                theme_text_color: 'Primary'
+                                text: "   "
+                                halign: 'center'
+                                size_hint_y: None
+                                height: self.texture_size[1] + dp(4)
+                            MDLabel:
+                                font_style: 'Display1'
+                                theme_text_color: 'Primary'
+                                text: "Healthy bmi range:"
+                                halign: 'center'
+                                size_hint_y: None
+                                height: self.texture_size[1] + dp(4)
+                            MDLabel:
+                                id:health_bmi
+                                font_style: 'Display1'
+                                theme_text_color: 'Primary'
+                                text: "1"
+                                halign: 'center'
+                                size_hint_y: None
+                                height: self.texture_size[1] + dp(4)
+
+
             Screen:
                 name: 'search'
-                MDSpinner:
-                    id: spinner
-                    size_hint: None, None
-                    size: dp(46), dp(46)
-                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-                    active: True
+
                 BoxLayout:
                     orientation: 'vertical'
                     Toolbar:
@@ -208,8 +368,6 @@ NavigationLayout:
                         background_hue: '500'
                         left_action_items: [['menu', lambda x: app.root.toggle_nav_drawer()]]
                         right_action_items: [['dots-vertical', lambda x: app.show_bottom_sheet()]]
-
-
                     BoxLayout:
                         height: self.minimum_height
                         spacing: 30
@@ -226,14 +384,9 @@ NavigationLayout:
                             size: 4 * dp(32), dp(32)
                             pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                             on_release: app.search()
-                        
-
-                    RecycleView:
-                        id: rv
-                        key_viewclass: 'viewclass'
-                        key_size: 'height'
-
-                        RecycleGridLayout:
+                    ScrollView:
+                        do_scroll_x: False
+                        GridLayout:
                             cols: 3
                             row_default_height: (self.width - self.cols*self.spacing[0])/self.cols
                             row_force_default: True
@@ -241,6 +394,9 @@ NavigationLayout:
                             height: self.minimum_height
                             padding: dp(4), dp(4)
                             spacing: dp(4)
+                            id:gr
+  
+
             Screen:
                 name: 'create_account'
                 BoxLayout:
@@ -256,7 +412,6 @@ NavigationLayout:
                     ScrollView:
                         do_scroll_y: False
                         BoxLayout:
-                            left_action_items: []
                             orientation: 'vertical'
                             size_hint_y: None
                             height: self.minimum_height
@@ -275,10 +430,38 @@ NavigationLayout:
                                 size: 4 * dp(32), dp(32)
                                 pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                                 on_release: app.create_account()
-
-
+            Screen:
+                name: 'profile'
+                BoxLayout:
+                    orientation: 'vertical'
+                    Toolbar:
+                        id: toolbar
+                        title: 'Rexable'
+                        md_bg_color: app.theme_cls.primary_color
+                        background_palette: 'Primary'
+                        background_hue: '500'
+                        left_action_items: [['arrow-left', lambda x:app.change_screen('log_in')]]
+                        right_action_items: []
+                    ScrollView:
+                        do_scroll_y: False
+                        BoxLayout:
+                            orientation: 'vertical'
+                            size_hint_y: None
+                            height: self.minimum_height
+                            padding: dp(48)
+                            spacing: 30
+                            MDRaisedButton:
+                                text: "Manage Allergy"
+                                opposite_colors: True
+                                size_hint: None, None
+                                size: 4 * dp(32), dp(32)
+                                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                                on_release: app.change_screen('allergy')
 <SearchTile>
+    mipmap: True
     on_release: app.show_search_result(self.text)
+<RightCheckbox>
+    id:_check_box
 ''' 
 
 class Rexable(App):
@@ -293,13 +476,16 @@ class Rexable(App):
         self.data_dir = self.user_data_dir
         self.store = JsonStore('app_storage.json')
         self.user_login = ["", ""]
+        self.allergies = []
         main_widget = Builder.load_string(main_widget_kv)
+
+
         return main_widget
 
 
     def show_bottom_sheet(self):
         bs = MDListBottomSheet()
-        bs.add_item("Profile", lambda x: x,
+        bs.add_item("Profile", lambda x: self.change_screen('profile'),
                     icon='account')
         bs.add_item("Log out", lambda x: self.log_out(), icon='account-off')
         bs.open()
@@ -338,7 +524,7 @@ class Rexable(App):
             elif results["password"] == self.password:
                 #this is just a preliminary password/username system; will add hashing and encryption later
                 self.store.put('credentials', username = self.username, password = self.password)
-                self.change_screen('search')
+                self.change_screen('main_page')
             else:
                 dialog.open()  
         except errors.CollectionInvalid:
@@ -346,7 +532,7 @@ class Rexable(App):
  
     def log_out(self):
         self.store.put('credentials', username = "", password = "")
-        self.change_screen('log_in')
+        self.change_screen('get_bmi_data')
  
     def create_account(self):
         username = self.root.ids.newusername.text
@@ -358,7 +544,7 @@ class Rexable(App):
            # "cookingTime": self.cooking_time, "viewedRecipes": dict()}
            userCollect.insert_one(the_dict)
         self.store.put('credentials', username = username, password = password)
-        self.change_screen("main_screen")
+        self.change_screen("get_bmi_data")
 
     def show_search_result(self,recipe_name):
         recipe_name = recipe_name
@@ -381,18 +567,30 @@ class Rexable(App):
     def search(self):
         data = []
         result = search(self.root.ids.search_text.text)
-        self.root.ids.spiner.active = False
+        self.root.ids.gr.clear_widgets()
+
         for i in range(len(result)):
-            item = {'viewclass':'SearchTile'}
-            item['mipmap']=True
-            item['text']=result[i]['recipe_name']
-            item['source']=result[i]['image_link']
-            data.append(item)
-        self.root.ids.rv.data = data
+            self.root.ids.gr.add_widget(SearchTile(source=result[i]['image_link'], text = result[i]['recipe_name']))
+
+
+    def save_al(self):
+        self.allergies = []
+        for child in self.root.ids.al.children:
+            if (child.ids['_right_container'].children[0].active):
+                self.allergies.append(child.text)
+        print(self.allergies)
+
+    def cal_bmi(self):
+        result = get_bmi(self.root.ids.age_text.text,self.root.ids.weight_text.text,self.root.ids.height_text.text,True if self.root.ids.male.active else False)
+        self.root.ids.bmi.text = str(result[0]['bmi'])
+        self.root.ids.health.text = result[0]['health']
+        self.root.ids.health_bmi.text = result[0]['healthy_bmi_range']
+        self.change_screen('main_page')
 
 class SearchTile(SmartTileWithLabel):
     pass
-
+class RightCheckbox(IRightBodyTouch, MDCheckbox):
+    pass
 
 if __name__ == '__main__':
     Rexable().run()
