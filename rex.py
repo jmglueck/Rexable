@@ -94,7 +94,7 @@ NavigationLayout:
         NavigationDrawerIconButton:
             icon: 'checkbox-blank-circle'
             text: "Main"
-            on_release: app.root.ids.scr_mngr.current = 'main_screen'
+            on_release: app.root.ids.scr_mngr.current = 'main_page'
         NavigationDrawerIconButton:
             icon: 'checkbox-blank-circle'
             text: "Search"
@@ -477,6 +477,7 @@ class Rexable(App):
         self.store = JsonStore('app_storage.json')
         self.user_login = ["", ""]
         self.allergies = []
+        self.allergies_dict = {}
         main_widget = Builder.load_string(main_widget_kv)
 
 
@@ -518,12 +519,19 @@ class Rexable(App):
         dialog.add_action_button("Dismiss",
                                       action=lambda *x: dialog.dismiss())      
         try:
-            results = userCollect.find_one({"username": self.username})
-            if results == None:
+            self.db = userCollect.find_one({"username": self.username})
+            if self.db == None:
                dialog.open()  
-            elif results["password"] == self.password:
+            elif self.db["password"] == self.password:
                 #this is just a preliminary password/username system; will add hashing and encryption later
                 self.store.put('credentials', username = self.username, password = self.password)
+                print(self.db['allergies_dict'])
+                for child in self.root.ids.al.children:
+                    if self.db['allergies_dict'][child.text]:
+                        child.ids['_right_container'].children[0].active = True
+                self.root.ids.bmi.text = self.db['bmi']
+                self.root.ids.health.text = self.db['health']
+                self.root.ids.health_bmi.text = self.db['healthy_bmi_range']
                 self.change_screen('main_page')
             else:
                 dialog.open()  
@@ -532,18 +540,20 @@ class Rexable(App):
  
     def log_out(self):
         self.store.put('credentials', username = "", password = "")
-        self.change_screen('get_bmi_data')
+        self.change_screen('log_in')
  
     def create_account(self):
         username = self.root.ids.newusername.text
         password = self.root.ids.newpassword.text
         if userCollect != None:
-           the_dict = {"username": username, "password": password}
+           the_dict = {"username": username, "password": password,"allergies_dict": {},'bmi':'','health':'','healthy_bmi_range':'','favourite_recipe':''}
 
-           # "allergies": self.allergies,
            # "cookingTime": self.cooking_time, "viewedRecipes": dict()}
            userCollect.insert_one(the_dict)
         self.store.put('credentials', username = username, password = password)
+        self.username = username
+        self.password = password
+        # self.change_screen("main_page")
         self.change_screen("get_bmi_data")
 
     def show_search_result(self,recipe_name):
@@ -566,7 +576,7 @@ class Rexable(App):
 
     def search(self):
         data = []
-        result = search(self.root.ids.search_text.text)
+        result = search(self.root.ids.search_text.text,self.allergies)
         self.root.ids.gr.clear_widgets()
 
         for i in range(len(result)):
@@ -575,17 +585,27 @@ class Rexable(App):
 
     def save_al(self):
         self.allergies = []
+        self.allergies_dict = {}
         for child in self.root.ids.al.children:
             if (child.ids['_right_container'].children[0].active):
+                self.allergies_dict[child.text] = True
                 self.allergies.append(child.text)
-        print(self.allergies)
+            else:
+                self.allergies_dict[child.text] = False
+
+        res = userCollect.update_one({"username": self.username}, {"$set": {"allergies_dict": self.allergies_dict}})
+
+        self.change_screen('main_page')
 
     def cal_bmi(self):
         result = get_bmi(self.root.ids.age_text.text,self.root.ids.weight_text.text,self.root.ids.height_text.text,True if self.root.ids.male.active else False)
-        self.root.ids.bmi.text = str(result[0]['bmi'])
+        self.root.ids.bmi.text = str(result[0]['bmi'])[:5]
         self.root.ids.health.text = result[0]['health']
         self.root.ids.health_bmi.text = result[0]['healthy_bmi_range']
-        self.change_screen('main_page')
+        res = userCollect.update_one({"username": self.username}, {"$set": {"bmi": str(result[0]['bmi'])[:5]}})
+        res = userCollect.update_one({"username": self.username}, {"$set": {"health": result[0]['health']}})
+        res = userCollect.update_one({"username": self.username}, {"$set": {"healthy_bmi_range": result[0]['healthy_bmi_range']}})             
+        self.change_screen('allergy')
 
 class SearchTile(SmartTileWithLabel):
     pass
@@ -593,4 +613,5 @@ class RightCheckbox(IRightBodyTouch, MDCheckbox):
     pass
 
 if __name__ == '__main__':
+    # x = userCollect.delete_many({})
     Rexable().run()
