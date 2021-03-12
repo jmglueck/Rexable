@@ -16,7 +16,8 @@ def webscrape_recipe(the_url):
             #replaces matches with the newline
             newtext = re.sub(regex2, '\n', temp_str) 
             answer_str = answer_str + newtext
+
     except Exception as e:
         print(e)
         answer_str = 'No recipe text found.'
-    return answer_str
+    return re.sub(r'[\n]+',r'\n', answer_str, flags=re.S)
