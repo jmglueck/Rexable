@@ -257,13 +257,16 @@ NavigationLayout:
                             spacing: 10 
 
                             MDTextField:
-                                hint_text: "Enter your age"
+                                hint_text: "Enter your age(0~80)"
                                 id:age_text
+                                required: True
+                                helper_text_mode: "on_error"
+                                helper_text: "age cannot be string and it must be between 0 to 80"
                             MDTextField:
-                                hint_text: "Enter your height"
+                                hint_text: "Enter your height(CM)(130~230)"
                                 id:height_text
                             MDTextField:
-                                hint_text: "Enter your weight"
+                                hint_text: "Enter your weight(KG)(40~160)"
                                 id:weight_text                                
 
                             BoxLayout:
@@ -716,7 +719,7 @@ class Rexable(App):
 
     def show_search_result(self,recipe_name,ty):
         recipe_name = recipe_name
-        content = MDLabel(font_style='Body1',
+        content = MDLabel(font_style='Subhead',
           theme_text_color='Secondary',
           text=self.result_text(recipe_name,ty),
           size_hint_y=None,
@@ -828,6 +831,13 @@ class Rexable(App):
         for i in range(len(self.recommend_result)):
             self.root.ids.reco3.add_widget(SearchTile(source=self.recommend_result[i]['image_link'], text = self.recommend_result[i]['recipe_name'],ty = 'recommend'))
         self.change_screen('recommend3')
+    def check(self,mode,num):
+        try:
+            n = int(num)
+        except:
+            return False
+        if mode == 'age':
+            return n>0 & n<80
 
 class SearchTile(SmartTileWithLabel):
     ty = StringProperty()
