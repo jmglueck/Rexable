@@ -110,7 +110,7 @@ NavigationLayout:
             on_release: app.root.ids.scr_mngr.current = 'recommend1'
         NavigationDrawerIconButton:
             icon: 'checkbox-blank-circle'
-            text: "Faviourite recipe"
+            text: "Favorite recipe"
             on_release: app.root.ids.scr_mngr.current = 'fav'
     BoxLayout:
         orientation: 'vertical'
